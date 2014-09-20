@@ -1,35 +1,35 @@
-%define hhvm_dir %{_var}/hhvm
-%define hhvm_group hhvm
-%define hhvm_user hhvm
-%global _enable_debug_package 0
-%global debug_package %{nil}
-%global __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%define           hhvm_dir %{_var}/hhvm
+%define           hhvm_group hhvm
+%define           hhvm_user hhvm
+%global           _enable_debug_package 0
+%global           debug_package %{nil}
+%global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-Name:           hhvm
-Version:        3.3.0
-Release:        1%{?dist}
-Summary:        HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
+Name:             hhvm
+Version:          3.3.0
+Release:          1%{?dist}
+Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
-Group:          Development/Compiler
-License:        PHP/Zend
-URL:            http://hhvm.com
-Source0:        https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
-Source1:        server.hdf
-Source2:        config.hdf
-Source3:        hhvm.service
-BuildRequires:  gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:  libcurl-devel >= 7.29
-BuildRequires:  glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
-BuildRequires:  libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
-BuildRequires:  libxml2-devel libicu-devel
-BuildRequires:  oniguruma-devel readline-devel
-#BuildRequires: libc-client-devel pam-devel gd-devel
-BuildRequires:  libcap-devel libedit-devel pcre-devel sqlite-devel
-BuildRequires:  inotify-tools-devel lz4-devel >= r121-2
-BuildRequires:  boost-devel >= 1.48, libmemcached-devel >= 0.39
-BuildRequires:  mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
-BuildRequires:  elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
-BuildRequires:  libvpx-devel, libpng-devel, gmp-devel, ocaml
+Group:            Development/Compiler
+License:          PHP/Zend
+URL:              http://hhvm.com
+Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
+Source1:          server.hdf
+Source2:          config.hdf
+Source3:          hhvm.service
+BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
+BuildRequires:    libcurl-devel >= 7.29
+BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
+BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
+BuildRequires:    libxml2-devel libicu-devel
+BuildRequires:    oniguruma-devel readline-devel
+#BuildRequires:   libc-client-devel pam-devel gd-devel
+BuildRequires:    libcap-devel libedit-devel pcre-devel sqlite-devel
+BuildRequires:    inotify-tools-devel lz4-devel >= r121-2
+BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
+BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
+BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
+BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 
 Requires(pre):    shadow-utils
 Requires(post):   systemd
@@ -56,24 +56,23 @@ Facebook compared with Zend PHP 5.2.
 HipHop is most commonly run as a standalone server, replacing both Apache and
 modphp.
 
-%package devel
-Summary: Library links and header files for HHVM development
-Group: Development/Libraries
-Requires: %{name}%{?_isa} = %{version}-%{release}
-BuildRequires:  gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:  libcurl-devel >= 7.29
-BuildRequires:  glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
-BuildRequires:  libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
-BuildRequires:  libxml2-devel libicu-devel
-BuildRequires:  oniguruma-devel readline-devel
-#BuildRequires: libc-client-devel pam-devel gd-devel
-BuildRequires:  libcap-devel libedit-devel pcre-devel sqlite-devel
-BuildRequires:  inotify-tools-devel lz4-devel >= r121-2
-BuildRequires:  boost-devel >= 1.48, libmemcached-devel >= 0.39
-BuildRequires:  mysql-devel libxslt-devel expat-devel bzip2-devel openldap-devel
-BuildRequires:  elfutils-libelf-devel binutils-devel libevent-devel ImageMagick-devel
-BuildRequires:  libvpx-devel libpng-devel gmp-devel ocaml
-Provides: HHVM-devel = %{version}-%{release}
+%package          devel
+Summary:          Library links and header files for HHVM development
+Group:            Development/Libraries
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
+BuildRequires:    libcurl-devel >= 7.29
+BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
+BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
+BuildRequires:    libxml2-devel libicu-devel
+BuildRequires:    oniguruma-devel readline-devel
+BuildRequires:    libcap-devel libedit-devel pcre-devel sqlite-devel
+BuildRequires:    inotify-tools-devel lz4-devel >= r121-2
+BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
+BuildRequires:    mysql-devel libxslt-devel expat-devel bzip2-devel openldap-devel
+BuildRequires:    elfutils-libelf-devel binutils-devel libevent-devel ImageMagick-devel
+BuildRequires:    libvpx-devel libpng-devel gmp-devel ocaml
+Provides:         HHVM-devel = %{version}-%{release}
 
 %description devel
 HHVM-devel contains the library links and header files you'll
@@ -199,5 +198,5 @@ exit 0
 
 %changelog
 
-* Fri Sep 19 2014 Paul Moss <paul@fedoraproject.org> - 3.3
+* Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
 - Initial built for el7
