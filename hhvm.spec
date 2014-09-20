@@ -5,8 +5,8 @@
 %global __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
 Name:           hhvm
-Version:        3.3
-Release:        0.1%{?dist}
+Version:        3.3.0
+Release:        1%{?dist}
 Summary:        HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:          Development/Compiler
