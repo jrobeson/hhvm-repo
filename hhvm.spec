@@ -1,4 +1,5 @@
 %define hhvm_dir %{_var}/hhvm
+%define hhvm_group hhvm
 %define hhvm_user hhvm
 %global _enable_debug_package 0
 %global debug_package %{nil}
@@ -29,6 +30,8 @@ BuildRequires:  boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:  mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:  elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:  libvpx-devel, libpng-devel, gmp-devel, ocaml
+
+Requires(pre):  shadow-utils
 Requires:       glog >= 0.3.3, jemalloc >= 3.0, tbb >= 4.0
 Requires:       libmcrypt >= 2.5.8, libdwarf >= 20130207
 Requires:       boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
@@ -137,7 +140,10 @@ rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT
 
 %pre
-%{_sbindir}/useradd -d %{hhvm_dir} -m -c "HHVM" -r %{hhvm_user} 2>/dev/null
+getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
+getent passwd %{hhvm_user} >/dev/null || \
+    useradd -r -g %[hhvm_group} -d %{hhvm_dir} -s /sbin/nologin \
+    -c "HHVM" %{hhvm_user}
 exit 0
 
 %post
