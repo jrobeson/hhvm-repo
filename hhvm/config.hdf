@@ -1,0 +1,15 @@
+Log {
+  Level = Warning
+  AlwaysLogUnhandledExceptions = true
+  RuntimeErrorReportingLevel = 8191
+}
+
+MySQL {
+  TypedResults = false
+}
+
+Eval {
+  JitASize = 67108864
+  JitAStubsSize = 67108864
+  JitGlobalDataSize = 22554432
+}
