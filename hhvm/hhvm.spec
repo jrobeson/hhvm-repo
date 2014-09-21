@@ -31,14 +31,19 @@ BuildRequires:  mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-d
 BuildRequires:  elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:  libvpx-devel, libpng-devel, gmp-devel, ocaml
 
-Requires(pre):  shadow-utils
-Requires:       glog >= 0.3.3, jemalloc >= 3.0, tbb >= 4.0
-Requires:       libmcrypt >= 2.5.8, libdwarf >= 20130207
-Requires:       boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
-Requires:       libxml2, libicu
-Requires:       oniguruma, readline, pam, libcap, libedit, pcre, sqlite, libxslt,
-Requires:       expat, bzip2, openldap, elfutils-libelf, binutils, libevent, ImageMagick,
-Requires:       libvpx, libpng, gmp, ocaml
+Requires(pre):    shadow-utils
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
+
+Requires:         systemd
+Requires:         glog >= 0.3.3, jemalloc >= 3.0, tbb >= 4.0
+Requires:         libmcrypt >= 2.5.8, libdwarf >= 20130207
+Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
+Requires:         libxml2, libicu
+Requires:         oniguruma, readline, pam, libcap, libedit, pcre, sqlite, libxslt,
+Requires:         expat, bzip2, openldap, elfutils-libelf, binutils, libevent, ImageMagick,
+Requires:         libvpx, libpng, gmp, ocaml
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -103,7 +108,8 @@ rm -rf $RPM_BUILD_ROOT
 # Install hhvm and systemctl configuration
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/server.hdf
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/hhvm/config.hdf
-%{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_sysconfdir}/systemd/system/%{name}.service
+
+%{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/hhvm.service
 
 #devel
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/CMake
@@ -146,19 +152,15 @@ getent passwd %{hhvm_user} >/dev/null || \
     -c "HHVM" %{hhvm_user}
 exit 0
 
-%post
-if [ $1 == 1 ]; then
-    /sbin/chkconfig --add %{name}
-fi
+%systemd_post hhvm.service
 
-%preun
-if [ $1 = 0 ]; then
-    /sbin/service %{name} stop >/dev/null 2>&1
-    /sbin/chkconfig --del %{name}
-fi
+%systemd_preun hhvm.service
+
+%systemd_postun hhvm.service
 
 %files
 %defattr(-,hhvm,hhvm,-)
+%{_unitdir}/nginx.service
 %dir %{_var}/hhvm
 %dir %{_var}/run/%{name}
 %dir %{_var}/log/%{name}
@@ -167,7 +169,6 @@ fi
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/server.hdf
 %config(noreplace) %{_sysconfdir}/hhvm/config.hdf
-%config(noreplace) %{_sysconfdir}/systemd/system/%{name}.service
 %{_bindir}/hhvm
 %{_bindir}/hphpize
 %{_bindir}/hh_client
