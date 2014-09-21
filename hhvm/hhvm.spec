@@ -72,10 +72,10 @@ BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel libxslt-devel expat-devel bzip2-devel openldap-devel
 BuildRequires:    elfutils-libelf-devel binutils-devel libevent-devel ImageMagick-devel
 BuildRequires:    libvpx-devel libpng-devel gmp-devel ocaml
-Provides:         HHVM-devel = %{version}-%{release}
+Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
-HHVM-devel contains the library links and header files you'll
+hhvm-devel contains the library links and header files you'll
 need to develop HHVM applications.
 
 %prep
