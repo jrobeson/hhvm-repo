@@ -146,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
 getent passwd %{hhvm_user} >/dev/null || \
-    useradd -r -g %[hhvm_group} -d %{hhvm_dir} -s /sbin/nologin \
+    useradd -r -g %{hhvm_group} -d %{hhvm_dir} -s /sbin/nologin \
     -c "HHVM" %{hhvm_user}
 exit 0
 
