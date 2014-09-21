@@ -95,6 +95,8 @@ make %{?_smp_mflags}
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 # Create default directory
+# TODO: store pid and similar files in /run/hhvm/ instead of /var/run/hhvm
+# https://fedoraproject.org/wiki/Packaging:Tmpfiles.d
 %{__mkdir} -p %{buildroot}%{_var}/run/%{name}
 %{__mkdir} -p %{buildroot}%{_var}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_var}/hhvm
