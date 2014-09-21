@@ -51,11 +51,6 @@ HipHop VM (HHVM) is a new open-source virtual machine designed for executing
 programs written in PHP.
 HHVM uses a just-in-time compilation approach to achieve superior performance
 while maintaining the flexibility that PHP developers are accustomed to.
-HipHop VM (and before it HPHPc) has realized > 5x increase in throughput for
-Facebook compared with Zend PHP 5.2.
-
-HipHop is most commonly run as a standalone server, replacing both Apache and
-modphp.
 
 %package          devel
 Summary:          Library links and header files for HHVM development
