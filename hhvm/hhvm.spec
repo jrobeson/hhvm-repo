@@ -160,7 +160,7 @@ exit 0
 
 %files
 %defattr(-,hhvm,hhvm,-)
-%{_unitdir}/nginx.service
+%{_unitdir}/hhvm.service
 %dir %{_var}/hhvm
 %dir %{_var}/run/%{name}
 %dir %{_var}/log/%{name}
