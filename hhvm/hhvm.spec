@@ -17,6 +17,7 @@ Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.ta
 Source1:          server.hdf
 Source2:          config.hdf
 Source3:          hhvm.service
+Source4:          php.ini
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    libcurl-devel >= 7.29
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
@@ -169,6 +170,7 @@ exit 0
 
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
+%config(noreplace) %{_sysconfdir}/hhvm/php.ini
 %config(noreplace) %{_sysconfdir}/hhvm/server.hdf
 %config(noreplace) %{_sysconfdir}/hhvm/config.hdf
 %{_bindir}/hhvm
