@@ -108,7 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 # Install hhvm and systemctl configuration
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/server.hdf
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/hhvm/config.hdf
-
 %{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/hhvm.service
 
 #devel
@@ -152,10 +151,12 @@ getent passwd %{hhvm_user} >/dev/null || \
     -c "HHVM" %{hhvm_user}
 exit 0
 
+%post -p /sbin/ldconfig
 %systemd_post hhvm.service
 
 %systemd_preun hhvm.service
 
+%postun -p /sbin/ldconfig
 %systemd_postun hhvm.service
 
 %files
