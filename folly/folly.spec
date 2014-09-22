@@ -63,8 +63,7 @@ Static %{name} library.
 Statyczna biblioteka %{name}.
 
 %prep
-#%setup -qc
-autoreconf -ivf
+%setup -qc
 mv folly-*/* .
 #%patch0 -p1
 #%patch1 -p1
@@ -74,6 +73,7 @@ mv folly-*/* .
 
 %build
 cd folly
+autoreconf -ivf
 #%{__libtoolize}
 #%{__aclocal}
 #%{__autoconf}
