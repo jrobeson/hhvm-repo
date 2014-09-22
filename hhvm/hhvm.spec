@@ -19,14 +19,13 @@ Source2:          config.hdf
 Source3:          hhvm.service
 Source4:          php.ini
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:    libcurl-devel >= 7.29
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
-BuildRequires:    libxml2-devel libicu-devel
-BuildRequires:    oniguruma-devel readline-devel
-#BuildRequires:   libc-client-devel pam-devel gd-devel
-BuildRequires:    libcap-devel libedit-devel pcre-devel sqlite-devel
-BuildRequires:    inotify-tools-devel lz4-devel >= r121-2
+BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
+BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
+#BuildRequires:   libc-client-devel, pam-devel, gd-devel
+BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
+BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
@@ -41,10 +40,9 @@ Requires:         systemd
 Requires:         glog >= 0.3.3, jemalloc >= 3.0, tbb >= 4.0
 Requires:         libmcrypt >= 2.5.8, libdwarf >= 20130207
 Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
-Requires:         libxml2, libicu
-Requires:         oniguruma, readline, pam, libcap, libedit, pcre, sqlite, libxslt,
-Requires:         expat, bzip2, openldap, elfutils-libelf, binutils, libevent, ImageMagick,
-Requires:         libvpx, libpng, gmp, ocaml
+Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
+Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
+Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -57,17 +55,16 @@ Summary:          Library links and header files for HHVM development
 Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:    libcurl-devel >= 7.29
+BuildRequires:    libcurl-devel >= 7.29, double-conversion-devel
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
-BuildRequires:    libxml2-devel libicu-devel
-BuildRequires:    oniguruma-devel readline-devel
-BuildRequires:    libcap-devel libedit-devel pcre-devel sqlite-devel
-BuildRequires:    inotify-tools-devel lz4-devel >= r121-2
+BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
+BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
+BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
-BuildRequires:    mysql-devel libxslt-devel expat-devel bzip2-devel openldap-devel
-BuildRequires:    elfutils-libelf-devel binutils-devel libevent-devel ImageMagick-devel
-BuildRequires:    libvpx-devel libpng-devel gmp-devel ocaml
+BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
+BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
+BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
@@ -80,7 +77,6 @@ need to develop HHVM applications.
 %build
 export HPHP_HOME=`pwd`
 export CPLUS_INCLUDE_PATH=/usr/include/libdwarf
-git submodule update --init --recursive
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DLIBEVENT_LIB=/usr/lib64/libevent.so \
     -DLIBEVENT_INCLUDE_DIR=/usr/include \
@@ -98,43 +94,51 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_var}/hhvm
 
 %{__install} -p -D -m 0755 hphp/hhvm/hhvm %{buildroot}%{_bindir}/hhvm
-%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 %{__install} -p -D -m 0755 hphp/hack/bin/hh_client %{buildroot}%{_bindir}/hh_client
 %{__install} -p -D -m 0755 hphp/hack/bin/hh_client %{buildroot}%{_bindir}/hh_server
+%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 
 # Install hhvm and systemctl configuration
+%{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/server.hdf
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/hhvm/config.hdf
 %{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/hhvm.service
 
 #devel
-%{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/CMake
-%{__mkdir} -p %{buildroot}/usr/local/lib
-%{__mkdir} -p %{buildroot}/usr/local/bin
-%{__mkdir} -p %{buildroot}/usr/local/include
-%{__mkdir} -p %{buildroot}/usr/local/man/man3
-%{__mkdir} -p %{buildroot}/usr/local/share/doc/pcre/html
+%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm
+%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/hphpize
+%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/CMake
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp
+%{__mkdir} -p %{buildroot}%{_prefix}/man/man3
+%{__mkdir} -p %{buildroot}%{_prefix}/share/doc/pcre/html
 
 #header files
-%{__install} -p -D -m 0755 CMake/*.cmake %{buildroot}/usr/local/lib64/hhvm/CMake
-%{__install} -p -D -m 0755 third-party/pcre/libpcre.a %{buildroot}/usr/local/lib/libpcre.a
-%{__install} -p -D -m 0755 third-party/pcre/libpcreposix.a %{buildroot}/usr/local/lib/libpcreposix.a
-%{__install} -p -D -m 0755 third-party/pcre/libpcrecpp.a %{buildroot}/usr/local/lib/libpcrecpp.a
-%{__install} -p -D -m 0755 third-party/pcre/pcregrep %{buildroot}/usr/local/bin/pcregrep
-%{__install} -p -D -m 0755 third-party/pcre/pcretest %{buildroot}/usr/local/bin/pcretest
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpp_unittest %{buildroot}/usr/local/bin/pcrecpp_unittest
-%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner_unittest %{buildroot}/usr/local/bin/pcre_scanner_unittest
-%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece_unittest %{buildroot}/usr/local/bin/pcre_stringpiece_unittest
-%{__install} -p -D -m 0755 third-party/pcre/pcre.h %{buildroot}/usr/local/include/pcre.h
-%{__install} -p -D -m 0755 third-party/pcre/pcreposix.h %{buildroot}/usr/local/include/pcreposix.h
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpp.h %{buildroot}/usr/local/include/pcrecpp.h
-%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner.h %{buildroot}/usr/local/include/pcre_scanner.h
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpparg.h %{buildroot}/usr/local/include/pcrecpparg.h
-%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece.h %{buildroot}/usr/local/include/pcre_stringpiece.h
+%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
+%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake.in %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake.in
+%{__install} -p -D -m 0755 CMake/*.cmake %{buildroot}%{_prefix}/lib64/hhvm/CMake
+%{__install} -p -D -m 0755 third-party/pcre/libpcre.a %{buildroot}%{_prefix}/lib64/hhvm/libpcre.a
+%{__install} -p -D -m 0755 third-party/pcre/libpcreposix.a %{buildroot}%{_prefix}/lib64/hhvm/libpcreposix.a
+%{__install} -p -D -m 0755 third-party/pcre/libpcrecpp.a %{buildroot}%{_prefix}/lib64/hhvm/libpcrecpp.a
+%{__install} -p -D -m 0755 third-party/pcre/pcre.h %{buildroot}%{_prefix}/include/hphp/pcre.h
+%{__install} -p -D -m 0755 third-party/pcre/pcreposix.h %{buildroot}%{_prefix}/include/hphp/pcreposix.h
+%{__install} -p -D -m 0755 third-party/pcre/pcrecpp.h %{buildroot}%{_prefix}/include/hphp/pcrecpp.h
+%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner.h %{buildroot}%{_prefix}/include/hphp/pcre_scanner.h
+%{__install} -p -D -m 0755 third-party/pcre/pcrecpparg.h %{buildroot}%{_prefix}/include/hphp/pcrecpparg.h
+%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece.h %{buildroot}%{_prefix}/include/hphp/pcre_stringpiece.h
+%{__install} -p -D -m 0755 third-party/pcre/pcregrep %{buildroot}%{_prefix}/bin/pcregrep
+%{__install} -p -D -m 0755 third-party/pcre/pcretest %{buildroot}%{_prefix}/bin/pcretest
+%{__install} -p -D -m 0755 third-party/pcre/pcrecpp_unittest %{buildroot}%{_prefix}/bin/pcrecpp_unittest
+%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner_unittest %{buildroot}%{_prefix}/bin/pcre_scanner_unittest
+%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece_unittest %{buildroot}%{_prefix}/bin/pcre_stringpiece_unittest
+%{__install} -p -D -m 0755 hphp/neo/*.* %{buildroot}%{_prefix}/include/hphp
+%{__install} -p -D -m 0755 hphp/parser/*.* %{buildroot}%{_prefix}/include/hphp
+%{__install} -p -D -m 0755 hphp/runtime/*.* %{buildroot}%{_prefix}/include/hphp
+%{__install} -p -D -m 0755 hphp/system/*.* %{buildroot}%{_prefix}/include/hphp
+%{__install} -p -D -m 0755 hphp/util/*.* %{buildroot}%{_prefix}/include/hphp
 
 #man pages
-%{__install} -p -D -m 0755 third-party/pcre/doc/*.3 %{buildroot}/usr/local/man/man3
-%{__install} -p -D -m 0755 third-party/pcre/doc/html/*.html %{buildroot}/usr/local/share/doc/pcre/html
+%{__install} -p -D -m 0755 third-party/pcre/doc/*.3 %{buildroot}%{_prefix}/man/man3
+%{__install} -p -D -m 0755 third-party/pcre/doc/html/*.html %{buildroot}%{_prefix}/share/doc/pcre/html
 
 # Cleanup
 
@@ -148,12 +152,16 @@ getent passwd %{hhvm_user} >/dev/null || \
     -c "HHVM" %{hhvm_user}
 exit 0
 
-%post -p /sbin/ldconfig
+# Can't use -p /sbin/ldconfig, that gives '/sbin/ldconfig: relative path `0' used to build cache' error
+%post
+/sbin/ldconfig > /dev/null 2>&1
 %systemd_post hhvm.service
 
 %systemd_preun hhvm.service
 
-%postun -p /sbin/ldconfig
+# Can't use -p /sbin/ldconfig, that gives '/sbin/ldconfig: relative path `0' used to build cache' error
+%postun
+/sbin/ldconfig > /dev/null 2>&1
 %systemd_postun hhvm.service
 
 %files
@@ -169,29 +177,26 @@ exit 0
 %config(noreplace) %{_sysconfdir}/hhvm/server.hdf
 %config(noreplace) %{_sysconfdir}/hhvm/config.hdf
 %{_bindir}/hhvm
-%{_bindir}/hphpize
 %{_bindir}/hh_client
 %{_bindir}/hh_server
+%{_bindir}/hphpize
 
 %files devel
 %defattr(-,root,root,-)
-/usr/local/lib64/hhvm/CMake/*.cmake
-/usr/local/lib/libpcre.a
-/usr/local/lib/libpcreposix.a
-/usr/local/lib/libpcrecpp.a
-/usr/local/bin/pcregrep
-/usr/local/bin/pcretest
-/usr/local/bin/pcrecpp_unittest
-/usr/local/bin/pcre_scanner_unittest
-/usr/local/bin/pcre_stringpiece_unittest
-/usr/local/include/pcre.h
-/usr/local/include/pcreposix.h
-/usr/local/include/pcrecpp.h
-/usr/local/include/pcre_scanner.h
-/usr/local/include/pcrecpparg.h
-/usr/local/include/pcre_stringpiece.h
-/usr/local/man/man3/*
-/usr/local/share/doc/pcre/html/*
+%{_prefix}/lib64/hhvm/hphpize/*
+%{_prefix}/lib64/hhvm/CMake/*.cmake
+%{_prefix}/lib64/hhvm/libpcre.a
+%{_prefix}/lib64/hhvm/libpcreposix.a
+%{_prefix}/lib64/hhvm/libpcrecpp.a
+%{_prefix}/include/hphp/*
+%{_prefix}/bin/pcregrep
+%{_prefix}/bin/pcretest
+%{_prefix}/bin/pcrecpp_unittest
+%{_prefix}/bin/pcre_scanner_unittest
+%{_prefix}/bin/pcre_stringpiece_unittest
+
+%{_prefix}/man/man3/*
+%{_prefix}/share/doc/pcre/html/*
 
 %doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md hphp/NEWS
 
