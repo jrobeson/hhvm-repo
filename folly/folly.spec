@@ -21,7 +21,8 @@ BuildRequires:       gflags-devel
 BuildRequires:       glog-devel
 BuildRequires:       gtest-devel >= 1.6.0
 BuildRequires:       libstdc++-devel
-BuildRequires:       snappy-devel
+BuildRequires:       snappy-devel, zlib-devel
+BuildRequires:       libtool, lz4-devel, lzma-devel
 ExclusiveArch:       x86_64
 #BuildRoot:          %{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
