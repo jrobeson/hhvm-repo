@@ -1,7 +1,3 @@
-#
-# Conditional build:
-%bcond_without  static_libs # don't build static libraries
-
 Summary:             Folly is an open-source C++ library developed and used at Facebook
 Name:                folly
 Version:             9.0
@@ -9,10 +5,6 @@ Release:             1%{?dist}
 License:             Apache v2.0
 Group:               Libraries
 Source0:             https://github.com/facebook/folly/archive/master/%{name}.tar.gz
-# Source0-md5:       d7ff084fbd77dc34bfd9469c7a974547
-# Patch0:            https://github.com/facebook/folly/pull/29.patch
-# Patch0-md5:        8745f0742d7199a5d3b2864620812f89
-# Patch1:            install-headers.patch
 URL:                 https://github.com/facebook/folly/blob/master/folly/docs/Overview.md
 BuildRequires:       boost-devel >= 1.20.0
 BuildRequires:       double-conversion-devel
@@ -24,7 +16,6 @@ BuildRequires:       libstdc++-devel
 BuildRequires:       snappy-devel, zlib-devel
 BuildRequires:       libtool, lz4-devel, lzma-devel
 ExclusiveArch:       x86_64
-#BuildRoot:          %{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Folly (acronymed loosely after Facebook Open Source Library) is a
@@ -53,7 +44,7 @@ Pliki nagłówkowe biblioteki %{name}.
 
 %package static
 Summary:             Static %{name} library
-Summary(pl.UTF-8):  Statyczna biblioteka %{name}
+Summary(pl.UTF-8):   Statyczna biblioteka %{name}
 Group:               Development/Libraries
 Requires:            %{name}-devel = %{version}-%{release}
 
@@ -66,24 +57,10 @@ Statyczna biblioteka %{name}.
 %prep
 %setup -qc
 mv folly-*/* .
-#%patch0 -p1
-#%patch1 -p1
-
-# this is gtest-1.6 seem to work
-#ln -s %{_usrsrc}/gtest folly/test/gtest-1.6.0
 
 %build
 cd folly
 autoreconf -ivf
-#%{__libtoolize}
-#%{__aclocal}
-#%{__autoconf}
-#%{__autoheader}
-#%{__automake}
-#CPPFLAGS="%{rpmcppflags} -I/usr/include/double-conversion"
-#%configure \
-#    %{!?with_static_libs:--disable-static}
-#%{__make}
 make %{?_smp_mflags} LIBDIR=%{_libdir} all
 
 %install
@@ -107,21 +84,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libfolly.so.*
 %attr(755,root,root) %{_libdir}/libfollybenchmark.so.*.*.*
 %{_libdir}/libfollybenchmark.so.9
-#%attr(755,root,root) %{_libdir}/libfollyfingerprint.so.*.*.*
-#%ghost %{_libdir}/libfollyfingerprint.so.9
-#%attr(755,root,root) %{_libdir}/libfollytimeout_queue.so.*.*.*
-#%ghost %{_libdir}/libfollytimeout_queue.so.9
 
 %files devel
 %defattr(644,root,root,755)
 %{_libdir}/libfolly.so
 %{_libdir}/libfollybenchmark.so
-#%{_libdir}/libfollyfingerprint.so
-#%{_libdir}/libfollytimeout_queue.so
 %{_libdir}/libfolly.la
 %{_libdir}/libfollybenchmark.la
-#%{_libdir}/libfollyfingerprint.la
-#%{_libdir}/libfollytimeout_queue.la
 %{_includedir}/folly
 
 %if %{with static_libs}
@@ -129,6 +98,4 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/libfolly.a
 %{_libdir}/libfollybenchmark.a
-#%{_libdir}/libfollyfingerprint.a
-#%{_libdir}/libfollytimeout_queue.a
 %endif
