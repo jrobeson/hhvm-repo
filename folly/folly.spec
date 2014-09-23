@@ -1,20 +1,25 @@
+#
+# Conditional build:
+%bcond_without  static_libs # don't build static libraries
+
 Summary:             Folly is an open-source C++ library developed and used at Facebook
 Name:                folly
 Version:             9.0
 Release:             1%{?dist}
 License:             Apache v2.0
-Group:               Libraries
+Group:               Development/Libraries
 Source0:             https://github.com/facebook/folly/archive/master/%{name}.tar.gz
 URL:                 https://github.com/facebook/folly/blob/master/folly/docs/Overview.md
 BuildRequires:       boost-devel >= 1.20.0
 BuildRequires:       double-conversion-devel
 BuildRequires:       double-conversion-static
-BuildRequires:       gflags-devel
+BuildRequires:       gflags-devel, libevent-devel
 BuildRequires:       glog-devel
 BuildRequires:       gtest-devel >= 1.6.0
 BuildRequires:       libstdc++-devel
 BuildRequires:       snappy-devel, zlib-devel
 BuildRequires:       libtool, lz4-devel, lzma-devel
+BuildRequires:	     python
 ExclusiveArch:       x86_64
 
 %description
@@ -61,6 +66,7 @@ mv folly-*/* .
 %build
 cd folly
 autoreconf -ivf
+%configure %{!?with_static_libs:--disable-static}
 make %{?_smp_mflags} LIBDIR=%{_libdir} all
 
 %install
