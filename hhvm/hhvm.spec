@@ -23,6 +23,7 @@ BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
 BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
 BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
+#BuildRequires:   libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
@@ -41,7 +42,7 @@ Requires:         libmcrypt >= 2.5.8, libdwarf >= 20130207
 Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
-Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml
+Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -108,6 +109,14 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/hphpize
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/CMake
 %{__mkdir} -p %{buildroot}%{_prefix}/include/hphp
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/base
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/ext
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/server
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/vm
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/neo
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/parser
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/system
+%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/util
 %{__mkdir} -p %{buildroot}%{_prefix}/man/man3
 %{__mkdir} -p %{buildroot}%{_prefix}/share/doc/pcre/html
 
@@ -129,11 +138,14 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 third-party/pcre/pcrecpp_unittest %{buildroot}%{_prefix}/bin/pcrecpp_unittest
 %{__install} -p -D -m 0755 third-party/pcre/pcre_scanner_unittest %{buildroot}%{_prefix}/bin/pcre_scanner_unittest
 %{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece_unittest %{buildroot}%{_prefix}/bin/pcre_stringpiece_unittest
-%{__install} -p -D -m 0755 hphp/neo/*.* %{buildroot}%{_prefix}/include/hphp
-%{__install} -p -D -m 0755 hphp/parser/*.* %{buildroot}%{_prefix}/include/hphp
-%{__install} -p -D -m 0755 hphp/runtime/*.* %{buildroot}%{_prefix}/include/hphp
-%{__install} -p -D -m 0755 hphp/system/*.* %{buildroot}%{_prefix}/include/hphp
-%{__install} -p -D -m 0755 hphp/util/*.* %{buildroot}%{_prefix}/include/hphp
+%{__install} -p -D -m 0755 hphp/neo/*.h %{buildroot}%{_prefix}/include/hphp/neo
+%{__install} -p -D -m 0755 hphp/parser/*.h %{buildroot}%{_prefix}/include/hphp/parser
+%{__install} -p -D -m 0755 hphp/runtime/base/*.h %{buildroot}%{_prefix}/include/hphp/runtime/base
+%{__install} -p -D -m 0755 hphp/runtime/ext/*.h %{buildroot}%{_prefix}/include/hphp/runtime/ext
+%{__install} -p -D -m 0755 hphp/runtime/server/*.h %{buildroot}%{_prefix}/include/hphp/runtime/server
+%{__install} -p -D -m 0755 hphp/runtime/vm/*.h %{buildroot}%{_prefix}/include/hphp/runtime/vm
+%{__install} -p -D -m 0755 hphp/system/*.h %{buildroot}%{_prefix}/include/hphp/system
+%{__install} -p -D -m 0755 hphp/util/*.h %{buildroot}%{_prefix}/include/hphp/util
 
 #man pages
 %{__install} -p -D -m 0755 third-party/pcre/doc/*.3 %{buildroot}%{_prefix}/man/man3
@@ -197,9 +209,8 @@ exit 0
 %{_prefix}/man/man3/*
 %{_prefix}/share/doc/pcre/html/*
 
-%doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md hphp/NEWS
+%doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
 
 %changelog
-
 * Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
 - Initial built for el7
