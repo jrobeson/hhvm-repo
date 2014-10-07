@@ -13,7 +13,7 @@ URL:              https://github.com/vipsoft/hhvm-ext-geoip
 Source0:          %{name}.tar.gz
 Patch0:           %{name}.patch
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
-BuildRequires:    boost-devel, glog-devel, jemalloc-devel, zlib-devel, GeoIP-devel
+BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel, zlib-devel, GeoIP-devel
 
 Requires:         GeoIP
 
@@ -26,7 +26,6 @@ GeoIP extension for HipHop VM
 
 %build
 cd hhvm-ext-geoip
-hphpize
 cmake .
 make
 
