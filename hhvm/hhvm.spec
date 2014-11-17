@@ -99,7 +99,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 
 # Install hhvm and systemctl configuration
-%{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
+%{__install} -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/server.hdf
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/hhvm/config.hdf
 %{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/hhvm.service
