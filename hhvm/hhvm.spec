@@ -133,11 +133,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 third-party/pcre/pcre_scanner.h %{buildroot}%{_prefix}/include/hphp/pcre_scanner.h
 %{__install} -p -D -m 0755 third-party/pcre/pcrecpparg.h %{buildroot}%{_prefix}/include/hphp/pcrecpparg.h
 %{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece.h %{buildroot}%{_prefix}/include/hphp/pcre_stringpiece.h
-%{__install} -p -D -m 0755 third-party/pcre/pcregrep %{buildroot}%{_prefix}/bin/pcregrep
-%{__install} -p -D -m 0755 third-party/pcre/pcretest %{buildroot}%{_prefix}/bin/pcretest
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpp_unittest %{buildroot}%{_prefix}/bin/pcrecpp_unittest
-%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner_unittest %{buildroot}%{_prefix}/bin/pcre_scanner_unittest
-%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece_unittest %{buildroot}%{_prefix}/bin/pcre_stringpiece_unittest
 %{__install} -p -D -m 0755 hphp/neo/*.h %{buildroot}%{_prefix}/include/hphp/neo
 %{__install} -p -D -m 0755 hphp/parser/*.h %{buildroot}%{_prefix}/include/hphp/parser
 %{__install} -p -D -m 0755 hphp/runtime/base/*.h %{buildroot}%{_prefix}/include/hphp/runtime/base
@@ -200,11 +195,6 @@ exit 0
 %{_prefix}/lib64/hhvm/libpcreposix.a
 %{_prefix}/lib64/hhvm/libpcrecpp.a
 %{_prefix}/include/hphp/*
-%{_prefix}/bin/pcregrep
-%{_prefix}/bin/pcretest
-%{_prefix}/bin/pcrecpp_unittest
-%{_prefix}/bin/pcre_scanner_unittest
-%{_prefix}/bin/pcre_stringpiece_unittest
 
 %{_prefix}/man/man3/*
 %{_prefix}/share/doc/pcre/html/*
