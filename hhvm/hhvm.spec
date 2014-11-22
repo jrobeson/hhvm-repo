@@ -7,7 +7,7 @@
 
 Name:             hhvm
 Version:          3.4.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:            Development/Compiler
@@ -95,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__install} -p -D -m 0755 hphp/hhvm/hhvm %{buildroot}%{_bindir}/hhvm
 %{__install} -p -D -m 0755 hphp/hack/bin/hh_client %{buildroot}%{_bindir}/hh_client
-%{__install} -p -D -m 0755 hphp/hack/bin/hh_client %{buildroot}%{_bindir}/hh_server
+%{__install} -p -D -m 0755 hphp/hack/bin/hh_server %{buildroot}%{_bindir}/hh_server
 %{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 
 # Install hhvm and systemctl configuration
@@ -108,15 +108,7 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/hphpize
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/CMake
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/base
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/ext
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/server
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/runtime/vm
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/neo
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/parser
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/system
-%{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/util
+%{__mkdir} -p %{buildroot}%{_prefix}/include/
 
 #header files
 %{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
@@ -131,14 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 third-party/pcre/pcre_scanner.h %{buildroot}%{_prefix}/include/hphp/pcre_scanner.h
 %{__install} -p -D -m 0755 third-party/pcre/pcrecpparg.h %{buildroot}%{_prefix}/include/hphp/pcrecpparg.h
 %{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece.h %{buildroot}%{_prefix}/include/hphp/pcre_stringpiece.h
-%{__install} -p -D -m 0755 hphp/neo/*.h %{buildroot}%{_prefix}/include/hphp/neo
-%{__install} -p -D -m 0755 hphp/parser/*.h %{buildroot}%{_prefix}/include/hphp/parser
-%{__install} -p -D -m 0755 hphp/runtime/base/*.h %{buildroot}%{_prefix}/include/hphp/runtime/base
-%{__install} -p -D -m 0755 hphp/runtime/ext/*.h %{buildroot}%{_prefix}/include/hphp/runtime/ext
-%{__install} -p -D -m 0755 hphp/runtime/server/*.h %{buildroot}%{_prefix}/include/hphp/runtime/server
-%{__install} -p -D -m 0755 hphp/runtime/vm/*.h %{buildroot}%{_prefix}/include/hphp/runtime/vm
-%{__install} -p -D -m 0755 hphp/system/*.h %{buildroot}%{_prefix}/include/hphp/system
-%{__install} -p -D -m 0755 hphp/util/*.h %{buildroot}%{_prefix}/include/hphp/util
+
+find hphp -name '*.h' -exec install -Dpm 0644 {} %{buildroot}%{_prefix}/include/{} \;
 
 %clean
 rm -rf $RPM_BUILD_ROOT
