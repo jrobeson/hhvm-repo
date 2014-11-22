@@ -117,8 +117,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/parser
 %{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/system
 %{__mkdir} -p %{buildroot}%{_prefix}/include/hphp/util
-%{__mkdir} -p %{buildroot}%{_prefix}/man/man3
-%{__mkdir} -p %{buildroot}%{_prefix}/share/doc/pcre/html
 
 #header files
 %{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
@@ -141,12 +139,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 hphp/runtime/vm/*.h %{buildroot}%{_prefix}/include/hphp/runtime/vm
 %{__install} -p -D -m 0755 hphp/system/*.h %{buildroot}%{_prefix}/include/hphp/system
 %{__install} -p -D -m 0755 hphp/util/*.h %{buildroot}%{_prefix}/include/hphp/util
-
-#man pages
-%{__install} -p -D -m 0755 third-party/pcre/doc/*.3 %{buildroot}%{_prefix}/man/man3
-%{__install} -p -D -m 0755 third-party/pcre/doc/html/*.html %{buildroot}%{_prefix}/share/doc/pcre/html
-
-# Cleanup
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -195,9 +187,6 @@ exit 0
 %{_prefix}/lib64/hhvm/libpcreposix.a
 %{_prefix}/lib64/hhvm/libpcrecpp.a
 %{_prefix}/include/hphp/*
-
-%{_prefix}/man/man3/*
-%{_prefix}/share/doc/pcre/html/*
 
 %doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
 
