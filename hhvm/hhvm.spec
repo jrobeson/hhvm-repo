@@ -111,18 +111,18 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_prefix}/include/
 
 #header files
-%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
-%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize.cmake.in %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake.in
-%{__install} -p -D -m 0755 CMake/*.cmake %{buildroot}%{_prefix}/lib64/hhvm/CMake
-%{__install} -p -D -m 0755 third-party/pcre/libpcre.a %{buildroot}%{_prefix}/lib64/hhvm/libpcre.a
-%{__install} -p -D -m 0755 third-party/pcre/libpcreposix.a %{buildroot}%{_prefix}/lib64/hhvm/libpcreposix.a
-%{__install} -p -D -m 0755 third-party/pcre/libpcrecpp.a %{buildroot}%{_prefix}/lib64/hhvm/libpcrecpp.a
-%{__install} -p -D -m 0755 third-party/pcre/pcre.h %{buildroot}%{_prefix}/include/hphp/pcre.h
-%{__install} -p -D -m 0755 third-party/pcre/pcreposix.h %{buildroot}%{_prefix}/include/hphp/pcreposix.h
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpp.h %{buildroot}%{_prefix}/include/hphp/pcrecpp.h
-%{__install} -p -D -m 0755 third-party/pcre/pcre_scanner.h %{buildroot}%{_prefix}/include/hphp/pcre_scanner.h
-%{__install} -p -D -m 0755 third-party/pcre/pcrecpparg.h %{buildroot}%{_prefix}/include/hphp/pcrecpparg.h
-%{__install} -p -D -m 0755 third-party/pcre/pcre_stringpiece.h %{buildroot}%{_prefix}/include/hphp/pcre_stringpiece.h
+%{__install} -p -D -m 0644 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
+%{__install} -p -D -m 0644 hphp/tools/hphpize/hphpize.cmake.in %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake.in
+%{__install} -p -D -m 0644 CMake/*.cmake %{buildroot}%{_prefix}/lib64/hhvm/CMake
+%{__install} -p -D -m 0644 third-party/pcre/libpcre.a %{buildroot}%{_prefix}/lib64/hhvm/libpcre.a
+%{__install} -p -D -m 0644 third-party/pcre/libpcreposix.a %{buildroot}%{_prefix}/lib64/hhvm/libpcreposix.a
+%{__install} -p -D -m 0644 third-party/pcre/libpcrecpp.a %{buildroot}%{_prefix}/lib64/hhvm/libpcrecpp.a
+%{__install} -p -D -m 0644 third-party/pcre/pcre.h %{buildroot}%{_prefix}/include/hphp/pcre.h
+%{__install} -p -D -m 0644 third-party/pcre/pcreposix.h %{buildroot}%{_prefix}/include/hphp/pcreposix.h
+%{__install} -p -D -m 0644 third-party/pcre/pcrecpp.h %{buildroot}%{_prefix}/include/hphp/pcrecpp.h
+%{__install} -p -D -m 0644 third-party/pcre/pcre_scanner.h %{buildroot}%{_prefix}/include/hphp/pcre_scanner.h
+%{__install} -p -D -m 0644 third-party/pcre/pcrecpparg.h %{buildroot}%{_prefix}/include/hphp/pcrecpparg.h
+%{__install} -p -D -m 0644 third-party/pcre/pcre_stringpiece.h %{buildroot}%{_prefix}/include/hphp/pcre_stringpiece.h
 
 find hphp -name '*.h' -exec install -Dpm 0644 {} %{buildroot}%{_prefix}/include/{} \;
 
