@@ -4,7 +4,7 @@
 
 Summary:             Folly is an open-source C++ library developed and used at Facebook
 Name:                folly
-Version:             9.0
+Version:             17.0
 Release:             1%{?dist}
 License:             Apache v2.0
 Group:               Development/Libraries
@@ -19,7 +19,7 @@ BuildRequires:       gtest-devel >= 1.6.0
 BuildRequires:       libstdc++-devel
 BuildRequires:       snappy-devel, zlib-devel
 BuildRequires:       libtool, lz4-devel, lzma-devel
-BuildRequires:	     python
+BuildRequires:       python
 ExclusiveArch:       x86_64
 
 %description
@@ -89,7 +89,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libfolly.so.*.*.*
 %{_libdir}/libfolly.so.*
 %attr(755,root,root) %{_libdir}/libfollybenchmark.so.*.*.*
-%{_libdir}/libfollybenchmark.so.9
+%{_libdir}/libfollybenchmark.so.17
 
 %files devel
 %defattr(644,root,root,755)
