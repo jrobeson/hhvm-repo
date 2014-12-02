@@ -1,0 +1,12 @@
+diff --git a/folly/experimental/wangle/ssl/SSLSessionCacheManager.cpp b/folly/experimental/wangle/ssl/SSLSessionCacheManager.cpp
+index fc339a1..ca18242 100644
+--- a/folly/experimental/wangle/ssl/SSLSessionCacheManager.cpp
++++ b/folly/experimental/wangle/ssl/SSLSessionCacheManager.cpp
+@@ -7,6 +7,7 @@
+  *  of patent rights can be found in the PATENTS file in the same directory.
+  *
+  */
++#include <gflags/gflags.h>
+ #include <folly/experimental/wangle/ssl/SSLSessionCacheManager.h>
+ 
+ #include <folly/experimental/wangle/ssl/SSLCacheProvider.h>
