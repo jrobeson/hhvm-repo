@@ -7,7 +7,7 @@
 
 Name:             hhvm
 Version:          3.4.0
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:            Development/Compiler
@@ -28,6 +28,7 @@ BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
+BuildRequires:    json-c-devel
 
 Requires(pre):    shadow-utils
 Requires(post):   systemd
@@ -41,6 +42,7 @@ Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
 Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
+Requires:         json-c
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -75,10 +77,13 @@ need to develop HHVM applications.
 %build
 export HPHP_HOME=`pwd`
 export CPLUS_INCLUDE_PATH=/usr/include/libdwarf
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+cmake \
+    -DUSE_JSONC=ON \
+    -DCMAKE_INSTALL_PREFIX:PATH=/usr \
     -DLIBEVENT_LIB=/usr/lib64/libevent.so \
     -DLIBEVENT_INCLUDE_DIR=/usr/include \
     -DLIBINOTIFY_LIBRARY=/usr/lib64/libinotifytools.so.0 .
+
 make %{?_smp_mflags}
 
 %install
