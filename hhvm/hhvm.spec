@@ -14,10 +14,8 @@ Group:            Development/Compiler
 License:          PHP/Zend
 URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
-Source1:          server.hdf
-Source2:          config.hdf
-Source3:          hhvm.service
-Source4:          php.ini
+Source1:          php.ini
+Source2:          hhvm.service
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -99,10 +97,8 @@ rm -rf $RPM_BUILD_ROOT
 %{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 
 # Install hhvm and systemctl configuration
-%{__install} -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/hhvm/php.ini
-%{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/server.hdf
-%{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysconfdir}/hhvm/config.hdf
-%{__install} -p -D -m 0644 %{SOURCE3} %{buildroot}%{_unitdir}/hhvm.service
+%{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
+%{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
 
 #devel
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm
@@ -149,8 +145,6 @@ exit 0
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
-%config(noreplace) %{_sysconfdir}/hhvm/server.hdf
-%config(noreplace) %{_sysconfdir}/hhvm/config.hdf
 %{_bindir}/hhvm
 %{_bindir}/hh_client
 %{_bindir}/hh_server
