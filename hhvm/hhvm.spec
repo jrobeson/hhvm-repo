@@ -16,7 +16,7 @@ URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
 Source2:          hhvm.service
-BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
+BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
 BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
@@ -54,7 +54,7 @@ while maintaining the flexibility that PHP developers are accustomed to.
 Summary:          Library links and header files for HHVM development
 Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
-BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, libevent-devel >= 2.0
+BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    libcurl-devel >= 7.29, double-conversion-devel
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
