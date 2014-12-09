@@ -19,6 +19,7 @@ Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.ta
 Source1:          php.ini
 Source2:          hhvm.service
 Patch0:           replace-max-macro-with-std-max.patch
+Patch1:           remove-unused-third-party-modules.patch
 BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -80,6 +81,7 @@ need to develop HHVM applications.
 %setup -q -n %{name}-%{version}
 
 %patch0 -p1
+%patch1 -p1
 
 %build
 export HPHP_HOME=`pwd`
@@ -94,6 +96,10 @@ cmake \
     .
 
 make %{?_smp_mflags}
+
+%check
+hphp/hhvm/hhvm hphp/test/run -m jit quick
+hphp/hhvm/hhvm hphp/test/run -m interp quick
 
 %install
 export DONT_STRIP=1
