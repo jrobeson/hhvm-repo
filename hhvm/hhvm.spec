@@ -1,3 +1,4 @@
+#TODO: package pfff, so we can install hackificator and hack_remove_soft_types
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
@@ -158,9 +159,14 @@ exit 0
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
+
+#%{_bindir}/hack_remove_soft_types
+#%{_bindir}/hackificator
 %{_bindir}/hh_client
 %{_bindir}/hh_server
 %{_bindir}/hhvm
+#%{_mandir}/hackificator.1
+#%{_mandir}/hack_remove_soft_types.1
 %{_mandir}/hh_client.1
 %{_mandir}/hh_server.1
 %{_mandir}/hhvm.1
