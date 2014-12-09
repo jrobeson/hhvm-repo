@@ -1,4 +1,4 @@
-#TODO: package pfff, so we can install hackificator and hack_remove_soft_types
+#TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
