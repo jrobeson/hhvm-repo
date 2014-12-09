@@ -9,7 +9,7 @@
 
 Name:             hhvm
 Version:          3.4.0
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:            Development/Languages
@@ -69,7 +69,7 @@ BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
-BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml, folly-devel
+BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
