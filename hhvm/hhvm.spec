@@ -80,7 +80,7 @@ need to develop HHVM applications.
 
 %build
 export HPHP_HOME=`pwd`
-export CPLUS_INCLUDE_PATH=/usr/include/libdwarf
+
 cmake \
     -DUSE_JSONC=ON \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
@@ -88,9 +88,7 @@ cmake \
     -DLIB_INSTALL_DIR:PATH=%{_libdir} \
     -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \
     -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \
-    -DLIBEVENT_LIB=/usr/lib64/libevent.so \
-    -DLIBEVENT_INCLUDE_DIR=/usr/include \
-    -DLIBINOTIFY_LIBRARY=/usr/lib64/libinotifytools.so.0 .
+    .
 
 make %{?_smp_mflags}
 
