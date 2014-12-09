@@ -7,7 +7,7 @@
 
 Name:             hhvm
 Version:          3.4.0
-Release:          5%{?dist}
+Release:          6%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:            Development/Languages
@@ -158,10 +158,9 @@ exit 0
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
-%{_bindir}/hhvm
 %{_bindir}/hh_client
 %{_bindir}/hh_server
-%{_bindir}/hphpize
+%{_bindir}/hhvm
 %{_mandir}/hh_client.1
 %{_mandir}/hh_server.1
 %{_mandir}/hhvm.1
@@ -171,6 +170,7 @@ exit 0
 %{_prefix}/lib64/hhvm/hphpize/*
 %{_prefix}/lib64/hhvm/CMake/*.cmake
 %{_prefix}/include/hphp/*
+%{_bindir}/hphpize
 %{_mandir}/hphpize.1
 
 %doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
