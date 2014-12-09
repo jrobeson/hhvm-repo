@@ -94,6 +94,9 @@ make %{?_smp_mflags}
 %install
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
+
+make install DESTDIR=$RPM_BUILD_ROOT
+
 # Create default directory
 # TODO: store pid and similar files in /run/hhvm/ instead of /var/run/hhvm
 # https://fedoraproject.org/wiki/Packaging:Tmpfiles.d
@@ -101,27 +104,10 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_var}/log/%{name}
 %{__mkdir} -p %{buildroot}%{_var}/hhvm
 
-%{__install} -p -D -m 0755 hphp/hhvm/hhvm %{buildroot}%{_bindir}/hhvm
-%{__install} -p -D -m 0755 hphp/hack/bin/hh_client %{buildroot}%{_bindir}/hh_client
-%{__install} -p -D -m 0755 hphp/hack/bin/hh_server %{buildroot}%{_bindir}/hh_server
-%{__install} -p -D -m 0755 hphp/tools/hphpize/hphpize %{buildroot}%{_bindir}/hphpize
 
 # Install hhvm and systemctl configuration
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 %{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
-
-#devel
-%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm
-%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/hphpize
-%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/CMake
-%{__mkdir} -p %{buildroot}%{_prefix}/include/
-
-#header files
-%{__install} -p -D -m 0644 hphp/tools/hphpize/hphpize.cmake %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake
-%{__install} -p -D -m 0644 hphp/tools/hphpize/hphpize.cmake.in %{buildroot}%{_prefix}/lib64/hhvm/hphpize/hphpize.cmake.in
-%{__install} -p -D -m 0644 CMake/*.cmake %{buildroot}%{_prefix}/lib64/hhvm/CMake
-
-find hphp -name '*.h' -exec install -Dpm 0644 {} %{buildroot}%{_prefix}/include/{} \;
 
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 
