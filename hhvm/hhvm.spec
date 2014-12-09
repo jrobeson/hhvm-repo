@@ -1,4 +1,5 @@
 #TODO: package pfff, so we can install hackificator and hack_remove_soft_types
+#TODO: create debug package
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
