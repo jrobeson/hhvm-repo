@@ -9,7 +9,7 @@
 
 Name:             hhvm
 Version:          3.4.0
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 
 Group:            Development/Languages
@@ -18,6 +18,7 @@ URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
 Source2:          hhvm.service
+Patch0:           replace-max-macro-with-std-max.patch
 BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -77,6 +78,8 @@ need to develop HHVM applications.
 
 %prep
 %setup -q -n %{name}-%{version}
+
+%patch0 -p1
 
 %build
 export HPHP_HOME=`pwd`
