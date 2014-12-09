@@ -30,7 +30,6 @@ BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMa
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 BuildRequires:    json-c-devel
 
-Requires(pre):    shadow-utils
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
