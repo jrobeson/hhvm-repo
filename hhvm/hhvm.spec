@@ -1,5 +1,6 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
+#TODO: add aarch64 support
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
@@ -11,7 +12,7 @@ Name:             hhvm
 Version:          3.4.0
 Release:          9%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
-
+ExclusiveArch:    x86_64
 Group:            Development/Languages
 License:          PHP/Zend
 URL:              http://hhvm.com
