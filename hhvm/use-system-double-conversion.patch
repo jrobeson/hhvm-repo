@@ -1,0 +1,18 @@
+Description: Use the system's double-conversion library
+ There is a version of double-conversion in third-party that shouldn't be used.
+Author: Faidon Liambotis <paravoid@debian.org>
+Forwarded: no
+Last-Update: 2014-07-25
+
+Index: hhvm/third-party/CMakeLists.txt
+===================================================================
+--- hhvm.orig/third-party/CMakeLists.txt
++++ hhvm/third-party/CMakeLists.txt
+@@ -28,7 +28,6 @@ list(APPEND THIRD_PARTY_MODULES
+   libafdt
+   libmbfl
+   timelib
+-  double-conversion
+   folly)
+ if(ENABLE_FASTCGI)
+   list(APPEND THIRD_PARTY_MODULES ti)

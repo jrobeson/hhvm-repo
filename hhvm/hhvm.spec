@@ -7,10 +7,12 @@
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
+# TODO: remove _default_patch_fzz once the use-system-* patches are obsoleted
+%global           _default_patch_fuzz 2
 
 Name:             hhvm
 Version:          3.4.0
-Release:          9%{?dist}
+Release:          11%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -20,7 +22,11 @@ Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.ta
 Source1:          php.ini
 Source2:          hhvm.service
 Patch0:           replace-max-macro-with-std-max.patch
-Patch1:           remove-unused-third-party-modules.patch
+Patch1:           use-system-libzip.patch
+Patch2:           use-system-sqlite3.patch
+Patch3:           use-system-lz4.patch
+Patch4:           use-system-double-conversion.patch
+Patch5:           use-system-pcre.patch
 BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -82,7 +88,13 @@ need to develop HHVM applications.
 %setup -q -n %{name}-%{version}
 
 %patch0 -p1
+%if 0%{?fedora} >= 20
 %patch1 -p1
+%endif
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
 
 %build
 export HPHP_HOME=`pwd`

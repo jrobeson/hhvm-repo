@@ -1,0 +1,20 @@
+Description: Use the system libzip instead of something in third-party.
+ There is a version of libzip in third-party that shouldn't be used.
+Author: David Martínez Moreno <ender@debian.org>
+Forwarded: no
+Last-Update: 2014-07-25
+
+Index: hhvm/third-party/CMakeLists.txt
+===================================================================
+--- hhvm.orig/third-party/CMakeLists.txt
++++ hhvm/third-party/CMakeLists.txt
+@@ -31,8 +31,7 @@ list(APPEND THIRD_PARTY_MODULES
+   timelib
+   lz4
+   double-conversion
+-  folly
+-  libzip)
++  folly)
+ if(ENABLE_FASTCGI)
+   list(APPEND THIRD_PARTY_MODULES ti)
+   list(APPEND THIRD_PARTY_MODULES thrift)
