@@ -138,6 +138,11 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %{__install} -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
 %{__install} -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
+%{__mkdir} -p %{buildroot}%{_datadir}/hhvm
+
+# TODO: maybe find some way to use /bin/install again?
+%{__cp} -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -176,6 +181,7 @@ exit 0
 %{_bindir}/hh_client
 %{_bindir}/hh_server
 %{_bindir}/hhvm
+%{_datadir}/hhvm/editor-plugins/*
 %{_mandir}/man1/hackificator.1.gz
 %{_mandir}/man1/hack_remove_soft_types.1.gz
 %{_mandir}/man1/hh_client.1.gz
