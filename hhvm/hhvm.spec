@@ -143,6 +143,20 @@ make install DESTDIR=$RPM_BUILD_ROOT
 # TODO: maybe find some way to use /bin/install again?
 %{__cp} -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
 
+# licenses
+%{__mkdir} -p %{buildroot}%{_docdir}/hhvm/licenses
+
+%{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/folly
+%{__install} -p -D -m 0644 third-party/fastlz/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/fastlz
+%{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_docdir}/hhvm/licenses/libafdt
+%{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libmbfl
+# TODO: copy proxygen license when it exists: https://github.com/hhvm/hhvm-third-party/issues/41
+%{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/thrift
+# TODO: copy timelib license when it exists: https://github.com/hhvm/hhvm-third-party/issues/42
+%if 0%{?fedora} >= 20
+%{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libzip
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -187,6 +201,8 @@ exit 0
 %{_mandir}/man1/hh_client.1.gz
 %{_mandir}/man1/hh_server.1.gz
 %{_mandir}/man1/hhvm.1.gz
+%doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
+%doc %{_docdir}/hhvm/licenses/*
 
 %files devel
 %defattr(-,root,root,-)
@@ -197,6 +213,7 @@ exit 0
 %{_mandir}/man1/hphpize.1.gz
 
 %doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
+%doc %{_docdir}/hhvm/licenses/*
 
 %changelog
 * Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
