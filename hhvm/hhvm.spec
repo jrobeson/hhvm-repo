@@ -154,7 +154,8 @@ make install DESTDIR=%{buildroot}
 %{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libmbfl
 # TODO: copy proxygen license when we 3.5.0 is released
 %{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/thrift
-# TODO: copy timelib license when it exists: https://github.com/hhvm/hhvm-third-party/issues/42
+# TODO: use the php license from timelib directly, when we bump to 3.5.0
+%{__install} -p -D -m 0644 LICENSE.PHP %{buildroot}%{_docdir}/hhvm/licenses/timelib
 %if 0%{?fedora} >= 20
 %{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libzip
 %endif
