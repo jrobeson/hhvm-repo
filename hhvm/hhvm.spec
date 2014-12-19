@@ -116,9 +116,9 @@ hphp/hhvm/hhvm hphp/test/run -m interp quick
 
 %install
 export DONT_STRIP=1
-rm -rf $RPM_BUILD_ROOT
+rm -rf {%buildroot}
 
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR={%buildroot}
 
 # Create default directory
 # TODO: store pid and similar files in /run/hhvm/ instead of /var/run/hhvm
@@ -157,7 +157,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 %endif
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf {%buildroot}
 
 %pre
 getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
