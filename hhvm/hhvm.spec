@@ -34,7 +34,7 @@ BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
 BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
 #BuildRequires:   libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel >= r121-2
+BuildRequires:    lz4-devel >= r121-2, fastlz-devel
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
@@ -55,7 +55,7 @@ Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
 Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
-Requires:         json-c
+Requires:         json-c, fastlz
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -73,7 +73,7 @@ BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel >= r121-2
+BuildRequires:    lz4-devel >= r121-2, fastlz-devel
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
