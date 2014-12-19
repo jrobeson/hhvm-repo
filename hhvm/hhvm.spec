@@ -40,6 +40,7 @@ BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 BuildRequires:    json-c-devel
+# libzip in EL 6-7 is too old, must use the bundled version
 %if 0%{?fedora} >= 20
 BuildRequires:    libzip-devel
 %endif
