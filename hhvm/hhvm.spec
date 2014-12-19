@@ -1,6 +1,8 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 #TODO: add aarch64 support
+#TODO: gnu freebidi
+#TODO: libyaml
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
@@ -150,7 +152,7 @@ make install DESTDIR={%buildroot}
 %{__install} -p -D -m 0644 third-party/fastlz/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/fastlz
 %{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_docdir}/hhvm/licenses/libafdt
 %{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libmbfl
-# TODO: copy proxygen license when it exists: https://github.com/hhvm/hhvm-third-party/issues/41
+# TODO: copy proxygen license when we 3.5.0 is released
 %{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/thrift
 # TODO: copy timelib license when it exists: https://github.com/hhvm/hhvm-third-party/issues/42
 %if 0%{?fedora} >= 20
@@ -158,7 +160,7 @@ make install DESTDIR={%buildroot}
 %endif
 
 %clean
-rm -rf {%buildroot}
+rm -rf %{buildroot}
 
 %pre
 getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
