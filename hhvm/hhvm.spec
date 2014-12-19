@@ -34,7 +34,7 @@ BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
 BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
 #BuildRequires:   libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
+BuildRequires:    lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
@@ -73,7 +73,7 @@ BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    inotify-tools-devel, lz4-devel >= r121-2
+BuildRequires:    lz4-devel >= r121-2
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
@@ -106,7 +106,6 @@ cmake \
     -DLIB_INSTALL_DIR:PATH=%{_libdir} \
     -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \
     -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \
-    -DLIBINOTIFY_LIBRARY=/usr/lib64/libinotifytools.so.0 \
     .
 
 make %{?_smp_mflags}
