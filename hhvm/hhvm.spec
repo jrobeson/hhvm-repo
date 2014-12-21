@@ -25,11 +25,11 @@ Source1:          php.ini
 Source2:          hhvm.service
 # already applied upstream: https://github.com/facebook/hhvm/commit/3918a2ccceb98230ff517601ad60aa6bee36e2c4
 Patch0:           replace-max-macro-with-std-max.patch
-Patch1:           use-system-libzip.patch
+# already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
+Patch1:           3.4.x-use-system-libzip-and-pcre.patch
 Patch2:           use-system-sqlite3.patch
 Patch3:           use-system-lz4.patch
 Patch4:           use-system-double-conversion.patch
-Patch5:           use-system-pcre.patch
 BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -92,13 +92,12 @@ need to develop HHVM applications.
 %setup -q -n %{name}-%{version}
 
 %patch0 -p1
-%if 0%{?fedora} >= 20
+pushd third-party
 %patch1 -p1
-%endif
+popd
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 %build
 export HPHP_HOME=`pwd`
