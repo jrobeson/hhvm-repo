@@ -9,8 +9,6 @@
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
-# TODO: remove _default_patch_fzz once the use-system-* patches are obsoleted
-%global           _default_patch_fuzz 2
 
 Name:             hhvm
 Version:          3.4.1
@@ -27,9 +25,8 @@ Source2:          hhvm.service
 Patch0:           replace-max-macro-with-std-max.patch
 # already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
 Patch1:           3.4.x-use-system-libzip-and-pcre.patch
-Patch2:           use-system-sqlite3.patch
-Patch3:           use-system-lz4.patch
-Patch4:           use-system-double-conversion.patch
+# not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/46
+Patch2:           3.4.x-use-more-system-libs.patch
 BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
 BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
@@ -94,10 +91,8 @@ need to develop HHVM applications.
 %patch0 -p1
 pushd third-party
 %patch1 -p1
-popd
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
+popd
 
 %build
 export HPHP_HOME=`pwd`
