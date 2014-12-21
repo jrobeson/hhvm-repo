@@ -23,6 +23,7 @@ URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
 Source2:          hhvm.service
+# already applied upstream: https://github.com/facebook/hhvm/commit/3918a2ccceb98230ff517601ad60aa6bee36e2c4
 Patch0:           replace-max-macro-with-std-max.patch
 Patch1:           use-system-libzip.patch
 Patch2:           use-system-sqlite3.patch
