@@ -10,7 +10,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          2%{?dist}
+Release:          3%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -29,15 +29,15 @@ Patch2:           3.4.x-use-more-system-libs.patch
 Patch3:           fix-debug-build-with-sqlite-3.8.x.patch
 # not yet accepted upstream: https://github.com/facebook/hhvm/pull/4510
 Patch4:           remove-sqlite-version-restriction.patch
-BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
-BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
-BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel >= 7.29
+BuildRequires:    cmake, libevent-devel
+BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
+BuildRequires:    libmcrypt-devel, libdwarf-devel
+BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel
 BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
 #BuildRequires:   libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel >= r121-2, fastlz-devel
-BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
+BuildRequires:    lz4-devel, fastlz-devel
+BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
@@ -52,9 +52,9 @@ Requires(preun):  systemd
 Requires(postun): systemd
 
 Requires:         systemd
-Requires:         glog >= 0.3.3, jemalloc >= 3.0, tbb >= 4.0
-Requires:         libmcrypt >= 2.5.8, libdwarf >= 20130207
-Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
+Requires:         glog, jemalloc, tbb
+Requires:         libmcrypt, libdwarf
+Requires:         boost, libmemcached, lz4
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
 Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
@@ -70,14 +70,14 @@ while maintaining the flexibility that PHP developers are accustomed to.
 Summary:          Library links and header files for HHVM development
 Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
-BuildRequires:    cmake >= 2.8.7, libevent-devel >= 2.0
-BuildRequires:    libcurl-devel >= 7.29, double-conversion-devel
-BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
-BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
+BuildRequires:    cmake, libevent-devel
+BuildRequires:    libcurl-devel, double-conversion-devel
+BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
+BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    lz4-devel >= r121-2, fastlz-devel, fribidi-devel, libyaml-devel
-BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
+BuildRequires:    boost-devel, libmemcached-devel, fribidi, libyaml
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
