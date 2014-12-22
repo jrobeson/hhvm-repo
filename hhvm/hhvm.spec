@@ -36,7 +36,7 @@ BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel
 BuildRequires:    oniguruma-devel, readline-devel, double-conversion-devel
 #BuildRequires:   libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel, fastlz-devel
+BuildRequires:    lz4-devel, fastlz-devel, fribidi-devel, libyaml-devel
 BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
@@ -57,7 +57,7 @@ Requires:         libmcrypt, libdwarf
 Requires:         boost, libmemcached, lz4
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
-Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
+Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libzip
 Requires:         json-c, fastlz, fribidi, libyaml
 
 %description
@@ -77,7 +77,7 @@ BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    lz4-devel >= r121-2, fastlz-devel, fribidi-devel, libyaml-devel
-BuildRequires:    boost-devel, libmemcached-devel, fribidi, libyaml
+BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
