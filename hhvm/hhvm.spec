@@ -1,8 +1,6 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 #TODO: add aarch64 support
-#TODO: gnu freebidi
-#TODO: libyaml
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
@@ -12,7 +10,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -60,7 +58,7 @@ Requires:         boost >= 1.50, libmemcached >= 0.39, lz4 >= r121-2
 Requires:         libxml2, libicu, oniguruma, readline, pam, libcap, libedit, pcre, sqlite
 Requires:         libxslt, double-conversion, expat, bzip2, openldap, elfutils-libelf
 Requires:         binutils, libevent, ImageMagick, libvpx, libpng, gmp, ocaml, libyaml, libzip
-Requires:         json-c, fastlz
+Requires:         json-c, fastlz, fribidi, libyaml
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
@@ -78,7 +76,7 @@ BuildRequires:    glog-devel >= 0.3.3, jemalloc-devel >= 3.6, tbb-devel >= 4.1
 BuildRequires:    libmcrypt-devel >= 2.5.8, libdwarf-devel >= 20130207
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel >= r121-2, fastlz-devel
+BuildRequires:    lz4-devel >= r121-2, fastlz-devel, fribidi-devel, libyaml-devel
 BuildRequires:    boost-devel >= 1.48, libmemcached-devel >= 0.39
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
