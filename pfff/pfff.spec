@@ -8,10 +8,10 @@
 
 Name:           pfff
 Version:        0.28.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Tools for code analysis, visualizations, or style-preserving source transformation.
 Group:          Development/Libraries
-License:        LGPLv2 with exceptions 
+License:        LGPLv2 with exceptions
 URL:            https://github.com/facebook/%{name}
 Source0:        https://github.com/facebook/%{name}/archive/v%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -38,6 +38,14 @@ Requires:       %{name} = %{version}-%{release}
 %description    devel
 The %{name}-devel package contains libraries and signature files for
 developing applications that use %{name}.
+
+%package        data
+Summary:        Data files for %{name}
+Requires:       %{name} = %{version}-%{release}
+
+%description    data
+The %{name}-data package contains data files for developing
+applications that use %{name}.
 
 %prep
 %setup -q
@@ -73,7 +81,6 @@ rm -rf %{buildroot}
 %doc readme.txt
 %{_bindir}/*
 %{_libdir}/ocaml/*
-%{_datadir}/%{name}/*
 %if %opt
 %exclude %{_libdir}/ocaml/*/*.a
 %exclude %{_libdir}/ocaml/*/*.cmxa
@@ -93,6 +100,10 @@ rm -rf %{buildroot}
 %endif
 %{_libdir}/ocaml/*/*.mli
 
+%files data
+%defattr(-,root,root,-)
+%doc readme.txt
+%{_datadir}/%{name}/
 
 %changelog
 * Sat Dec 27 2014 Johnny Robeson <johnny@localmomentum.net> - 0.28.1-1
