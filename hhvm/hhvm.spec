@@ -25,9 +25,9 @@ Patch0:           replace-max-macro-with-std-max.patch
 Patch1:           3.4.x-use-system-libzip-and-pcre.patch
 # not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/46
 Patch2:           3.4.x-use-more-system-libs.patch
-# not yet accepted upstream: https://github.com/facebook/hhvm/pull/4507
+# already applied upstream: https://github.com/facebook/hhvm/commit/b4ecc5de9675c692e76ec210a0618821190c3230
 Patch3:           fix-debug-build-with-sqlite-3.8.x.patch
-# not yet accepted upstream: https://github.com/facebook/hhvm/pull/4510
+# already applied upstream: https://github.com/facebook/hhvm/commit/677fd774d259ece5a8bb1a5f58ac0d6ee1473a0f
 Patch4:           remove-sqlite-version-restriction.patch
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
