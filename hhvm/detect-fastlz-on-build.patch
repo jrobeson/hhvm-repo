@@ -1,0 +1,97 @@
+From 0ad99e6892cf7ef7068910089aec09d5670509e7 Mon Sep 17 00:00:00 2001
+From: Johnny Robeson <johnny@localmomentum.net>
+Date: Wed, 31 Dec 2014 05:04:45 -0500
+Subject: [PATCH] refactor FastLZ cmake finder
+
+Changes of note:
+
+ * actually find the library in cmake (instead of specifying manually)
+ * rename from libfastlz to fastlz to match the library name
+ * don't add the third-party includes if we already specified the includes dir
+---
+ CMake/FindFastLZ.cmake    | 19 +++++++++++++++++++
+ CMake/FindLibFastLz.cmake | 14 --------------
+ CMake/HPHPFindLibs.cmake  |  6 ++++++
+ CMake/HPHPSetup.cmake     |  5 ++++-
+ 4 files changed, 29 insertions(+), 15 deletions(-)
+ create mode 100644 CMake/FindFastLZ.cmake
+ delete mode 100644 CMake/FindLibFastLz.cmake
+
+diff --git a/CMake/FindFastLZ.cmake b/CMake/FindFastLZ.cmake
+new file mode 100644
+index 0000000..43a2fb0
+--- /dev/null
++++ b/CMake/FindFastLZ.cmake
+@@ -0,0 +1,19 @@
++if (FASTLZ_LIBRARY AND FASTLZ_INCLUDE_DIR)
++  set (FASTLZ_FIND_QUIETLY TRUE)
++endif (FASTLZ_LIBRARY AND FASTLZ_INCLUDE_DIR)
++
++find_path(FASTLZ_INCLUDE_DIR NAMES fastlz.h)
++find_library(FASTLZ_LIBRARY NAMES fastlz)
++
++include (FindPackageHandleStandardArgs)
++FIND_PACKAGE_HANDLE_STANDARD_ARGS(FastLZ DEFAULT_MSG
++  FASTLZ_LIBRARY
++  FASTLZ_INCLUDE_DIR)
++
++if (NOT FASTLZ_FOUND)
++  message(STATUS "Using third-party bundled fastlz")
++else()
++  message(STATUS "Found fastlz: ${FASTLZ_LIBRARY}")
++endif (NOT FASTLZ_FOUND)
++
++mark_as_advanced(FASTLZ_INCLUDE_DIR FASTLZ_LIBRARY)
+diff --git a/CMake/FindLibFastLz.cmake b/CMake/FindLibFastLz.cmake
+deleted file mode 100644
+index eaeacaf..0000000
+--- a/CMake/FindLibFastLz.cmake
++++ /dev/null
+@@ -1,14 +0,0 @@
+-
+-if (LIBFASTLZ_LIBRARIES AND LIBFASTLZ_INCLUDE_DIRS)
+-  set (LibFastLz_FIND_QUIETLY TRUE)
+-endif (LIBFASTLZ_LIBRARIES AND LIBFASTLZ_INCLUDE_DIRS)
+-
+-find_path(LIBFASTLZ_INCLUDE_DIRS NAMES fastlz.h)
+-find_library(LIBFASTLZ_LIBRARIES NAMES libfastlz)
+-
+-include (FindPackageHandleStandardArgs)
+-FIND_PACKAGE_HANDLE_STANDARD_ARGS(LibPng DEFAULT_MSG
+-  LIBFASTLZ_LIBRARIES
+-  LIBFASTLZ_INCLUDE_DIRS)
+-
+-mark_as_advanced(LIBFASTLZ_INCLUDE_DIRS LIBFASTLZ_LIBRARIES)
+diff --git a/CMake/HPHPFindLibs.cmake b/CMake/HPHPFindLibs.cmake
+index eb37774..d05efe2 100644
+--- a/CMake/HPHPFindLibs.cmake
++++ b/CMake/HPHPFindLibs.cmake
+@@ -152,6 +152,12 @@ if (LZ4_INCLUDE_DIR)
+   include_directories(${LZ4_INCLUDE_DIR})
+ endif()
+ 
++# fastlz
++find_package(FastLZ)
++if (FASTLZ_INCLUDE_DIR)
++  include_directories(${FASTLZ_INCLUDE_DIR})
++endif()
++
+ # libzip
+ find_package(LibZip)
+ if (LIBZIP_INCLUDE_DIR_ZIP AND LIBZIP_INCLUDE_DIR_ZIPCONF)
+diff --git a/CMake/HPHPSetup.cmake b/CMake/HPHPSetup.cmake
+index ae7d4ce..5e49429 100644
+--- a/CMake/HPHPSetup.cmake
++++ b/CMake/HPHPSetup.cmake
+@@ -226,7 +226,10 @@ if (NOT PCRE_LIBRARY)
+   include_directories("${TP_DIR}/pcre")
+ endif()
+ 
+-include_directories("${TP_DIR}/fastlz")
++if (NOT FASTLZ_LIBRARY)
++  include_directories("${TP_DIR}/fastlz")
++endif()
++
+ include_directories("${TP_DIR}/timelib")
+ include_directories("${TP_DIR}/libafdt/src")
+ include_directories("${TP_DIR}/libmbfl")

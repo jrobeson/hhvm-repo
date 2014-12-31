@@ -14,7 +14,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -33,6 +33,10 @@ Patch2:           3.4.x-use-more-system-libs.patch
 Patch3:           3.4.x-fix-debug-build-with-sqlite-3.8.x.patch
 # already applied upstream: https://github.com/facebook/hhvm/commit/677fd774d259ece5a8bb1a5f58ac0d6ee1473a0f
 Patch4:           3.4.x-remove-sqlite-version-restriction.patch
+# already applied upstream: https://github.com/facebook/hhvm/commit/80cef006740e9f55b55728177d9ab6beb3a53ef9
+Patch5:           3.4.x-add-fastlz-finder.patch
+# not yet accepted upstream: https://github.com/facebook/hhvm/pull/4551
+Patch6:           detect-fastlz-on-build.patch
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
@@ -115,6 +119,8 @@ pushd third-party
 popd
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 export HPHP_HOME=`pwd`
