@@ -1,6 +1,10 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 #TODO: add aarch64 support
+#TODO: hardened build
+#TODO: snapshot builds
+#TODO: filesystem or common package
+#TODO: license macro on EL 7?
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
