@@ -4,7 +4,6 @@
 #TODO: hardened build
 #TODO: snapshot builds
 #TODO: filesystem or common package
-#TODO: license macro on EL 7?
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
@@ -175,15 +174,15 @@ make install DESTDIR=%{buildroot}
 # licenses
 %{__mkdir} -p %{buildroot}%{_docdir}/hhvm/licenses
 
-%{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/folly
-%{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_docdir}/hhvm/licenses/libafdt
-%{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libmbfl
+%{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
+%{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
+%{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl
 # TODO: copy proxygen license when we 3.5.0 is released
-%{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/thrift
+%{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
 # TODO: use the php license from timelib directly, when we bump to 3.5.0
-%{__install} -p -D -m 0644 LICENSE.PHP %{buildroot}%{_docdir}/hhvm/licenses/timelib
-%if 0%{?fedora} >= 20
-%{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libzip
+%{__install} -p -D -m 0644 LICENSE.PHP %{buildroot}%{_licensedir}/hhvm/timelib
+%if 0%{?el7} == 1
+%{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
 
 %clean
@@ -230,8 +229,9 @@ exit 0
 %{_mandir}/man1/hh_client.1.gz
 %{_mandir}/man1/hh_server.1.gz
 %{_mandir}/man1/hhvm.1.gz
-%doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
-%doc %{_docdir}/hhvm/licenses/*
+%doc CONTRIBUTING.md README.md
+%license LICENSE.PHP LICENSE.ZEND
+%license %{_licensedir}/hhvm/*
 
 %files devel
 %defattr(-,root,root,-)
