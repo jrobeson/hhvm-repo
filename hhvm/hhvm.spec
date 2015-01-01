@@ -241,8 +241,8 @@ exit 0
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.gz
 
-%doc CONTRIBUTING.md LICENSE.PHP LICENSE.ZEND README.md
-%doc %{_docdir}/hhvm/licenses/*
+%doc CONTRIBUTING.md README.md
+%license LICENSE.PHP LICENSE.ZEND
 
 %changelog
 * Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
