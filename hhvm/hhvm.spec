@@ -14,7 +14,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          6%{?dist}
+Release:          7%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -176,7 +176,6 @@ make install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{_docdir}/hhvm/licenses
 
 %{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/folly
-%{__install} -p -D -m 0644 third-party/fastlz/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/fastlz
 %{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_docdir}/hhvm/licenses/libafdt
 %{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_docdir}/hhvm/licenses/libmbfl
 # TODO: copy proxygen license when we 3.5.0 is released
