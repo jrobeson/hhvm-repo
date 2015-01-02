@@ -28,8 +28,8 @@ non_dfsg_files=(
     # JSON license, not used when USE_JSONC is passed.
     hphp/runtime/ext/json/JSON_parser.cpp
     third-party/fastlz
-    # We use double-conversion from Debian. DFSG-free but not needed.
-    #third-party/double-conversion
+    # We use double-conversion from Fedora
+    third-party/double-conversion
     # We use liblz4 from Debian. DFSG-free but not needed.
     third-party/lz4
     # We use libsqlite3 from Debian. DFSG-free but not needed.
