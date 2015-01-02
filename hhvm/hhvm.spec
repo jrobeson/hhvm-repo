@@ -52,7 +52,7 @@ BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 BuildRequires:    json-c-devel, double-conversion-devel
-%if 0%{?fedora} >= 20
+%if %if 0%{?rhel}
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:    libzip-devel
 %endif
@@ -85,7 +85,7 @@ BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
-%if 0%{?fedora} >= 20
+%if 0%{?rhel}
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:         libzip-devel
 %endif
@@ -165,7 +165,7 @@ make install DESTDIR=%{buildroot}
 %{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
 # TODO: use the php license from timelib directly, when we bump to 3.5.0
 %{__install} -p -D -m 0644 LICENSE.PHP %{buildroot}%{_licensedir}/hhvm/timelib
-%if 0%{?el7} == 1
+%if 0%{?rhel}
 %{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
 
