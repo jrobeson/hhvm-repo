@@ -1,20 +1,21 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 #TODO: add aarch64 support
-#TODO: hardened build
+#TODO: make sure hardened build is actually hardened
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: hhvm user account home directory?
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
+%global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
 Name:             hhvm
 Version:          3.4.2
-Release:          9%{?dist}
+Release:          10%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
