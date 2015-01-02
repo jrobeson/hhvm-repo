@@ -13,7 +13,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -22,6 +22,7 @@ URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
 Source2:          hhvm.service
+Source3:          %{name}-tmpfiles.conf
 # already applied upstream: https://github.com/facebook/hhvm/commit/3918a2ccceb98230ff517601ad60aa6bee36e2c4
 Patch0:           3.4.x-replace-max-macro-with-std-max.patch
 # already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
@@ -133,12 +134,14 @@ rm -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
 
-# Create default directory
-# TODO: store pid and similar files in /run/hhvm/ instead of /var/run/hhvm
-# https://fedoraproject.org/wiki/Packaging:Tmpfiles.d
-%{__mkdir} -p %{buildroot}%{_var}/run/%{name}
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/%{name}.conf
+
+mkdir -p %{buildroot}/run
+install -d -m 0755 %{buildroot}/run/%{name}/
+
 %{__mkdir} -p %{buildroot}%{_var}/log/%{name}
-%{__mkdir} -p %{buildroot}%{_var}/hhvm
+%{__mkdir} -p %{buildroot}%{_var}/%{name}
 
 
 # Install hhvm and systemctl configuration
@@ -156,7 +159,7 @@ make install DESTDIR=%{buildroot}
 %{__cp} -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
 
 # licenses
-%{__mkdir} -p %{buildroot}%{_docdir}/hhvm/licenses
+%{__mkdir} -p %{buildroot}%{_licensedir}/hhvm/licenses
 
 %{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
 %{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
@@ -194,8 +197,9 @@ exit 0
 %files
 %defattr(-,hhvm,hhvm,-)
 %{_unitdir}/hhvm.service
-%dir %{_var}/hhvm
-%dir %{_var}/run/%{name}
+%{_tmpfilesdir}/%{name}.conf
+%dir /run/%{name}/
+%dir %{_var}/%{name}
 %dir %{_var}/log/%{name}
 
 %defattr(-,root,root,-)
