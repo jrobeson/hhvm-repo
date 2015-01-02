@@ -124,10 +124,6 @@ cmake \
 
 make %{?_smp_mflags}
 
-%check
-hphp/hhvm/hhvm hphp/test/run -m jit quick
-hphp/hhvm/hhvm hphp/test/run -m interp quick
-
 %install
 export DONT_STRIP=1
 rm -rf %{buildroot}
@@ -171,6 +167,10 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 %if 0%{?rhel}
 %{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
+
+%check
+hphp/hhvm/hhvm hphp/test/run -m jit quick
+hphp/hhvm/hhvm hphp/test/run -m interp quick
 
 %clean
 rm -rf %{buildroot}
