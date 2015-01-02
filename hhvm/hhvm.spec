@@ -13,7 +13,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          7%{?dist}
+Release:          8%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -51,12 +51,10 @@ BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
-BuildRequires:    json-c-devel
+BuildRequires:    json-c-devel, double-conversion-devel
 %if 0%{?fedora} >= 20
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:    libzip-devel
-# double-conversion-devel does not exist in epel7 yet
-BuildRequires:    double-conversion-devel
 %endif
 
 Requires(post):   systemd
@@ -77,7 +75,7 @@ Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         cmake
 BuildRequires:    cmake, libevent-devel
-BuildRequires:    libcurl-devel
+BuildRequires:    libcurl-devel, double-conversion-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
@@ -90,8 +88,6 @@ BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 %if 0%{?fedora} >= 20
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:         libzip-devel
-# double-conversion-devel does not exist in epel7 yet
-BuildRequires:         double-conversion-devel
 %endif
 Provides:         hhvm-devel = %{version}-%{release}
 
