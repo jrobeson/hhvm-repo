@@ -77,21 +77,6 @@ Summary:          Library links and header files for HHVM development
 Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         cmake
-BuildRequires:    cmake, libevent-devel
-BuildRequires:    libcurl-devel, double-conversion-devel
-BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
-BuildRequires:    libmcrypt-devel, libdwarf-devel
-BuildRequires:    libxml2-devel, libicu-devel, oniguruma-devel, readline-devel
-BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
-BuildRequires:    lz4-devel >= r121-2, fastlz-devel, fribidi-devel, libyaml-devel
-BuildRequires:    boost-devel, libmemcached-devel
-BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
-BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
-BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
-%if 0%{?rhel}
-# libzip in EL 6-7 is too old, must use the bundled version
-BuildRequires:         libzip-devel
-%endif
 Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
