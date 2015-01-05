@@ -29,7 +29,7 @@ Source3:          %{name}-tmpfiles.conf
 Patch0:           3.4.x-replace-max-macro-with-std-max.patch
 # already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
 Patch1:           3.4.x-use-system-libzip-and-pcre.patch
-# not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/46
+# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/b0a89634b2abd9c4f96b0ebe01c58a9e8ed65464
 Patch2:           3.4.x-use-more-system-libs.patch
 # already applied upstream: https://github.com/facebook/hhvm/commit/b4ecc5de9675c692e76ec210a0618821190c3230
 Patch3:           3.4.x-fix-debug-build-with-sqlite-3.8.x.patch
