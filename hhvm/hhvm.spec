@@ -123,40 +123,40 @@ install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
-%{__mkdir} -p %{buildroot}%{_var}/log/%{name}
-%{__mkdir} -p %{buildroot}%{_var}/%{name}
+mkdir -p %{buildroot}%{_var}/log/%{name}
+mkdir -p %{buildroot}%{_var}/%{name}
 
 
 # Install hhvm and systemctl configuration
-%{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
-%{__install} -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
+install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
+install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
 
-%{__mkdir} -p %{buildroot}%{_mandir}/man1
+mkdir -p %{buildroot}%{_mandir}/man1
 
-%{__install} -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
-%{__install} -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
+install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
+install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
-%{__mkdir} -p %{buildroot}%{_datadir}/hhvm
+mkdir -p %{buildroot}%{_datadir}/hhvm
 
 # satisfy rmplint
 # https://github.com/facebook/hhvm/pull/4589
 chmod 644 hphp/hack/editor-plugins/emacs/hack-for-hiphop.el
 
 # TODO: maybe find some way to use /bin/install again?
-%{__cp} -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
+cp -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
 
 # licenses
-%{__mkdir} -p %{buildroot}%{_licensedir}/hhvm/licenses
+mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
 
-%{__install} -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
-%{__install} -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
-%{__install} -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl
+install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
+install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
+install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl
 # TODO: copy proxygen license when we 3.5.0 is released
-%{__install} -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
+install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
 # TODO: use the php license from timelib directly, when we bump to 3.5.0
-%{__install} -p -D -m 0644 LICENSE.PHP %{buildroot}%{_licensedir}/hhvm/timelib
+install -p -D -m 0644 LICENSE.PHP %{buildroot}%{_licensedir}/hhvm/timelib
 %if 0%{?rhel}
-%{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
+install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
 
 %check
