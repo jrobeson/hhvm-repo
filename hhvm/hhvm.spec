@@ -47,7 +47,7 @@ BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel
 BuildRequires:    oniguruma-devel, readline-devel
-#BuildRequires:   libc-client-devel, pam-devel, gd-devel
+BuildRequires:    libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    lz4-devel, fastlz-devel, fribidi-devel, libyaml-devel
 BuildRequires:    boost-devel, libmemcached-devel
