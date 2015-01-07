@@ -173,16 +173,12 @@ getent passwd %{hhvm_user} >/dev/null || \
     -c "HHVM" %{hhvm_user}
 exit 0
 
-# Can't use -p /sbin/ldconfig, that gives '/sbin/ldconfig: relative path `0' used to build cache' error
 %post
-/sbin/ldconfig > /dev/null 2>&1
 %systemd_post hhvm.service
 
 %systemd_preun hhvm.service
 
-# Can't use -p /sbin/ldconfig, that gives '/sbin/ldconfig: relative path `0' used to build cache' error
 %postun
-/sbin/ldconfig > /dev/null 2>&1
 %systemd_postun hhvm.service
 
 %files
