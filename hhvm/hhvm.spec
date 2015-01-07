@@ -183,13 +183,13 @@ exit 0
 
 %files
 %defattr(-,hhvm,hhvm,-)
-%{_unitdir}/hhvm.service
-%{_tmpfilesdir}/%{name}.conf
 %dir /run/%{name}/
 %dir %{_var}/%{name}
 %dir %{_var}/log/%{name}
 
 %defattr(-,root,root,-)
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/hhvm.service
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
 
