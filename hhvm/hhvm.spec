@@ -155,6 +155,10 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 %{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
 
+# satisfy rmplint
+# https://github.com/facebook/hhvm/pull/4589
+chmod 644 hphp/hack/editor-plugins/emacs/hack-for-hiphop.el
+
 %check
 hphp/hhvm/hhvm hphp/test/run -m jit quick
 hphp/hhvm/hhvm hphp/test/run -m interp quick
