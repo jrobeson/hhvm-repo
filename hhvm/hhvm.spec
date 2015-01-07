@@ -138,6 +138,10 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 
 %{__mkdir} -p %{buildroot}%{_datadir}/hhvm
 
+# satisfy rmplint
+# https://github.com/facebook/hhvm/pull/4589
+chmod 644 hphp/hack/editor-plugins/emacs/hack-for-hiphop.el
+
 # TODO: maybe find some way to use /bin/install again?
 %{__cp} -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
 
@@ -154,10 +158,6 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 %if 0%{?rhel}
 %{__install} -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
-
-# satisfy rmplint
-# https://github.com/facebook/hhvm/pull/4589
-chmod 644 hphp/hack/editor-plugins/emacs/hack-for-hiphop.el
 
 %check
 hphp/hhvm/hhvm hphp/test/run -m jit quick
