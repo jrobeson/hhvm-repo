@@ -5,6 +5,7 @@
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: hhvm user account home directory?
+#TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
 %define           hhvm_dir %{_var}/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
