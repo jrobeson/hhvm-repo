@@ -198,11 +198,11 @@ exit 0
 %{_bindir}/hh_server
 %{_bindir}/hhvm
 %{_datadir}/hhvm/editor-plugins/*
-%{_mandir}/man1/hackificator.1.gz
-%{_mandir}/man1/hack_remove_soft_types.1.gz
-%{_mandir}/man1/hh_client.1.gz
-%{_mandir}/man1/hh_server.1.gz
-%{_mandir}/man1/hhvm.1.gz
+%{_mandir}/man1/hackificator.1.*
+%{_mandir}/man1/hack_remove_soft_types.1.*
+%{_mandir}/man1/hh_client.1.*
+%{_mandir}/man1/hh_server.1.*
+%{_mandir}/man1/hhvm.1.*
 %doc CONTRIBUTING.md README.md
 %license LICENSE.PHP LICENSE.ZEND
 %license %{_licensedir}/hhvm/*
@@ -213,7 +213,7 @@ exit 0
 %{_prefix}/lib64/hhvm/CMake/*.cmake
 %{_prefix}/include/hphp/*
 %{_bindir}/hphpize
-%{_mandir}/man1/hphpize.1.gz
+%{_mandir}/man1/hphpize.1.*
 
 %doc CONTRIBUTING.md README.md
 %license LICENSE.PHP LICENSE.ZEND
