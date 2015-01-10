@@ -99,8 +99,6 @@ popd
 %patch7 -p1
 
 %build
-export HPHP_HOME=`pwd`
-
 cmake \
     -DUSE_JSONC=ON \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
