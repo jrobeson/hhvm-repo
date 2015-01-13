@@ -20,6 +20,7 @@ Release:          12%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
+# TODO: check on more licenses
 License:          PHP and Zend
 URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
@@ -82,7 +83,7 @@ Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
 hhvm-devel contains the library links and header files you'll
-need to develop HHVM applications.
+need to build and develop HHVM extensions.
 
 %prep
 %setup -q -n %{name}-%{version}
