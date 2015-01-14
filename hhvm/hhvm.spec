@@ -16,7 +16,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          12%{?dist}
+Release:          13%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -48,7 +48,7 @@ BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel
-BuildRequires:    oniguruma-devel, readline-devel
+BuildRequires:    oniguruma-devel
 BuildRequires:    libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    lz4-devel, fastlz-devel, fribidi-devel, libyaml-devel
@@ -66,7 +66,7 @@ Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
 
-Requires:         readline, pam, binutils, ocaml, fribidi
+Requires:         pam, binutils, ocaml, fribidi
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
