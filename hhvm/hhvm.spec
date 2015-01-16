@@ -5,6 +5,10 @@
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
+#TODO: package vim-hack
+#TODO: pull out emacs plugin when it exists separately
+#TODO: service file for hhvm-server
+#TODO: tweak hhvm.service
 %define           hhvm_home %{_var}/lib/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
