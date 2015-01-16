@@ -4,9 +4,8 @@
 #TODO: make sure hardened build is actually hardened
 #TODO: snapshot builds
 #TODO: filesystem or common package
-#TODO: hhvm user account home directory?
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
-%define           hhvm_dir %{_var}/hhvm
+%define           hhvm_home %{_var}/lib/hhvm
 %define           hhvm_group hhvm
 %define           hhvm_user hhvm
 %global           _hardened_build 1
@@ -16,7 +15,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          13%{?dist}
+Release:          14%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -176,7 +175,7 @@ rm -rf %{buildroot}
 %pre
 getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
 getent passwd %{hhvm_user} >/dev/null || \
-    useradd -r -g %{hhvm_group} -d %{hhvm_dir} -s /sbin/nologin \
+    useradd -r -g %{hhvm_group} -d %{hhvm_home} -s /sbin/nologin \
     -c "HHVM" %{hhvm_user}
 exit 0
 
@@ -191,7 +190,7 @@ exit 0
 %files
 %defattr(-,hhvm,hhvm,-)
 %dir /run/%{name}/
-%dir %{_var}/%{name}
+%dir %{hhvm_home}
 %dir %{_var}/log/%{name}
 
 %defattr(-,root,root,-)
