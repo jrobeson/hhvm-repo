@@ -208,9 +208,9 @@ exit 0
 
 %files devel
 %defattr(-,root,root,-)
-%{_prefix}/lib64/hhvm/hphpize/*
-%{_prefix}/lib64/hhvm/CMake/*.cmake
-%{_prefix}/include/hphp/*
+%{_libdir}/hhvm/hphpize/*
+%{_libdir}/hhvm/CMake/*.cmake
+%{_includedir}/hphp/*
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
 
