@@ -64,16 +64,17 @@ BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 BuildRequires:    json-c-devel, double-conversion-devel, libunwind-devel
+BuildRequires:    systemd-units
 %if 0%{?fedora}
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:    libzip-devel >= 0.11
 %endif
 
-Requires(post):   systemd
-Requires(preun):  systemd
-Requires(postun): systemd
-
 Requires:         pam, binutils, ocaml, fribidi
+Requires:         systemd-units
+Requires(post):   systemd-units
+Requires(preun):  systemd-units
+Requires(postun): systemd-units
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
