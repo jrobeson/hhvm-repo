@@ -176,6 +176,7 @@ exit 0
 %post
 %systemd_post hhvm.service
 
+%preun
 %systemd_preun hhvm.service
 
 %postun
