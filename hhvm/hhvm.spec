@@ -6,8 +6,6 @@
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
 #TODO: package vim-hack
-#TODO: pull out emacs plugin when it exists separately
-#TODO: service file for hhvm-server
 #TODO: tweak hhvm.service
 %define           hhvm_home %{_var}/lib/hhvm
 %define           hhvm_group hhvm
@@ -19,7 +17,7 @@
 
 Name:             hhvm
 Version:          3.4.2
-Release:          14%{?dist}
+Release:          15%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -146,15 +144,6 @@ mkdir -p %{buildroot}%{_mandir}/man1
 install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
 install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
-mkdir -p %{buildroot}%{_datadir}/hhvm
-
-# satisfy rmplint
-# https://github.com/facebook/hhvm/pull/4589
-chmod 644 hphp/hack/editor-plugins/emacs/hack-for-hiphop.el
-
-# TODO: maybe find some way to use /bin/install again?
-cp -a  --preserve=timestamps hphp/hack/editor-plugins/ %{buildroot}%{_datadir}/hhvm/
-
 # licenses
 mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
 
@@ -208,7 +197,6 @@ exit 0
 %{_bindir}/hh_client
 %{_bindir}/hh_server
 %{_bindir}/hhvm
-%{_datadir}/hhvm/editor-plugins/*
 %{_mandir}/man1/hackificator.1.*
 %{_mandir}/man1/hack_remove_soft_types.1.*
 %{_mandir}/man1/hh_client.1.*
