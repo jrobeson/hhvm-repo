@@ -44,6 +44,9 @@ Patch6:           detect-fastlz-on-build.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
 Patch7:           remove-false-positive-array-dtor-test.patch
+# already applied upstream: https://github.com/facebook/hhvm/commit/57e0e583f7fca06092eb64d9f70a0e2226708563
+Patch8:           3.5.x-fix-mysql-cmake-finder-reporting.patch
+
 # chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
 BuildRequires:    chrpath
@@ -101,6 +104,7 @@ popd
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 cmake \
