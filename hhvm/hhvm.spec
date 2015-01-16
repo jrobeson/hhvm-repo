@@ -44,6 +44,9 @@ Patch6:           detect-fastlz-on-build.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
 Patch7:           remove-false-positive-array-dtor-test.patch
+# chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
+# chrpath gets applied during make/make install
+BuildRequires:    chrpath
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
