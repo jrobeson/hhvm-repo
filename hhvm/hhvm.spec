@@ -10,6 +10,9 @@
 #TODO: switch to unix domain sockets by default
 #TODO: make apache subpackage work on older versions
 #TODO: see which Requires: are still valid
+#TODO: install more documentation
+#TODO: provide hhvm extension directory management as own package
+#TODO: logrotate
 %global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
