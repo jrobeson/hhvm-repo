@@ -27,8 +27,8 @@
 %endif
 
 Name:             hhvm
-Version:          3.4.2
-Release:          17%{?dist}
+Version:          3.5.0
+Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -44,25 +44,11 @@ Source5:          hhvm-nginx.sysconfig
 Source6:          nginx-hhvm.conf
 Source7:          nginx-hhvm-location.conf
 Source8:          apache-hhvm.conf
-# already applied upstream: https://github.com/facebook/hhvm/commit/3918a2ccceb98230ff517601ad60aa6bee36e2c4
-Patch0:           3.4.x-replace-max-macro-with-std-max.patch
-# already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
-Patch1:           3.4.x-use-system-libzip-and-pcre.patch
-# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/b0a89634b2abd9c4f96b0ebe01c58a9e8ed65464
-Patch2:           3.4.x-use-more-system-libs.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/b4ecc5de9675c692e76ec210a0618821190c3230
-Patch3:           3.4.x-fix-debug-build-with-sqlite-3.8.x.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/677fd774d259ece5a8bb1a5f58ac0d6ee1473a0f
-Patch4:           3.4.x-remove-sqlite-version-restriction.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/80cef006740e9f55b55728177d9ab6beb3a53ef9
-Patch5:           3.4.x-add-fastlz-finder.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/f92ad3689b8a02ffa4fb4ef2388bedc5bcd98a2f
-Patch6:           detect-fastlz-on-build.patch
+# already applied upstream: https://github.com/facebook/hhvm/commit/57e0e583f7fca06092eb64d9f70a0e2226708563
+Patch1:           3.5.x-fix-mysql-cmake-finder-reporting.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
-Patch7:           remove-false-positive-array-dtor-test.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/57e0e583f7fca06092eb64d9f70a0e2226708563
-Patch8:           3.5.x-fix-mysql-cmake-finder-reporting.patch
+Patch2:           remove-false-positive-array-dtor-test.patch
 
 # chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
@@ -151,17 +137,8 @@ Nginx configuration for HHVM
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch0 -p1
-pushd third-party
 %patch1 -p1
 %patch2 -p1
-popd
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 %build
 cmake \
@@ -219,10 +196,9 @@ mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
 install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
 install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
 install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl
-# TODO: copy proxygen license when we 3.5.0 is released
+install -p -D -m 0644 third-party/proxygen/src/LICENSE %{buildroot}%{_licensedir}/hhvm/proxygen
 install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
-# TODO: use the php license from timelib directly, when we bump to 3.5.0
-install -p -D -m 0644 LICENSE.PHP %{buildroot}%{_licensedir}/hhvm/timelib
+install -p -D -m 0644 third-party/timelib/LICENSE %{buildroot}%{_licensedir}/hhvm/timelib
 %if 0%{?rhel}
 install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
 %endif
