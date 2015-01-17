@@ -6,18 +6,26 @@
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
 #TODO: package vim-hack
-#TODO: tweak hhvm.service
-%define           hhvm_home %{_var}/lib/hhvm
-%define           hhvm_group hhvm
-%define           hhvm_user hhvm
+#TODO: make  hhvm.service the best it can be
+#TODO: switch to unix domain sockets by default
+#TODO: make apache subpackage work on older versions
+#TODO: see which Requires: are still valid
 %global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
+%{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
+# httpd 2.4.10 with httpd-filesystem and sethandler support
+%if 0%{?fedora} >= 21
+%global with_httpd2410 1
+%else
+%global with_httpd2410 0
+%endif
+
 Name:             hhvm
 Version:          3.4.2
-Release:          15%{?dist}
+Release:          17%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -27,7 +35,12 @@ URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
 Source2:          hhvm.service
-Source3:          %{name}-tmpfiles.conf
+Source3:          hhvm-tmpfiles.conf
+Source4:          hhvm-apache.sysconfig
+Source5:          hhvm-nginx.sysconfig
+Source6:          nginx-hhvm.conf
+Source7:          nginx-hhvm-location.conf
+Source8:          apache-hhvm.conf
 # already applied upstream: https://github.com/facebook/hhvm/commit/3918a2ccceb98230ff517601ad60aa6bee36e2c4
 Patch0:           3.4.x-replace-max-macro-with-std-max.patch
 # already applied upstream: https://github.com/hhvm/hhvm-third-party/pull/39
@@ -64,23 +77,36 @@ BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
 BuildRequires:    json-c-devel, double-conversion-devel, libunwind-devel
-BuildRequires:    systemd-units
 %if 0%{?fedora}
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:    libzip-devel >= 0.11
 %endif
 
 Requires:         pam, binutils, ocaml, fribidi
-Requires:         systemd-units
-Requires(post):   systemd-units
-Requires(preun):  systemd-units
-Requires(postun): systemd-units
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
 programs written in PHP.
 HHVM uses a just-in-time compilation approach to achieve superior performance
 while maintaining the flexibility that PHP developers are accustomed to.
+
+%package          apache
+Summary:          Apache Configuration for HHVM
+# TODO: pick the right group for apache subpackage
+Group:            Development/Languages
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         %{name}-fastcgi%{?_isa} = %{version}-%{release}
+Conflicts:        %{name}-nginx%{?_isa}
+%if %{with_httpd2410}
+BuildRequires: httpd-filesystem
+Requires:      httpd-filesystem
+%else
+BuildRequires: httpd
+Requires:      httpd
+%endif
+
+%description apache
+Apache configuration for HHVM
 
 %package          devel
 Summary:          Library links and header files for HHVM development
@@ -92,6 +118,32 @@ Provides:         hhvm-devel = %{version}-%{release}
 %description devel
 hhvm-devel contains the library links and header files you'll
 need to build and develop HHVM extensions.
+
+%package          fastcgi
+Summary:          FastCGI meta package for HHVM
+# TODO: use the right group for fastcgi subpackage
+Group:            Development/Libraries
+BuildRequires:    systemd
+Requires:         %{name}%{?_isa} = %{version}-%{release}
+Requires:         systemd
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
+
+%description fastcgi
+FastCGI meta package for HHVM
+
+%package          nginx
+Summary:          Nginx Configuration for HHVM
+# TODO: use the right group for nginx subpackage
+Group:            Development/Languages
+Requires:         %{name}-fastcgi%{?_isa} = %{version}-%{release}
+Conflicts:        %{name}-apache%{?_isa}
+BuildRequires:    nginx-filesystem
+Requires:         nginx-filesystem
+
+%description nginx
+Nginx configuration for HHVM
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -127,19 +179,32 @@ rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
 mkdir -p %{buildroot}%{_tmpfilesdir}
-install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/%{name}.conf
+install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/%{name}/
 
-mkdir -p %{buildroot}%{_var}/log/%{name}
-mkdir -p %{buildroot}%{_var}/%{name}
+mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
+
+mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 
 
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
+install -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-apache
+install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-nginx
 
+# nginx
+install -D -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
+install -D -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
+
+# apache
+%if %{with_httpd2410}
+install -D -m 644 %{SOURCE8} %{buildroot}%{_httpd_confdir}/hhvm.conf
+%endif
+
+# man pages
 mkdir -p %{buildroot}%{_mandir}/man1
 
 install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
@@ -166,31 +231,17 @@ hphp/hhvm/hhvm hphp/test/run -m interp quick
 %clean
 rm -rf %{buildroot}
 
-%pre
-getent group %{hhvm_group} >/dev/null || groupadd -r %{hhvm_group}
-getent passwd %{hhvm_user} >/dev/null || \
-    useradd -r -g %{hhvm_group} -d %{hhvm_home} -s /sbin/nologin \
-    -c "HHVM" %{hhvm_user}
-exit 0
-
-%post
+%post fastcgi
 %systemd_post hhvm.service
 
-%preun
+%preun fastcgi
 %systemd_preun hhvm.service
 
-%postun
+%postun fastcgi
 %systemd_postun hhvm.service
 
 %files
-%defattr(-,hhvm,hhvm,-)
-%dir /run/%{name}/
-%dir %{hhvm_home}
-%dir %{_var}/log/%{name}
-
 %defattr(-,root,root,-)
-%{_tmpfilesdir}/%{name}.conf
-%{_unitdir}/hhvm.service
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
 
@@ -208,6 +259,13 @@ exit 0
 %license LICENSE.PHP LICENSE.ZEND
 %license %{_licensedir}/hhvm/*
 
+%files apache
+%attr(0770,root,apache) %dir %{_sharedstatedir}/hhvm
+%attr(0770,apache,root) %dir %{_localstatedir}/log/hhvm
+%config(noreplace) %{_sysconfdir}/sysconfig/hhvm-apache
+%if %{with_httpd2410}
+%config(noreplace) %{_httpd_confdir}/hhvm.conf
+%endif
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/hhvm/hphpize/*
@@ -215,6 +273,19 @@ exit 0
 %{_includedir}/hphp/*
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
+
+%files fastcgi
+%defattr(-,root,root,-)
+%dir /run/hhvm/
+%{_tmpfilesdir}/hhvm.conf
+%{_unitdir}/hhvm.service
+
+%files nginx
+%attr(0770,root,nginx) %dir %{_sharedstatedir}/hhvm
+%attr(0770,nginx,root) %dir %{_localstatedir}/log/hhvm
+%config(noreplace) %{_sysconfdir}/nginx/conf.d/hhvm.conf
+%config(noreplace) %{_sysconfdir}/nginx/default.d/hhvm.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/hhvm-nginx
 
 %changelog
 * Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
