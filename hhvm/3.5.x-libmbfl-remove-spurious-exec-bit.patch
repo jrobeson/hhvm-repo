@@ -1,0 +1,43 @@
+From fad41afc544fab045745ea8ba06b546eb31ebec8 Mon Sep 17 00:00:00 2001
+From: Johnny Robeson <johnny@localmomentum.net>
+Date: Sat, 17 Jan 2015 22:51:26 -0500
+Subject: [PATCH] Remove +x from *.[ch] files in libmbfl
+
+---
+ libmbfl/filters/mbfilter_armscii8.c      | 0
+ libmbfl/filters/mbfilter_armscii8.h      | 0
+ libmbfl/filters/mbfilter_iso8859_16.c    | 0
+ libmbfl/filters/mbfilter_iso8859_16.h    | 0
+ libmbfl/filters/unicode_table_armscii8.h | 0
+ libmbfl/nls/nls_hy.c                     | 0
+ libmbfl/nls/nls_hy.h                     | 0
+ 7 files changed, 0 insertions(+), 0 deletions(-)
+ mode change 100755 => 100644 libmbfl/filters/mbfilter_armscii8.c
+ mode change 100755 => 100644 libmbfl/filters/mbfilter_armscii8.h
+ mode change 100755 => 100644 libmbfl/filters/mbfilter_iso8859_16.c
+ mode change 100755 => 100644 libmbfl/filters/mbfilter_iso8859_16.h
+ mode change 100755 => 100644 libmbfl/filters/unicode_table_armscii8.h
+ mode change 100755 => 100644 libmbfl/nls/nls_hy.c
+ mode change 100755 => 100644 libmbfl/nls/nls_hy.h
+
+diff --git a/libmbfl/filters/mbfilter_armscii8.c b/libmbfl/filters/mbfilter_armscii8.c
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/filters/mbfilter_armscii8.h b/libmbfl/filters/mbfilter_armscii8.h
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/filters/mbfilter_iso8859_16.c b/libmbfl/filters/mbfilter_iso8859_16.c
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/filters/mbfilter_iso8859_16.h b/libmbfl/filters/mbfilter_iso8859_16.h
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/filters/unicode_table_armscii8.h b/libmbfl/filters/unicode_table_armscii8.h
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/nls/nls_hy.c b/libmbfl/nls/nls_hy.c
+old mode 100755
+new mode 100644
+diff --git a/libmbfl/nls/nls_hy.h b/libmbfl/nls/nls_hy.h
+old mode 100755
+new mode 100644

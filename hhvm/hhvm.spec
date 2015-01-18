@@ -28,7 +28,7 @@
 
 Name:             hhvm
 Version:          3.5.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -49,6 +49,10 @@ Patch1:           3.5.x-fix-mysql-cmake-finder-reporting.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
 Patch2:           remove-false-positive-array-dtor-test.patch
+# not yet accepted upstream: https://github.com/facebook/hhvm/pull/4667
+Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
+# not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/53
+Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
 
 # chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
@@ -139,6 +143,10 @@ Nginx configuration for HHVM
 
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
+pushd third-party
+%patch4 -p1
+popd
 
 %build
 cmake \
