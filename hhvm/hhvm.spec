@@ -53,6 +53,7 @@ Patch2:           remove-false-positive-array-dtor-test.patch
 Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
 # not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/53
 Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
+Patch5:           use-system-tzinfo.patch
 
 # chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
@@ -144,6 +145,7 @@ Nginx configuration for HHVM
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch5 -p1
 pushd third-party
 %patch4 -p1
 popd
