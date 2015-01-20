@@ -16,7 +16,6 @@
 %global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
-%global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
 # httpd 2.4.10 with httpd-filesystem and sethandler support
