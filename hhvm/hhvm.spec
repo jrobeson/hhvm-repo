@@ -184,16 +184,16 @@ mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
-install -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-apache
-install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-nginx
 
 # nginx
-install -D -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
-install -D -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
+install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-nginx
+install -p -D -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
+install -p -D -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
 
 # apache
+install -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-apache
 %if %{with_httpd2410}
-install -D -m 644 %{SOURCE8} %{buildroot}%{_httpd_confdir}/hhvm.conf
+install -p -D -m 644 %{SOURCE8} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
 
 # man pages
