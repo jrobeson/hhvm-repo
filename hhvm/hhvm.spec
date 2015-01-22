@@ -232,7 +232,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
-
 #%{_bindir}/hack_remove_soft_types
 #%{_bindir}/hackificator
 %{_bindir}/hh_client
@@ -254,6 +253,7 @@ rm -rf %{buildroot}
 %if %{with_httpd2410}
 %config(noreplace) %{_httpd_confdir}/hhvm.conf
 %endif
+
 %files devel
 %defattr(-,root,root,-)
 %{_libdir}/hhvm/hphpize/*
