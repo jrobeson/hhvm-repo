@@ -57,7 +57,7 @@ Patch5:           use-system-tzinfo.patch
 
 # TODO: chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
-BuildRequires:    chrpath
+BuildRequires:    chrpath, flex, bison
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
@@ -159,6 +159,9 @@ cmake \
     -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \
     -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \
     .
+
+./hphp/parser/make-lexer.sh
+./hphp/parser/make-parser.sh
 
 make %{?_smp_mflags}
 
