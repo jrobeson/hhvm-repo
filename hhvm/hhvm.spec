@@ -149,14 +149,9 @@ pushd third-party
 popd
 
 %build
-cmake \
+%cmake \
     -DUSE_JSONC=ON \
     -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
-    -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
-    -DINCLUDE_INSTALL_DIR:PATH=%{_includedir} \
-    -DLIB_INSTALL_DIR:PATH=%{_libdir} \
-    -DSYSCONF_INSTALL_DIR:PATH=%{_sysconfdir} \
-    -DSHARE_INSTALL_PREFIX:PATH=%{_datadir} \
     .
 
 ./hphp/parser/make-lexer.sh
