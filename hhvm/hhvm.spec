@@ -275,7 +275,7 @@ rm -rf %{buildroot}
 
 %files fastcgi
 %defattr(-,root,root,-)
-%dir /run/hhvm/
+%ghost %dir /run/hhvm/
 %{_tmpfilesdir}/hhvm.conf
 %{_unitdir}/hhvm.service
 
