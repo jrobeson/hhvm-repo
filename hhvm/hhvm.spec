@@ -1,7 +1,7 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: create debug package
 #TODO: add aarch64 support
-#TODO: make sure hardened build is actually hardened
+#TODO: enable hardened builds
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
@@ -14,7 +14,6 @@
 #TODO: provide hhvm extension directory management as own package
 #TODO: logrotate
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
-%global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
 
