@@ -13,6 +13,7 @@
 #TODO: install more documentation
 #TODO: provide hhvm extension directory management as own package
 #TODO: logrotate
+#TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
 %global           _hardened_build 1
 %global           _enable_debug_package 0
 %global           debug_package %{nil}
