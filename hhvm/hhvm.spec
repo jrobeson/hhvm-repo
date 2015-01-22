@@ -265,7 +265,9 @@ rm -rf %{buildroot}
 
 %files devel
 %defattr(-,root,root,-)
-%{_libdir}/hhvm/hphpize/*
+#TODO: temp exclude until we know the name of the test runner
+%exclude %{_libdir}/hhvm/hphpize/run
+%{_libdir}/hhvm/hphpize/*.cmake
 %{_libdir}/hhvm/CMake/*.cmake
 %{_includedir}/hphp/*
 %{_bindir}/hphpize
