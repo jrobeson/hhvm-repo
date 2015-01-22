@@ -1,0 +1,26 @@
+diff --git a/CMake/HPHPFunctions.cmake b/CMake/HPHPFunctions.cmake
+index 957b2a3..839cbf3 100644
+--- a/CMake/HPHPFunctions.cmake
++++ b/CMake/HPHPFunctions.cmake
+@@ -109,7 +109,7 @@ function(append_systemlib TARGET SOURCE SECTNAME)
+     if (APPLE)
+       set(${TARGET}_SLIBS ${${TARGET}_SLIBS} -Wl,-sectcreate,__text,${SECTNAME},${SOURCE} PARENT_SCOPE)
+     else()
+-      set(${TARGET}_SLIBS ${${TARGET}_SLIBS} "--add-section" "${SECTNAME}=${SOURCE}" PARENT_SCOPE)
++      set(${TARGET}_SLIBS ${${TARGET}_SLIBS} "--add-section" "${SECTNAME}=${SOURCE}" "--set-section-flags" "${SECTNAME}=alloc" PARENT_SCOPE)
+     endif()
+     # Add the systemlib file to the "LINK_DEPENDS" for the systemlib, this will cause it
+     # to be relinked and the systemlib re-embedded
+diff --git a/hphp/hack/src/Makefile b/hphp/hack/src/Makefile
+index e948bcf..4833694 100644
+--- a/hphp/hack/src/Makefile
++++ b/hphp/hack/src/Makefile
+@@ -118,7 +118,7 @@ build-hhi-archive:
+ copy-hack-files: build-hack
+ 	mkdir -p ../bin
+ ifeq ($(OS), Linux)
+-	objcopy --add-section hhi=../bin/hhi.tar.gz _build/hh_server.native ../bin/hh_server
++	objcopy --add-section hhi=../bin/hhi.tar.gz --set-section-flags hhi=alloc _build/hh_server.native ../bin/hh_server
+ else
+ 	cp _build/hh_server.native ../bin/hh_server
+ endif

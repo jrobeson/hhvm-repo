@@ -1,5 +1,4 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
-#TODO: create debug package
 #TODO: add aarch64 support
 #TODO: enable hardened builds
 #TODO: snapshot builds
@@ -14,9 +13,6 @@
 #TODO: provide hhvm extension directory management as own package
 #TODO: logrotate
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
-%global           _enable_debug_package 0
-%global           debug_package %{nil}
-
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
 # httpd 2.4.10 with httpd-filesystem and sethandler support
 %if 0%{?fedora} >= 21
@@ -27,7 +23,7 @@
 
 Name:             hhvm
 Version:          3.5.0
-Release:          3%{?dist}
+Release:          4%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -54,6 +50,10 @@ Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
 Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
 # upstream won't apply this unless php does also
 Patch5:           use-system-tzinfo.patch
+# TODO: work with upstream to get this fixed properly
+# this fixes debug builds by forcing section flags to alloc, so eu-strip won't
+# eat hhvm's systemlib
+Patch6:           force-objcopy-alloc-for-systemlib.patch
 
 BuildRequires:    flex, bison
 BuildRequires:    cmake, libevent-devel
@@ -144,6 +144,7 @@ Nginx configuration for HHVM
 %patch2 -p1
 %patch3 -p1
 %patch5 -p1
+%patch6 -p1
 pushd third-party
 %patch4 -p1
 popd
@@ -160,7 +161,6 @@ popd
 make %{?_smp_mflags}
 
 %install
-export DONT_STRIP=1
 rm -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
