@@ -216,6 +216,12 @@ install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm
 %endif
 
 %check
+# TODO: remove this temporary test when we can be sure that eu-strip in
+# /var/lib/rpm/find-debuginfo.sh won't eat required elf sections.
+# hThis would be indicated by "Failed to find/load systemlib.php".
+# Without this, we may end up with successfully built rpm, but a broken hhvm
+# excutable.
+%{buildroot}/usr/bin/hhvm --php -r 'exit(0);'
 hphp/hhvm/hhvm hphp/test/run -m jit quick
 hphp/hhvm/hhvm hphp/test/run -m interp quick
 
