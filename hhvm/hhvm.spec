@@ -68,7 +68,7 @@ BuildRequires:    lz4-devel, fastlz-devel, fribidi-devel, libyaml-devel
 BuildRequires:    boost-devel, libmemcached-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
-BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml
+BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml, ocaml-findlib
 BuildRequires:    json-c-devel, double-conversion-devel, libunwind-devel
 %if 0%{?fedora}
 # libzip in EL 6-7 is too old, must use the bundled version
