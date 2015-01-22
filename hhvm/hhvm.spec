@@ -48,13 +48,14 @@ Patch1:           3.5.x-fix-mysql-cmake-finder-reporting.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
 Patch2:           remove-false-positive-array-dtor-test.patch
-# not yet accepted upstream: https://github.com/facebook/hhvm/pull/4667
+# already applied upstream: https://github.com/facebook/hhvm/commit/34d7dc83026afb08dad1b5ad1488331866f53534
 Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
-# not yet accepted upstream: https://github.com/hhvm/hhvm-third-party/pull/53
+# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/fad41afc544fab045745ea8ba06b546eb31ebec8
 Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
+# upstream won't apply this unless php does also
 Patch5:           use-system-tzinfo.patch
 
-# chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
+# TODO: chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
 # chrpath gets applied during make/make install
 BuildRequires:    chrpath
 BuildRequires:    cmake, libevent-devel
@@ -176,7 +177,6 @@ install -d -m 0755 %{buildroot}/run/%{name}/
 mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
 
 mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
-
 
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
