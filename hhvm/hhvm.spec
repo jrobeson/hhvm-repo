@@ -56,9 +56,7 @@ Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
 # upstream won't apply this unless php does also
 Patch5:           use-system-tzinfo.patch
 
-# TODO: chrpath is needed until this issue is solved: https://github.com/facebook/hhvm/issues/4654
-# chrpath gets applied during make/make install
-BuildRequires:    chrpath, flex, bison
+BuildRequires:    flex, bison
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
@@ -154,6 +152,7 @@ popd
 %build
 cmake \
     -DUSE_JSONC=ON \
+    -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
     -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} \
     -DINCLUDE_INSTALL_DIR:PATH=%{_includedir} \
     -DLIB_INSTALL_DIR:PATH=%{_libdir} \
