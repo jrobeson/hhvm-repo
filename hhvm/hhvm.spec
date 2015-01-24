@@ -84,7 +84,6 @@ while maintaining the flexibility that PHP developers are accustomed to.
 
 %package          apache
 Summary:          Apache Configuration for HHVM
-# TODO: pick the right group for apache subpackage
 Group:            Development/Languages
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         %{name}-fastcgi%{?_isa} = %{version}-%{release}
@@ -113,8 +112,7 @@ need to build and develop HHVM extensions.
 
 %package          fastcgi
 Summary:          FastCGI meta package for HHVM
-# TODO: use the right group for fastcgi subpackage
-Group:            Development/Libraries
+Group:            Development/Languages
 BuildRequires:    systemd
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         systemd
@@ -127,7 +125,6 @@ FastCGI meta package for HHVM
 
 %package          nginx
 Summary:          Nginx Configuration for HHVM
-# TODO: use the right group for nginx subpackage
 Group:            Development/Languages
 Requires:         %{name}-fastcgi%{?_isa} = %{version}-%{release}
 Conflicts:        %{name}-apache%{?_isa}
