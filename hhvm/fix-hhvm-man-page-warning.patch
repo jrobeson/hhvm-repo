@@ -1,0 +1,15 @@
+diff --git a/hphp/doc/man/hhvm.1 b/hphp/doc/man/hhvm.1
+index c8d9ff3..5d52a4c 100644
+--- a/hphp/doc/man/hhvm.1
++++ b/hphp/doc/man/hhvm.1
+@@ -106,8 +106,8 @@ Unique identifier to compiled server code.
+ .TP
+ .B \-c ", " \-\-config " FILE"
+ Load specified config (.hdf or .ini)
+-.I FILE
+-. Use multiple
++.IR FILE .
++Use multiple
+ .B \-c
+ to specify multiple config files.
+ 

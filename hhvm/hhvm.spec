@@ -54,6 +54,8 @@ Patch5:           use-system-tzinfo.patch
 # this fixes debug builds by forcing section flags to alloc, so eu-strip won't
 # eat hhvm's systemlib
 Patch6:           force-objcopy-alloc-for-systemlib.patch
+# waiting for official fix from upstream https://github.com/facebook/hhvm/issues/4689
+Patch7:           fix-hhvm-man-page-warning.patch
 
 BuildRequires:    flex, bison
 BuildRequires:    cmake, libevent-devel
@@ -142,6 +144,7 @@ Nginx configuration for HHVM
 %patch3 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 pushd third-party
 %patch4 -p1
 popd
