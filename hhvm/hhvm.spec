@@ -1,6 +1,5 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: add aarch64 support
-#TODO: enable hardened builds
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
@@ -13,6 +12,7 @@
 #TODO: provide hhvm extension directory management as own package
 #TODO: logrotate
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
+%global _hardened_build 1
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
 # httpd 2.4.10 with httpd-filesystem and sethandler support
 %if 0%{?fedora} >= 21
@@ -23,7 +23,7 @@
 
 Name:             hhvm
 Version:          3.5.0
-Release:          4%{?dist}
+Release:          5%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -150,6 +150,10 @@ pushd third-party
 popd
 
 %build
+# Fixes https://github.com/facebook/hhvm/issues/4705
+LDFLAGS="$LDFLAGS -Wl,--as-needed"
+export LDFLAGS
+
 %cmake \
     -DUSE_JSONC=ON \
     -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
