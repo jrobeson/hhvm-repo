@@ -12,6 +12,7 @@
 #TODO: install more documentation
 #TODO: provide hhvm extension directory management as own package
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
+#TODO: add various php provides
 %global _hardened_build 1
 %global debug_package %{nil}
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
