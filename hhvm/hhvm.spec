@@ -78,8 +78,6 @@ BuildRequires:    json-c-devel, double-conversion-devel, libunwind-devel
 BuildRequires:    libzip-devel >= 0.11
 %endif
 
-Requires:         pam, ocaml, fribidi
-
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
 programs written in PHP.
