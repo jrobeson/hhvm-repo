@@ -61,6 +61,8 @@ Patch6:           force-objcopy-alloc-for-systemlib.patch
 # waiting for official fix from upstream https://github.com/facebook/hhvm/issues/4689
 Patch7:           fix-hhvm-man-page-warning.patch
 
+# needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
+BuildRequires:    prelink
 BuildRequires:    flex, bison
 BuildRequires:    cmake, libevent-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
@@ -172,6 +174,8 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
+
+execstack -c %{buildroot}/%{_bindir}/hhvm
 
 mkdir -p %{buildroot}%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
