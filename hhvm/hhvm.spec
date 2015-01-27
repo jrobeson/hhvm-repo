@@ -8,7 +8,6 @@
 #TODO: make  hhvm.service the best it can be
 #TODO: switch to unix domain sockets by default
 #TODO: make apache subpackage work on older versions
-#TODO: see which Requires: are still valid
 #TODO: install more documentation
 #TODO: provide hhvm extension directory management as own package
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
