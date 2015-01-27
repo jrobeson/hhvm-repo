@@ -54,10 +54,6 @@ Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
 Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
 # upstream won't apply this unless php does also
 Patch5:           use-system-tzinfo.patch
-# TODO: work with upstream to get this fixed properly
-# this fixes debug builds by forcing section flags to alloc, so eu-strip won't
-# eat hhvm's systemlib
-Patch6:           force-objcopy-alloc-for-systemlib.patch
 # waiting for official fix from upstream https://github.com/facebook/hhvm/issues/4689
 Patch7:           fix-hhvm-man-page-warning.patch
 
@@ -149,7 +145,6 @@ Nginx configuration for HHVM
 %patch2 -p1
 %patch3 -p1
 %patch5 -p1
-#%patch6 -p1
 %patch7 -p1
 pushd third-party
 %patch4 -p1
