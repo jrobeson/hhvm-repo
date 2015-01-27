@@ -189,16 +189,17 @@ install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
 
 # nginx
+install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm-nginx
 install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-nginx
 install -p -D -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
 install -p -D -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
-install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
+
 # apache
+install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm-apache
 install -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-apache
 %if %{with_httpd2410}
 install -p -D -m 644 %{SOURCE8} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
-install -m 644 %{SOURCE10} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
@@ -262,7 +263,7 @@ rm -rf %{buildroot}
 %files apache
 %attr(0770,root,apache) %dir %{_sharedstatedir}/hhvm
 %attr(0770,apache,root) %dir %{_localstatedir}/log/hhvm
-%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm
+%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm-apache
 %config(noreplace) %{_sysconfdir}/sysconfig/hhvm-apache
 %if %{with_httpd2410}
 %config(noreplace) %{_httpd_confdir}/hhvm.conf
@@ -280,7 +281,6 @@ rm -rf %{buildroot}
 
 %files fastcgi
 %defattr(-,root,root,-)
-%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm
 %ghost %dir /run/hhvm/
 %{_tmpfilesdir}/hhvm.conf
 %{_unitdir}/hhvm.service
@@ -288,7 +288,7 @@ rm -rf %{buildroot}
 %files nginx
 %attr(0770,root,nginx) %dir %{_sharedstatedir}/hhvm
 %attr(0770,nginx,root) %dir %{_localstatedir}/log/hhvm
-%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm
+%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm-nginx
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/hhvm.conf
 %config(noreplace) %{_sysconfdir}/nginx/default.d/hhvm.conf
 %config(noreplace) %{_sysconfdir}/sysconfig/hhvm-nginx
