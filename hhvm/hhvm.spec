@@ -55,6 +55,8 @@ Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
 Patch5:           use-system-tzinfo.patch
 # not yet applied upstream: https://github.com/facebook/hhvm/pull/4730
 Patch6:           fix-hhvm-man-page-warning.patch
+# already applied upstream: https://github.com/facebook/hhvm/commit/f4bac3c5247bfda27bff1b376723289e3a912fbb
+Patch7:           3.5.0-install-version.h-on-make-install.patch
 
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
 BuildRequires:    prelink
@@ -143,6 +145,7 @@ Nginx configuration for HHVM
 %patch3 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 pushd third-party
 %patch4 -p1
 popd
