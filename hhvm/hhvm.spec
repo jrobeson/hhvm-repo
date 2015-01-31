@@ -159,7 +159,7 @@ LDFLAGS="$LDFLAGS -Wl,--as-needed"
 export LDFLAGS
 
 %cmake \
-    -DUSE_JSONC=ON \
+    -DUSE_JSONC:BOOL=ON \
     -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
     .
 
