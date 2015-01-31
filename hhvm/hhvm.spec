@@ -8,7 +8,6 @@
 #TODO: switch to unix domain sockets by default
 #TODO: make apache subpackage work on older versions
 #TODO: install more documentation
-#TODO: provide hhvm extension directory management as own package
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
 #TODO: add various php provides
 %global _hardened_build 1
@@ -21,6 +20,8 @@
 %else
 %global with_httpd2410 0
 %endif
+
+%define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
 Version:          3.5.0
@@ -175,6 +176,8 @@ make install DESTDIR=%{buildroot}
 
 execstack -c %{buildroot}%{_bindir}/hhvm
 
+mkdir -p %{buildroot}%{hhvm_extensiondir}
+
 mkdir -p %{buildroot}%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
@@ -248,6 +251,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %dir %{_sysconfdir}/hhvm
+%dir %{hhvm_extensiondir}
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
 #%{_bindir}/hack_remove_soft_types
 #%{_bindir}/hackificator
