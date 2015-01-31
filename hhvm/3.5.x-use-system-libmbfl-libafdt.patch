@@ -1,0 +1,41 @@
+From d1cf7d728ac0e0a761c6287fcd24d4c660b7df4f Mon Sep 17 00:00:00 2001
+From: Johnny Robeson <johnny@localmomentum.net>
+Date: Wed, 28 Jan 2015 19:21:07 -0500
+Subject: [PATCH] Do not build libafdt and libmbfl if we have it
+
+If we already have these two on the system, there is no need to
+build them.
+---
+ CMakeLists.txt | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1d51b98..0dd5262 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -24,8 +24,6 @@ set(THIRD_PARTY_MODULES)
+ set(THIRD_PARTY_HEADERS)
+ 
+ list(APPEND THIRD_PARTY_MODULES
+-  libafdt
+-  libmbfl
+   timelib
+   folly)
+ if(ENABLE_FASTCGI)
+@@ -33,6 +31,16 @@ if(ENABLE_FASTCGI)
+   list(APPEND THIRD_PARTY_MODULES thrift)
+ endif()
+ 
++# Add bundled libafdt if the system one will not be used
++if(NOT LIBAFDT_LIBRARY)
++  list(APPEND THIRD_PARTY_MODULES libafdt)
++endif()
++
++# Add bundled libmbfl if the system one will not be used
++if(NOT LIBMBFL_LIBRARY)
++  list(APPEND THIRD_PARTY_MODULES libmbfl)
++endif()
++
+ # Add bundled fastlz if the system one will not be used
+ if(NOT FASTLZ_LIBRARY)
+   list(APPEND THIRD_PARTY_MODULES fastlz)
