@@ -57,6 +57,8 @@ Patch5:           use-system-tzinfo.patch
 Patch6:           fix-hhvm-man-page-warning.patch
 # already applied upstream: https://github.com/facebook/hhvm/commit/f4bac3c5247bfda27bff1b376723289e3a912fbb
 Patch7:           3.5.0-install-version.h-on-make-install.patch
+# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/d1cf7d728ac0e0a761c6287fcd24d4c660b7df4f
+Patch8:           3.5.x-use-system-libmbfl-libafdt.patch
 
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
 BuildRequires:    prelink
@@ -148,6 +150,7 @@ Nginx configuration for HHVM
 %patch7 -p1
 pushd third-party
 %patch4 -p1
+%patch8 -p1
 popd
 
 %build
