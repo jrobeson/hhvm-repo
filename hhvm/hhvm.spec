@@ -173,7 +173,7 @@ rm -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
 
-execstack -c %{buildroot}/%{_bindir}/hhvm
+execstack -c %{buildroot}%{_bindir}/hhvm
 
 mkdir -p %{buildroot}%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
