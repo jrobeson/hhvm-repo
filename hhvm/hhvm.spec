@@ -1,4 +1,3 @@
-#TODO: reenable debug builds
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
 #TODO: add aarch64 support
 #TODO: snapshot builds
@@ -13,6 +12,7 @@
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
 #TODO: add various php provides
 %global _hardened_build 1
+#TODO: reenable debug builds https://bugzilla.redhat.com/show_bug.cgi?id=1186563
 %global debug_package %{nil}
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
 # httpd 2.4.10 with httpd-filesystem and sethandler support
