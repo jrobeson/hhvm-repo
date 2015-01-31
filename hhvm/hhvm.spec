@@ -9,7 +9,7 @@
 #TODO: make apache subpackage work on older versions
 #TODO: install more documentation
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
-#TODO: add various php provides
+#TODO: find a way to get PEAR to work with hhvm, so we can provide php-common too.
 %global _hardened_build 1
 #TODO: reenable debug builds https://bugzilla.redhat.com/show_bug.cgi?id=1186563
 %global debug_package %{nil}
@@ -21,6 +21,10 @@
 %global with_httpd2410 0
 %endif
 
+#TODO: check to make sure hhvm/php API and php_version are bumped if changed upstream
+%define php_api_version 20121113
+%define hhvm_api_version 20150112
+%define php_version 5.6.0
 %define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
@@ -81,6 +85,98 @@ BuildRequires:    json-c-devel, double-conversion-devel, libunwind-devel
 # libzip in EL 6-7 is too old, must use the bundled version
 BuildRequires:    libzip-devel >= 0.11
 %endif
+
+# HHVM specific provides
+Provides:         hhvm(api) = %{hhvm_api_version}
+Provides:         hhvm(array_tracer), hhvm(array_tracer)%{?_isa}
+Provides:         hhvm(asio), hhvm(asio)%{?_isa}
+Provides:         hhvm(enum), hhvm(enum)%{?_isa}
+Provides:         hhvm(fb), hhvm(fb)%{?_isa}
+Provides:         hvvm(hh), hhvm(hh)%{?_isa}
+Provides:         hhvm(hhvm.debugger), hhvm(hhvm.debugger)%{?_isa}
+Provides:         hhvm(hhvm.ini), hhvm(hhvm.ini)%{?_isa}
+Provides:         hhvm(hotprofiler), hhvm(hotprofiler)%{?_isa}
+Provides:         hhvm(objprof), hhvm(objprof)%{?_isa}
+Provides:         hhvm(server), hhvm(server)%{?_isa}
+Provides:         hhvm(xenon), hhvm(xenon)%{?_isa}
+
+# PHP global provides
+Provides:         php(language) = %{php_version}, php(language)%{?_isa} = %{php_version}
+Provides:         php(api) = %{php_api_version}%{isasuffix}
+Provides:         php_database
+Provides:         php-process
+# PHP module provides
+# hhvm --php -r 'foreach (get_loaded_extensions() as $ext) echo sprintf('"'"'Provides:         php-%1$s, php-%1$s%%{?_isa}, hhvm(%1$s), hhvm(%1$s)%%{?_isa}'"'".PHP_EOL', strtolower($ext));'
+# This list will contain hhvm only modules. TODO: filter them out.
+# Provides for builtin modules (php uses php-foo over php(foo) for historical reasons)
+Provides:         php-apc, php-apc%{?_isa}, hhvm(apc), hhvm(apc)%{?_isa}
+Provides:         php-array, php-array%{?_isa}, hhvm(array), hhvm(array)%{?_isa}
+Provides:         php-bcmath, php-bcmath%{?_isa}, hhvm(bcmath), hhvm(bcmath)%{?_isa}
+Provides:         php-bz2, php-bz2%{?_isa}, hhvm(bz2), hhvm(bz2)%{?_isa}
+Provides:         php-ctype, php-ctype%{?_isa}, hhvm(ctype), hhvm(ctype)%{?_isa}
+Provides:         php-curl, php-curl%{?_isa}, hhvm(curl), hhvm(curl)%{?_isa}
+Provides:         php-date, php-date%{?_isa}, hhvm(date), hhvm(date)%{?_isa}
+Provides:         php-debugger, php-debugger%{?_isa}, hhvm(debugger), hhvm(debugger)%{?_isa}
+Provides:         php-dom, php-dom%{?_isa}, hhvm(dom), hhvm(dom)%{?_isa}
+Provides:         php-domdocument, php-domdocument%{?_isa}, hhvm(domdocument), hhvm(domdocument)%{?_isa}
+Provides:         php-exif, php-exif%{?_isa}, hhvm(exif), hhvm(exif)%{?_isa}
+Provides:         php-fileinfo, php-fileinfo%{?_isa}, hhvm(fileinfo), hhvm(fileinfo)%{?_isa}
+Provides:         php-filter, php-filter%{?_isa}, hhvm(filter), hhvm(filter)%{?_isa}
+Provides:         php-gd, php-gd%{?_isa}, hhvm(gd), hhvm(gd)%{?_isa}
+Provides:         php-gmp, php-gmp%{?_isa}, hhvm(gmp), hhvm(gmp)%{?_isa}
+Provides:         php-hash, php-hash%{?_isa}, hhvm(hash), hhvm(hash)%{?_isa}
+Provides:         php-iconv, php-iconv%{?_isa}, hhvm(iconv), hhvm(iconv)%{?_isa}
+Provides:         php-idn, php-idn%{?_isa}, hhvm(idn), hhvm(idn)%{?_isa}
+Provides:         php-imagick, php-imagick%{?_isa}, hhvm(imagick), hhvm(imagick)%{?_isa}
+Provides:         php-imap, php-imap%{?_isa}, hhvm(imap), hhvm(imap)%{?_isa}
+Provides:         php-intl, php-intl%{?_isa}, hhvm(intl), hhvm(intl)%{?_isa}
+Provides:         php-json, php-json%{?_isa}, hhvm(json), hhvm(json)%{?_isa}
+Provides:         php-ldap, php-ldap%{?_isa}, hhvm(ldap), hhvm(ldap)%{?_isa}
+Provides:         php-libxml, php-libxml%{?_isa}, hhvm(libxml), hhvm(libxml)%{?_isa}
+Provides:         php-mail, php-mail%{?_isa}, hhvm(mail), hhvm(mail)%{?_isa}
+Provides:         php-mailparse, php-mailparse%{?_isa}, hhvm(mailparse), hhvm(mailparse)%{?_isa}
+Provides:         php-mbstring, php-mbstring%{?_isa}, hhvm(mbstring), hhvm(mbstring)%{?_isa}
+Provides:         php-mcrypt, php-mcrypt%{?_isa}, hhvm(mcrypt), hhvm(mcrypt)%{?_isa}
+Provides:         php-memcache, php-memcache%{?_isa}, hhvm(memcache), hhvm(memcache)%{?_isa}
+Provides:         php-memcached, php-memcached%{?_isa}, hhvm(memcached), hhvm(memcached)%{?_isa}
+Provides:         php-mysql, php-mysql%{?_isa}, hhvm(mysql), hhvm(mysql)%{?_isa}
+Provides:         php-mysqli, php-mysqli%{?_isa}, hhvm(mysqli), hhvm(mysqli)%{?_isa}
+Provides:         php-openssl, php-openssl%{?_isa}, hhvm(openssl), hhvm(openssl)%{?_isa}
+Provides:         php-pcntl, php-pcntl%{?_isa}, hhvm(pcntl), hhvm(pcntl)%{?_isa}
+Provides:         php-pcre, php-pcre%{?_isa}, hhvm(pcre), hhvm(pcre)%{?_isa}
+Provides:         php-pdo, php-pdo%{?_isa}, hhvm(pdo), hhvm(pdo)%{?_isa}
+Provides:         php-pdo_mysql, php-pdo_mysql%{?_isa}, hhvm(pdo_mysql), hhvm(pdo_mysql)%{?_isa}
+Provides:         php-pdo_sqlite, php-pdo_sqlite%{?_isa}, hhvm(pdo_sqlite), hhvm(pdo_sqlite)%{?_isa}
+Provides:         php-phar, php-phar%{?_isa}, hhvm(phar), hhvm(phar)%{?_isa}
+Provides:         php-posix, php-posix%{?_isa}, hhvm(posix), hhvm(posix)%{?_isa}
+Provides:         php-readline, php-readline%{?_isa}, hhvm(readline), hhvm(readline)%{?_isa}
+Provides:         php-redis, php-redis%{?_isa}, hhvm(redis), hhvm(redis)%{?_isa}
+Provides:         php-reflection, php-reflection%{?_isa}, hhvm(reflection), hhvm(reflection)%{?_isa}
+Provides:         php-server, php-server%{?_isa}, hhvm(server), hhvm(server)%{?_isa}
+Provides:         php-session, php-session%{?_isa}, hhvm(session), hhvm(session)%{?_isa}
+Provides:         php-simplexml, php-simplexml%{?_isa}, hhvm(simplexml), hhvm(simplexml)%{?_isa}
+Provides:         php-soap, php-soap%{?_isa}, hhvm(soap), hhvm(soap)%{?_isa}
+Provides:         php-sockets, php-sockets%{?_isa}, hhvm(sockets), hhvm(sockets)%{?_isa}
+Provides:         php-spl, php-spl%{?_isa}, hhvm(spl), hhvm(spl)%{?_isa}
+Provides:         php-sqlite3, php-sqlite3%{?_isa}, hhvm(sqlite3), hhvm(sqlite3)%{?_isa}
+Provides:         php-standard, php-standard%{?_isa}, hhvm(standard), hhvm(standard)%{?_isa}
+Provides:         php-stream, php-stream%{?_isa}, hhvm(stream), hhvm(stream)%{?_isa}
+Provides:         php-string, php-string%{?_isa}, hhvm(string), hhvm(string)%{?_isa}
+Provides:         php-sysvmsg, php-sysvmsg%{?_isa}, hhvm(sysvmsg), hhvm(sysvmsg)%{?_isa}
+Provides:         php-sysvsem, php-sysvsem%{?_isa}, hhvm(sysvsem), hhvm(sysvsem)%{?_isa}
+Provides:         php-sysvshm, php-sysvshm%{?_isa}, hhvm(sysvshm), hhvm(sysvshm)%{?_isa}
+Provides:         php-thread, php-thread%{?_isa}, hhvm(thread), hhvm(thread)%{?_isa}
+Provides:         php-thrift_protocol, php-thrift_protocol%{?_isa}, hhvm(thrift_protocol), hhvm(thrift_protocol)%{?_isa}
+Provides:         php-tokenizer, php-tokenizer%{?_isa}, hhvm(tokenizer), hhvm(tokenizer)%{?_isa}
+Provides:         php-url, php-url%{?_isa}, hhvm(url), hhvm(url)%{?_isa}
+Provides:         php-wddx, php-wddx%{?_isa}, hhvm(wddx), hhvm(wddx)%{?_isa}
+Provides:         php-xhprof, php-xhprof%{?_isa}, hhvm(xhprof), hhvm(xhprof)%{?_isa}
+Provides:         php-xml, php-xml%{?_isa}, hhvm(xml), hhvm(xml)%{?_isa}
+Provides:         php-xmlreader, php-xmlreader%{?_isa}, hhvm(xmlreader), hhvm(xmlreader)%{?_isa}
+Provides:         php-xmlwriter, php-xmlwriter%{?_isa}, hhvm(xmlwriter), hhvm(xmlwriter)%{?_isa}
+Provides:         php-xsl, php-xsl%{?_isa}, hhvm(xsl), hhvm(xsl)%{?_isa}
+Provides:         php-zip, php-zip%{?_isa}, hhvm(zip), hhvm(zip)%{?_isa}
+Provides:         php-zlib, php-zlib%{?_isa}, hhvm(zlib), hhvm(zlib)%{?_isa}
 
 %description
 HipHop VM (HHVM) is a new open-source virtual machine designed for executing
