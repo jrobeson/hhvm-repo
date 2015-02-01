@@ -33,8 +33,7 @@ Release:          8%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
-# TODO: check on more licenses
-License:          PHP and Zend
+License:          PHP and Zend and BSD and MIT and and ASL 2.0 and LGPLv2 with exceptions
 URL:              http://hhvm.com
 Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.tar.gz
 Source1:          php.ini
@@ -312,14 +311,26 @@ install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 # licenses
 mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
 
-install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly
-install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt
-install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl
-install -p -D -m 0644 third-party/proxygen/src/LICENSE %{buildroot}%{_licensedir}/hhvm/proxygen
-install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift
-install -p -D -m 0644 third-party/timelib/LICENSE %{buildroot}%{_licensedir}/hhvm/timelib
+# bundled code licenses
+install -p -D -m 0644 hphp/runtime/ext/fileinfo/libmagic/LICENSE %{buildroot}%{_licensedir}/hhvm/libmagic_LICENSE
+install -p -D -m 0644 hphp/runtime/ext/gd/libgd/COPYING %{buildroot}%{_licensedir}/hhvm/libgd_COPYING
+install -p -D -m 0644 hphp/runtime/ext_zend_compat/oauth/LICENSE %{buildroot}%{_licensedir}/hhvm/oauth_LICENSE
+install -p -D -m 0644 hphp/neo/license.hdf %{buildroot}%{_licensedir}/hhvm/neo_LICENSE
+install -p -D -m 0644 hphp/test/frameworks/spyc/COPYING %{buildroot}%{_licensedir}/hhvm/spyc_COPYING
+install -p -D -m 0644 hphp/test/server/fastcgi/Adoy/LICENSE %{buildroot}%{_licensedir}/hhvm/adoy_LICENSE
+install -p -D -m 0644 hphp/test/slow/ext_imagick/php_imagick_tests/LICENSE %{buildroot}%{_licensedir}/hhvm/ext_imagick_LICENSE
+install -p -D -m 0644 hphp/hack/LICENSE %{buildroot}%{_licensedir}/hhvm/hack_LICENSE
+install -p -D -m 0644 hphp/hack/src/avl/LICENSE %{buildroot}%{_licensedir}/hhvm/avl_LICENSE
+install -p -D -m 0644 hphp/hack/src/inotify/LICENSE %{buildroot}%{_licensedir}/hhvm/inotify_LICENSE
+# third party separable licenses
+install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly_LICENSE
+install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt_COPYING
+install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl_LICENSE
+install -p -D -m 0644 third-party/proxygen/src/LICENSE %{buildroot}%{_licensedir}/hhvm/proxygen_LICENSE
+install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift_LICENSE
+install -p -D -m 0644 third-party/timelib/LICENSE %{buildroot}%{_licensedir}/hhvm/timelib_LICENSE
 %if 0%{?rhel}
-install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip
+install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip_LICENSE
 %endif
 
 %check
