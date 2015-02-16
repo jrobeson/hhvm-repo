@@ -1,5 +1,5 @@
 /var/log/hhvm/*log {
-    create 0644 nginx nginx
+    create 0644 hhvm hhvm
     daily
     rotate 10
     missingok

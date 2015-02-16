@@ -29,7 +29,7 @@
 
 Name:             hhvm
 Version:          3.5.0
-Release:          8%{?dist}
+Release:          9%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -39,13 +39,10 @@ Source0:          https://github.com/facebook/hhvm/archive/%{name}-%{version}.ta
 Source1:          php.ini
 Source2:          hhvm.service
 Source3:          hhvm-tmpfiles.conf
-Source4:          hhvm-apache.sysconfig
-Source5:          hhvm-nginx.sysconfig
-Source6:          nginx-hhvm.conf
-Source7:          nginx-hhvm-location.conf
-Source8:          apache-hhvm.conf
-Source9:          hhvm-nginx.logrotate
-Source10:         hhvm-apache.logrotate
+Source4:          nginx-hhvm.conf
+Source5:          nginx-hhvm-location.conf
+Source6:          apache-hhvm.conf
+Source7:          hhvm.logrotate
 # already applied upstream: https://github.com/facebook/hhvm/commit/57e0e583f7fca06092eb64d9f70a0e2226708563
 Patch1:           3.5.x-fix-mysql-cmake-finder-reporting.patch
 # not submitted upstream until confirmation of false positive test:
@@ -217,6 +214,7 @@ Group:            Development/Languages
 BuildRequires:    systemd
 Requires:         %{name}%{?_isa} = %{version}-%{release}
 Requires:         systemd
+Requires(pre):    shadow-utils
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -248,6 +246,13 @@ pushd third-party
 %patch4 -p1
 %patch8 -p1
 popd
+
+%pre fastcgi
+getent group hhvm >/dev/null || groupadd -r hhvm
+getent passwd hhvm >/dev/null || \
+    useradd -r -g hhvm -d /var/lib/hhvm -s /sbin/nologin \
+    -c "HHVM" hhvm
+exit 0
 
 %build
 # Fixes https://github.com/facebook/hhvm/issues/4705
@@ -289,17 +294,16 @@ mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
 
+
+install -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
+
 # nginx
-install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm-nginx
-install -p -D -m 0644 %{SOURCE5} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-nginx
-install -p -D -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
-install -p -D -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
+install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
+install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.conf
 
 # apache
-install -m 644 %{SOURCE9} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm-apache
-install -p -D -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/hhvm-apache
 %if %{with_httpd2410}
-install -p -D -m 644 %{SOURCE8} %{buildroot}%{_httpd_confdir}/hhvm.conf
+install -p -D -m 644 %{SOURCE6} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
 
 # man pages
@@ -375,10 +379,6 @@ rm -rf %{buildroot}
 %license %{_licensedir}/hhvm/*
 
 %files apache
-%attr(0770,root,apache) %dir %{_sharedstatedir}/hhvm
-%attr(0770,apache,root) %dir %{_localstatedir}/log/hhvm
-%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm-apache
-%config(noreplace) %{_sysconfdir}/sysconfig/hhvm-apache
 %if %{with_httpd2410}
 %config(noreplace) %{_httpd_confdir}/hhvm.conf
 %endif
@@ -396,16 +396,15 @@ rm -rf %{buildroot}
 %files fastcgi
 %defattr(-,root,root,-)
 %ghost %dir /run/hhvm/
+%attr(0770,hhvm,hhvm) %dir %{_localstatedir}/log/hhvm
+%attr(0770,hhvm,hhvm) %dir %{_sharedstatedir}/hhvm
+%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm
 %{_tmpfilesdir}/hhvm.conf
 %{_unitdir}/hhvm.service
 
 %files nginx
-%attr(0770,root,nginx) %dir %{_sharedstatedir}/hhvm
-%attr(0770,nginx,root) %dir %{_localstatedir}/log/hhvm
-%config(noreplace) %{_sysconfdir}/logrotate.d/hhvm-nginx
 %config(noreplace) %{_sysconfdir}/nginx/conf.d/hhvm.conf
 %config(noreplace) %{_sysconfdir}/nginx/default.d/hhvm.conf
-%config(noreplace) %{_sysconfdir}/sysconfig/hhvm-nginx
 
 %changelog
 * Fri Sep 19 2014 Paul Moss <no1youknowz@gmail.com> - 3.3
