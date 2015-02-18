@@ -1,5 +1,4 @@
 #TODO: package pfff (https://github.com/facebook/pfff), so we can install hackificator and hack_remove_soft_types
-#TODO: add aarch64 support
 #TODO: snapshot builds
 #TODO: filesystem or common package
 #TODO: package up test runner? - https://github.com/hhvm/packaging/issues/93
