@@ -27,8 +27,8 @@
 %define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
-Version:          3.5.0
-Release:          9%{?dist}
+Version:          3.6.0
+Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -42,23 +42,11 @@ Source4:          nginx-hhvm.conf
 Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
-# already applied upstream: https://github.com/facebook/hhvm/commit/57e0e583f7fca06092eb64d9f70a0e2226708563
-Patch1:           3.5.x-fix-mysql-cmake-finder-reporting.patch
+# upstream won't apply this unless php does also
+Patch1:           use-system-tzinfo.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
 Patch2:           remove-false-positive-array-dtor-test.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/34d7dc83026afb08dad1b5ad1488331866f53534
-Patch3:           3.5.x-update-fsf-address-in-bcmath.patch
-# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/fad41afc544fab045745ea8ba06b546eb31ebec8
-Patch4:           3.5.x-libmbfl-remove-spurious-exec-bit.patch
-# upstream won't apply this unless php does also
-Patch5:           use-system-tzinfo.patch
-# not yet applied upstream: https://github.com/facebook/hhvm/pull/4730
-Patch6:           fix-hhvm-man-page-warning.patch
-# already applied upstream: https://github.com/facebook/hhvm/commit/f4bac3c5247bfda27bff1b376723289e3a912fbb
-Patch7:           3.5.0-install-version.h-on-make-install.patch
-# already applied upstream: https://github.com/hhvm/hhvm-third-party/commit/d1cf7d728ac0e0a761c6287fcd24d4c660b7df4f
-Patch8:           3.5.x-use-system-libmbfl-libafdt.patch
 
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
 BuildRequires:    prelink
@@ -237,14 +225,6 @@ Nginx configuration for HHVM
 
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch5 -p1
-%patch6 -p1
-%patch7 -p1
-pushd third-party
-%patch4 -p1
-%patch8 -p1
-popd
 
 %pre fastcgi
 getent group hhvm >/dev/null || groupadd -r hhvm
