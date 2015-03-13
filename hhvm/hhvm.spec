@@ -59,7 +59,7 @@ BuildRequires:    oniguruma-devel, unixODBC-devel
 BuildRequires:    libc-client-devel, pam-devel, gd-devel
 BuildRequires:    libcap-devel, libedit-devel, pcre-devel, sqlite-devel
 BuildRequires:    lz4-devel, fastlz-devel, fribidi-devel, libyaml-devel
-BuildRequires:    boost-devel, libmemcached-devel
+BuildRequires:    boost-devel, libmemcached-devel, readline-devel
 BuildRequires:    mysql-devel, libxslt-devel, expat-devel, bzip2-devel, openldap-devel
 BuildRequires:    elfutils-libelf-devel, binutils-devel, libevent-devel, ImageMagick-devel
 BuildRequires:    libvpx-devel, libpng-devel, gmp-devel, ocaml, ocaml-findlib
