@@ -51,7 +51,7 @@ Patch2:           remove-false-positive-array-dtor-test.patch
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
 BuildRequires:    prelink
 BuildRequires:    flex, bison
-BuildRequires:    cmake, libevent-devel
+BuildRequires:    cmake, libevent-devel, openssl-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
 BuildRequires:    libmcrypt-devel, libdwarf-devel
 BuildRequires:    libxml2-devel, libicu-devel, libcurl-devel
