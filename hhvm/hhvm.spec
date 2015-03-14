@@ -303,8 +303,8 @@ install -p -D -m 0644 hphp/test/frameworks/spyc/COPYING %{buildroot}%{_licensedi
 install -p -D -m 0644 hphp/test/server/fastcgi/Adoy/LICENSE %{buildroot}%{_licensedir}/hhvm/adoy_LICENSE
 install -p -D -m 0644 hphp/test/slow/ext_imagick/php_imagick_tests/LICENSE %{buildroot}%{_licensedir}/hhvm/ext_imagick_LICENSE
 install -p -D -m 0644 hphp/hack/LICENSE %{buildroot}%{_licensedir}/hhvm/hack_LICENSE
-install -p -D -m 0644 hphp/hack/src/avl/LICENSE %{buildroot}%{_licensedir}/hhvm/avl_LICENSE
-install -p -D -m 0644 hphp/hack/src/inotify/LICENSE %{buildroot}%{_licensedir}/hhvm/inotify_LICENSE
+install -p -D -m 0644 hphp/hack/src/third-party/avl/LICENSE %{buildroot}%{_licensedir}/hhvm/avl_LICENSE
+install -p -D -m 0644 hphp/hack/src/third-party/inotify/LICENSE %{buildroot}%{_licensedir}/hhvm/inotify_LICENSE
 # third party separable licenses
 install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly_LICENSE
 install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt_COPYING
