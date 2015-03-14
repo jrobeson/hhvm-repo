@@ -188,7 +188,7 @@ Apache configuration for HHVM
 Summary:          Library links and header files for HHVM development
 Group:            Development/Libraries
 Requires:         %{name}%{?_isa} = %{version}-%{release}
-Requires:         cmake
+Requires:         cmake, gdb
 Provides:         hhvm-devel = %{version}-%{release}
 
 %description devel
@@ -367,8 +367,10 @@ rm -rf %{buildroot}
 #TODO: temp exclude until we know the name of the test runner
 %exclude %{_libdir}/hhvm/hphpize/run
 %{_libdir}/hhvm/hphpize/*.cmake
+%{_libdir}/hhvm/gdb/*
 %{_libdir}/hhvm/CMake/*.cmake
 %{_includedir}/hphp/*
+%{_bindir}/hhvm-gdb
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
 
