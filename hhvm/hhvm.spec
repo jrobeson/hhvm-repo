@@ -28,7 +28,7 @@
 
 Name:             hhvm
 Version:          3.6.0
-Release:          1%{?dist}
+Release:          3%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
