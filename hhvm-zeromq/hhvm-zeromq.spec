@@ -9,7 +9,7 @@ Summary:          GeoIP extension for HipHop VM
 
 Group:            Development/Libraries
 License:          PHP/Zend
-URL:              https://github.com/duxet/hhvm-zmq
+URL:              https://github.com/no1youknowz/zmq-extension-for-hhvm
 Source0:          %{name}.tar.gz
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, 
 BuildRequires:    hhvm-devel, gflags-devel, libsodium-devel, zeromq-devel, tbb-devel
@@ -24,15 +24,15 @@ ZeroMQ extension for HipHop VM
 %setup -qc
 
 %build
-export HPHP_HOME=/usr/bin
-cd hhvm-zmq
+export HPHP_HOME=/usr/local/bin
+cd zmq
 ./build.sh
 
 %install
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 hhvm-zmq/zmq.so %{buildroot}%{_prefix}/lib64/hhvm/extensions/zmq.so
+%{__install} -p -D -m 0755 zmq/zmq.so %{buildroot}%{_prefix}/lib64/hhvm/extensions/zmq.so
 
 %files
 %dir %{_prefix}/lib64/hhvm/extensions
