@@ -5,7 +5,7 @@
 Name:             hhvm-ext-zeromq
 Version:          1.0
 Release:          1%{?dist}
-Summary:          GeoIP extension for HipHop VM
+Summary:          ZeroMQ extension for HipHop VM
 
 Group:            Development/Libraries
 License:          PHP/Zend
