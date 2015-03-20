@@ -24,19 +24,20 @@ ZeroMQ extension for HipHop VM
 %setup -qc
 
 %build
-export HPHP_HOME=/usr/local/bin
-cd zmq
-./build.sh
+cd hhvm-ext-zeromq/zmq
+/usr/local/bin/hphpize
+cmake .
+make
 
 %install
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
-%{__mkdir} -p %{buildroot}%{_prefix}/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 zmq/zmq.so %{buildroot}%{_prefix}/lib64/hhvm/extensions/zmq.so
+%{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
+%{__install} -p -D -m 0755 zmq/zmq.so %{buildroot}/usr/local/lib64/hhvm/extensions/zmq.so
 
 %files
-%dir %{_prefix}/lib64/hhvm/extensions
-%{_prefix}/lib64/hhvm/extensions/zmq.so
+%dir /usr/local/lib64/hhvm/extensions
+/usr/local/lib64/hhvm/extensions/zmq.so
 
 # Cleanup
 
