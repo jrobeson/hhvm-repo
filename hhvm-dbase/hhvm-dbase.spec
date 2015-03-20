@@ -22,7 +22,9 @@ dBase extension for HipHop VM
 
 %build
 cd hhvm-ext-dbase
-./build.sh
+/usr/local/bin/hphpize
+cmake .
+make
 
 %install
 export DONT_STRIP=1
