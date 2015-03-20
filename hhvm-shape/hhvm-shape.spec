@@ -2,39 +2,39 @@
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-Name:             hhvm-ext-geoip
+Name:             hhvm-ext-shape
 Version:          1.1.0
 Release:          1%{?dist}
-Summary:          GeoIP extension for HipHop VM
+Summary:          Shape (shp) extension for HipHop VM
 
 Group:            Development/Libraries
 License:          PHP/Zend
-URL:              https://github.com/vipsoft/hhvm-ext-geoip
+URL:              https://github.com/reeze/msgpack-hhvm
 Source0:          %{name}.tar.gz
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
-BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel, zlib-devel, GeoIP-devel
-
-Requires:         GeoIP
+BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel
 
 %description
-GeoIP extension for HipHop VM
+Shape (shp) extension for HipHop VM
 
 %prep
 %setup -qc
-%patch0 -p0
 
 %build
-cd hhvm-ext-geoip
-./build.sh
+cd hhvm-ext-shape
+/usr/local/bin/hphpize
+cmake .
+make
+
 %install
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 hhvm-ext-geoip/geoip.so %{buildroot}/usr/local/lib64/hhvm/extensions/geoip.so
+%{__install} -p -D -m 0755 hhvm-ext-shape/shape.so %{buildroot}/usr/local/lib64/hhvm/extensions/shape.so
 
 %files
 %dir /usr/local/lib64/hhvm/extensions
-/usr/local/lib64/hhvm/extensions/geoip.so
+/usr/local/lib64/hhvm/extensions/shape.so
 
 # Cleanup
 
