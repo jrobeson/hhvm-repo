@@ -11,7 +11,7 @@ Group:            Development/Libraries
 License:          PHP/Zend
 URL:              https://github.com/reeze/msgpack-hhvm
 Source0:          %{name}.tar.gz
-BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
+BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel, libshp-devel
 BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel
 
 %description
@@ -30,11 +30,11 @@ make
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 hhvm-ext-shape/shape.so %{buildroot}/usr/local/lib64/hhvm/extensions/shape.so
+%{__install} -p -D -m 0755 hhvm-ext-shape/shp.so %{buildroot}/usr/local/lib64/hhvm/extensions/shp.so
 
 %files
 %dir /usr/local/lib64/hhvm/extensions
-/usr/local/lib64/hhvm/extensions/shape.so
+/usr/local/lib64/hhvm/extensions/shp.so
 
 # Cleanup
 
