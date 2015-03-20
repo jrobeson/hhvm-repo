@@ -11,7 +11,7 @@ Group:            Development/Libraries
 License:          PHP/Zend
 URL:              https://github.com/chobie/hhvm-uv
 Source0:          %{name}.tar.gz
-BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
+BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel, libuv-devel
 BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel
 
 %description
