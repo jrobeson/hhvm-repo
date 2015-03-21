@@ -12,7 +12,7 @@ License:          PHP/Zend
 URL:              https://github.com/reeze/msgpack-hhvm
 Source0:          %{name}.tar.gz
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
-BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel
+BuildRequires:    hhvm-devel, boost-devel, gflags-devel, glog-devel, jemalloc-devel
 
 %description
 Msgpack extension for HipHop VM
@@ -31,6 +31,11 @@ export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
 %{__install} -p -D -m 0755 hhvm-ext-msgpack/msgpack.so %{buildroot}/usr/local/lib64/hhvm/extensions/msgpack.so
+
+%post
+echo "To enable this extension:" > /dev/stderr
+echo "Add to /etc/hhvm/php.ini" > /dev/stderr
+echo "hhvm.dynamic_extensions[msgpack] = msgpack.so" > /dev/stderr
 
 %files
 %dir /usr/local/lib64/hhvm/extensions

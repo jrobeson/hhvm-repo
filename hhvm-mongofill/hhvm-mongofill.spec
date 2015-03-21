@@ -37,6 +37,11 @@ rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
 %{__install} -p -D -m 0755 hhvm-ext-mongofill/mongo.so %{buildroot}/usr/local/lib64/hhvm/extensions/mongo.so
 
+%post
+echo "To enable this extension:" > /dev/stderr
+echo "Add to /etc/hhvm/php.ini" > /dev/stderr
+echo "hhvm.dynamic_extensions[mongo] = mongo.so" > /dev/stderr
+
 %files
 %dir /usr/local/lib64/hhvm/extensions
 /usr/local/lib64/hhvm/extensions/mongo.so

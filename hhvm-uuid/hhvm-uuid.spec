@@ -12,7 +12,7 @@ License:          PHP/Zend
 URL:              https://github.com/vipsoft/hhvm-ext-uuid
 Source0:          %{name}.tar.gz
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel, uuid-devel, libuuid-devel
-BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel
+BuildRequires:    hhvm-devel, boost-devel, gflags-devel, glog-devel, jemalloc-devel
 
 %description
 UUID extension for HipHop VM
@@ -31,6 +31,11 @@ export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
 %{__install} -p -D -m 0755 hhvm-ext-uuid/uuid.so %{buildroot}/usr/local/lib64/hhvm/extensions/uuid.so
+
+%post
+echo "To enable this extension:" > /dev/stderr
+echo "Add to /etc/hhvm/php.ini" > /dev/stderr
+echo "hhvm.dynamic_extensions[uuid] = uuid.so" > /dev/stderr
 
 %files
 %dir /usr/local/lib64/hhvm/extensions

@@ -33,7 +33,12 @@ make
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 zmq/zmq.so %{buildroot}/usr/local/lib64/hhvm/extensions/zmq.so
+%{__install} -p -D -m 0755 hhvm-ext-zeromq/zmq/zmq.so %{buildroot}/usr/local/lib64/hhvm/extensions/zmq.so
+
+%post
+echo "To enable this extension:" > /dev/stderr
+echo "Add to /etc/hhvm/php.ini" > /dev/stderr
+echo "hhvm.dynamic_extensions[zmq] = zmq.so" > /dev/stderr
 
 %files
 %dir /usr/local/lib64/hhvm/extensions

@@ -36,6 +36,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir /usr/local/lib64/hhvm/extensions
 /usr/local/lib64/hhvm/extensions/dbase.so
 
+%post
+echo "To enable this extension:" > /dev/stderr
+echo "Add to /etc/hhvm/php.ini" > /dev/stderr
+echo "hhvm.dynamic_extensions[dbase] = dbase.so" > /dev/stderr
+
 # Cleanup
 
 %clean
