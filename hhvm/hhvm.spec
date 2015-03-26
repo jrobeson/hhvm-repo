@@ -30,8 +30,8 @@
 %define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
-Version:          3.6.0
-Release:          3%{?dist}
+Version:          3.6.1
+Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
 Group:            Development/Languages
@@ -245,6 +245,7 @@ export LDFLAGS
 %cmake \
     -DUSE_JSONC:BOOL=ON \
     -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
+    -DMYSQL_UNIX_SOCK_ADDR=/var/lib/mysql/mysql.sock \
     .
 
 ./hphp/parser/make-lexer.sh
