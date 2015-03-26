@@ -10,8 +10,11 @@
 #TODO: provide php alternative https://fedoraproject.org/wiki/Packaging:Alternatives
 #TODO: find a way to get PEAR to work with hhvm, so we can provide php-common too.
 %global _hardened_build 1
-#TODO: reenable debug builds https://bugzilla.redhat.com/show_bug.cgi?id=1186563
-%global debug_package %{nil}
+#TODO: remove undefine _includeminidebuginfo when patched rpm is available
+#      https://bugzilla.redhat.com/show_bug.cgi?id=1186563
+%undefine _include_minidebuginfo
+%global _find_debuginfo_opts -g
+
 %{!?_httpd_confdir: %{expand: %%global _httpd_confdir %%{_sysconfdir}/httpd/conf.d}}
 # httpd 2.4.10 with httpd-filesystem and sethandler support
 %if 0%{?fedora} >= 21
@@ -248,7 +251,24 @@ export LDFLAGS
 
 make %{?_smp_mflags}
 
+mkdir strip-wrapper
+#TODO: remove overridden eu-strip when patched rpm is available
+#      https://bugzilla.redhat.com/show_bug.cgi?id=1186563
+cat > strip-wrapper/eu-strip <<'EOF'
+#!/bin/bash
+STRIP_ARGS=""
+case "$*" in
+    */hhvm|*/hh_client|*/hh_server)
+        STRIP_ARGS="-g"
+        ;;
+esac
+exec /usr/bin/eu-strip "$STRIP_ARGS" "$@"
+EOF
+chmod +x strip-wrapper/eu-strip
+
 %install
+PATH="$(pwd)/strip-wrapper:$PATH"
+
 rm -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
@@ -317,12 +337,6 @@ install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm
 %endif
 
 %check
-# TODO: remove this temporary test when we can be sure that eu-strip in
-# /var/lib/rpm/find-debuginfo.sh won't eat required elf sections.
-# hThis would be indicated by "Failed to find/load systemlib.php".
-# Without this, we may end up with successfully built rpm, but a broken hhvm
-# excutable.
-%{buildroot}/usr/bin/hhvm --php -r 'exit(0);'
 hphp/hhvm/hhvm hphp/test/run -m jit quick
 hphp/hhvm/hhvm hphp/test/run -m interp quick
 
