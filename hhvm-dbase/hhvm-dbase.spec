@@ -2,28 +2,26 @@
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-Name:             hhvm-ext-geoip
+Name:             hhvm-ext-dbase
 Version:          1.1.0
 Release:          1%{?dist}
-Summary:          GeoIP extension for HipHop VM
+Summary:          dBase extension for HipHop VM
 
 Group:            Development/Libraries
 License:          PHP/Zend
-URL:              https://github.com/vipsoft/hhvm-ext-geoip
+URL:              https://github.com/skyfms/hhvm-ext_dbase
 Source0:          %{name}.tar.gz
 BuildRequires:    gcc >= 4.7.2, cmake >= 2.8.7, tbb-devel, folly-devel, double-conversion-devel,
-BuildRequires:    hhvm-devel, boost-devel, gflags-devel, glog-devel, jemalloc-devel, zlib-devel, GeoIP-devel
-
-Requires:         GeoIP
+BuildRequires:    hhvm-devel, boost-devel, glog-devel, jemalloc-devel, gflags-devel
 
 %description
-GeoIP extension for HipHop VM
+dBase extension for HipHop VM
 
 %prep
 %setup -qc
 
 %build
-cd hhvm-ext-geoip
+cd hhvm-ext-dbase
 /usr/local/bin/hphpize
 cmake .
 make
@@ -32,16 +30,16 @@ make
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/local/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 hhvm-ext-geoip/geoip.so %{buildroot}/usr/local/lib64/hhvm/extensions/geoip.so
+%{__install} -p -D -m 0755 hhvm-ext-dbase/dbase.so %{buildroot}/usr/local/lib64/hhvm/extensions/dbase.so
+
+%files
+%dir /usr/local/lib64/hhvm/extensions
+/usr/local/lib64/hhvm/extensions/dbase.so
 
 %post
 echo "To enable this extension:" > /dev/stderr
 echo "Add to /etc/hhvm/php.ini" > /dev/stderr
-echo "hhvm.dynamic_extensions[geoip] = geoip.so" > /dev/stderr
-
-%files
-%dir /usr/local/lib64/hhvm/extensions
-/usr/local/lib64/hhvm/extensions/geoip.so
+echo "hhvm.dynamic_extensions[dbase] = dbase.so" > /dev/stderr
 
 # Cleanup
 
