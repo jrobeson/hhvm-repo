@@ -45,7 +45,8 @@ Source4:          nginx-hhvm.conf
 Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
-# upstream won't apply this unless php does also
+# upstream is still in discussion in regards to accepting this:
+# https://github.com/hhvm/hhvm-third-party/pull/40
 Patch1:           use-system-tzinfo.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
@@ -281,9 +282,9 @@ mkdir -p %{buildroot}%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
 mkdir -p %{buildroot}/run
-install -d -m 0755 %{buildroot}/run/%{name}/
+install -d -m 0755 %{buildroot}/run/hhvm/
 
-mkdir -p %{buildroot}%{_localstatedir}/log/%{name}
+mkdir -p %{buildroot}%{_localstatedir}/log/hhvm
 
 mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 
