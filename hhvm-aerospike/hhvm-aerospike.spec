@@ -2,7 +2,7 @@
 %global           debug_package %{nil}
 %global           __os_install_post /usr/lib/rpm/brp-compress %{nil}
 
-Name:             hhvm-ext-
+Name:             hhvm-ext-aerospike
 Version:          1.1.0
 Release:          1%{?dist}
 Summary:          Aerospike extension for HipHop VM
