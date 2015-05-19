@@ -32,11 +32,11 @@ make
 export DONT_STRIP=1
 rm -rf $RPM_BUILD_ROOT
 %{__mkdir} -p %{buildroot}/usr/lib64/hhvm/extensions
-%{__install} -p -D -m 0755 hhvm-ext-aerospike/aerospike.so %{buildroot}/usr/lib64/hhvm/extensions/aerospike.so
+%{__install} -p -D -m 0755 hhvm-ext-aerospike/aerospike-hhvm.so %{buildroot}/usr/lib64/hhvm/extensions/aerospike-hhvm.so
 
 %files
 %dir /usr/lib64/hhvm/extensions
-/usr/lib64/hhvm/extensions/aerospike.so
+/usr/lib64/hhvm/extensions/aerospike-hhvm.so
 
 # Cleanup
 
