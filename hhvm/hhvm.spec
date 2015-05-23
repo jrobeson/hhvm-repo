@@ -30,7 +30,7 @@
 %define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
-Version:          3.6.1
+Version:          3.7.0
 Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
