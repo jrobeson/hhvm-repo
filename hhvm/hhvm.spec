@@ -45,6 +45,7 @@ Source4:          nginx-hhvm.conf
 Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
+Source8:          macros.hhvm
 # upstream is still in discussion in regards to accepting this:
 # https://github.com/hhvm/hhvm-third-party/pull/40
 Patch1:           use-system-tzinfo.patch
@@ -289,14 +290,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/hhvm
 
 mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 
-mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
-
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
-
-
-install -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 
 # nginx
 install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
@@ -306,6 +302,20 @@ install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.
 %if %{with_httpd2410}
 install -p -D -m 644 %{SOURCE6} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
+
+# Logrotate configuration
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/logrotate.d
+install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
+
+# RPM Macros
+%{__mkdir_p} %{buildroot}%{_sysconfdir}/rpm
+install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+# perform substitutions appropriately
+sed -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+sed -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+sed -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+sed -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+sed -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
 
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
@@ -389,6 +399,8 @@ rm -rf %{buildroot}
 %{_bindir}/hhvm-gdb
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
+# RPM macros
+%{_sysconfdir}/rpm/macros.hhvm
 
 %files fastcgi
 %defattr(-,root,root,-)
