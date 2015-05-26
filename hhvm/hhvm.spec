@@ -278,17 +278,17 @@ make install DESTDIR=%{buildroot}
 
 execstack -c %{buildroot}%{_bindir}/hhvm
 
-mkdir -p %{buildroot}%{hhvm_extensiondir}
+%{__mkdir_p} %{buildroot}%{hhvm_extensiondir}
 
-mkdir -p %{buildroot}%{_tmpfilesdir}
+%{__mkdir_p} %{buildroot}%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
-mkdir -p %{buildroot}/run
+%{__mkdir_p} %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/hhvm/
 
-mkdir -p %{buildroot}%{_localstatedir}/log/hhvm
+%{__mkdir_p} %{buildroot}%{_localstatedir}/log/hhvm
 
-mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
+%{__mkdir_p} %{buildroot}%{_sharedstatedir}/hhvm
 
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
@@ -311,20 +311,20 @@ install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 %{__mkdir_p} %{buildroot}%{_sysconfdir}/rpm
 install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
 # perform substitutions appropriately
-sed -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-sed -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-sed -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-sed -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-sed -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
 
 # man pages
-mkdir -p %{buildroot}%{_mandir}/man1
+%{__mkdir_p} %{buildroot}%{_mandir}/man1
 
 install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
 install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
 # licenses
-mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
+%{__mkdir_p} %{buildroot}%{_licensedir}/hhvm/licenses
 
 # bundled code licenses
 install -p -D -m 0644 hphp/runtime/ext/fileinfo/libmagic/LICENSE %{buildroot}%{_licensedir}/hhvm/libmagic_LICENSE
