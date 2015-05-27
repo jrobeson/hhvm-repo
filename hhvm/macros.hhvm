@@ -11,6 +11,3 @@
 
 # Binaries
 %__hphpize HPHPIZE
-
-# Convenience macros - Test this - Copied from macros.cmake
-%__cmake_hhvm cmake -DCMAKE_INSTALL_LIBDIR:PATH=%{_hhvm_extensiondir}
