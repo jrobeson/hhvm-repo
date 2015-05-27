@@ -311,11 +311,11 @@ install -p -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 mkdir -p %{_rpmconfigdir}/macros.d
 install -p -m 644 %{SOURCE8} %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
 # perform substitutions appropriately
-%{__sed} -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
-%{__sed} -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
-%{__sed} -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
-%{__sed} -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
-%{__sed} -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+sed -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+sed -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+sed -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+sed -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+sed -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
 
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
