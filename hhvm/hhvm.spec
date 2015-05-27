@@ -24,10 +24,10 @@
 %endif
 
 #TODO: check to make sure hhvm/php API and php_version are bumped if changed upstream
-%define php_api_version 20121113
-%define hhvm_api_version 20150112
-%define php_version 5.6.0
-%define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
+%global php_api_version 20121113
+%global hhvm_api_version 20150112
+%global php_version 5.6.0
+%global hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
 Version:          3.7.0
@@ -278,17 +278,17 @@ make install DESTDIR=%{buildroot}
 
 execstack -c %{buildroot}%{_bindir}/hhvm
 
-%{__mkdir_p} %{buildroot}%{hhvm_extensiondir}
+mkdir -p %{buildroot}%{hhvm_extensiondir}
 
-%{__mkdir_p} %{buildroot}%{_tmpfilesdir}
-install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
+mkdir -p %{buildroot}%{_tmpfilesdir}
+install -p -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
-%{__mkdir_p} %{buildroot}/run
+mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/hhvm/
 
-%{__mkdir_p} %{buildroot}%{_localstatedir}/log/hhvm
+mkdir -p %{buildroot}%{_localstatedir}/log/hhvm
 
-%{__mkdir_p} %{buildroot}%{_sharedstatedir}/hhvm
+mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
@@ -304,27 +304,27 @@ install -p -D -m 644 %{SOURCE6} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
 
 # Logrotate configuration
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/logrotate.d
-install -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
+mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
+install -p -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 
 # RPM Macros
-%{__mkdir_p} %{buildroot}%{_sysconfdir}/rpm
-install -m 644 %{SOURCE8} %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+mkdir -p %{_rpmconfigdir}/macros.d
+install -p -m 644 %{SOURCE8} %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
 # perform substitutions appropriately
-%{__sed} -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-%{__sed} -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-%{__sed} -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-%{__sed} -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
-%{__sed} -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_sysconfdir}/rpm/macros.hhvm
+%{__sed} -i "s#HHVM_API_VERSION#%{hhvm_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+%{__sed} -i "s#HHVM_PHP_VERSION#%{php_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+%{__sed} -i "s#HHVM_PHP_API_VERSION#%{php_api_version}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+%{__sed} -i "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
+%{__sed} -i "s#HPHPIZE#%{_bindir}/hphpize#" %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
 
 # man pages
-%{__mkdir_p} %{buildroot}%{_mandir}/man1
+mkdir -p %{buildroot}%{_mandir}/man1
 
 install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
 install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
 # licenses
-%{__mkdir_p} %{buildroot}%{_licensedir}/hhvm/licenses
+mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
 
 # bundled code licenses
 install -p -D -m 0644 hphp/runtime/ext/fileinfo/libmagic/LICENSE %{buildroot}%{_licensedir}/hhvm/libmagic_LICENSE
@@ -400,7 +400,7 @@ rm -rf %{buildroot}
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
 # RPM macros
-%{_sysconfdir}/rpm/macros.hhvm
+%{_rpmconfigdir}/macros.d/macros.hhvm
 
 %files fastcgi
 %defattr(-,root,root,-)
