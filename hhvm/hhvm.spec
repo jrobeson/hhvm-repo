@@ -231,6 +231,15 @@ Nginx configuration for HHVM
 %patch1 -p1
 %patch2 -p1
 
+# Check versions match between spec and source:
+## php_version
+ver=$(f=hphp/system/idl/constants.idl.json; grep -n PHP_VERSION $f |head -n1 |cut -f1 -d: |xargs -I{} bash -c "tail -n +{} $f |head -n2 |tail -n1|cut -f4 -d\\\"")
+if test "x${ver}" != "x%{php_version}"; then
+   : Error: Upstream HHVM PHP version is now ${ver}, expecting %{php_version}.
+   : Update the php_version macro and rebuild.
+   exit 1
+fi
+
 %pre fastcgi
 getent group hhvm >/dev/null || groupadd -r hhvm
 getent passwd hhvm >/dev/null || \
