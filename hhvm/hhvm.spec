@@ -249,6 +249,13 @@ if test "x${aver}" != "x%{php_api_version}"; then
    : Update the php_api_version macro and rebuild.
    exit 1
 fi
+## hhvm_api_version
+haver=$(grep '^#define HHVM_API_VERSION' hphp/runtime/ext/extension.h | cut -f3 -d' ')
+if test "x${haver}" != "x%{hhvm_api_version}"; then
+   : Error: Upstream HHVM API version is now ${haver}, expecting %{hhvm_api_version}.
+   : Update the hhvm_api_version macro and rebuild.
+   exit 1
+fi
 ## php_version
 ver=$(f=hphp/system/idl/constants.idl.json; grep -n PHP_VERSION $f |head -n1 |cut -f1 -d: |xargs -I{} bash -c "tail -n +{} $f |head -n2 |tail -n1|cut -f4 -d\\\"")
 if test "x${ver}" != "x%{php_version}"; then
