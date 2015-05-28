@@ -244,7 +244,7 @@ if test "x${hver}" != "x%{version}"; then
 fi
 ## php_api_version
 aver=$(grep '^#define PHP_API_VERSION' hphp/runtime/ext_zend_compat/php-src/main/php.h | cut -f3 -d' ')
-if test "x${aver}" != "x%{php_version}"; then
+if test "x${aver}" != "x%{php_api_version}"; then
    : Error: Upstream HHVM PHP API version is now ${aver}, expecting %{php_api_version}.
    : Update the php_api_version macro and rebuild.
    exit 1
