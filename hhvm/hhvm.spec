@@ -232,6 +232,16 @@ Nginx configuration for HHVM
 %patch2 -p1
 
 # Check versions match between spec and source:
+## hhvm version
+tempex=$(mktemp)
+echo -e '#include "hphp/runtime/version.h"\n#include<iostream>\nint main(int c,char*v[]){ std::cout<<HHVM_VERSION; return 0;}' |g++ -o ${tempex} -xc++ -
+hver=$($tempex)
+rm -f $tempex
+if test "x${hver}" != "x%{version}"; then
+   : Error: Upstream HHVM version is now ${hver}, expecting %{version}.
+   : Update the version macro and rebuild.
+   exit 1
+fi
 ## php_version
 ver=$(f=hphp/system/idl/constants.idl.json; grep -n PHP_VERSION $f |head -n1 |cut -f1 -d: |xargs -I{} bash -c "tail -n +{} $f |head -n2 |tail -n1|cut -f4 -d\\\"")
 if test "x${ver}" != "x%{php_version}"; then
