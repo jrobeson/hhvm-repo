@@ -45,7 +45,7 @@ Source4:          nginx-hhvm.conf
 Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
-Source8:          macros.hhvm
+Source8:          macros.hhvm.in
 # upstream is still in discussion in regards to accepting this:
 # https://github.com/hhvm/hhvm-third-party/pull/40
 Patch1:           use-system-tzinfo.patch
