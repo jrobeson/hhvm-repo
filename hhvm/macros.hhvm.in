@@ -1,0 +1,13 @@
+# Macros for hhvm
+# There are to be used for packaging of extensions that use hhvm
+
+# Versioning info
+%_hhvm_api_version HHVM_API_VERSION
+%_hhvm_php_version HHVM_PHP_VERSION
+%_hhvm_php_api_version HHVM_PHP_API_VERSION
+
+# Directory Paths
+%_hhvm_extensiondir HHVM_EXTENSION_DIR
+
+# Binaries
+%__hphpize HPHPIZE

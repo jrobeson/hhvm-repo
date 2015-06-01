@@ -24,10 +24,10 @@
 %endif
 
 #TODO: check to make sure hhvm/php API and php_version are bumped if changed upstream
-%define php_api_version 20121113
-%define hhvm_api_version 20150112
-%define php_version 5.6.0
-%define hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
+%global php_api_version 20121113
+%global hhvm_api_version 20150112
+%global php_version 5.6.0
+%global hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
 Version:          3.7.0
@@ -45,6 +45,7 @@ Source4:          nginx-hhvm.conf
 Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
+Source8:          macros.hhvm.in
 # upstream is still in discussion in regards to accepting this:
 # https://github.com/hhvm/hhvm-third-party/pull/40
 Patch1:           use-system-tzinfo.patch
@@ -230,6 +231,39 @@ Nginx configuration for HHVM
 %patch1 -p1
 %patch2 -p1
 
+# Check versions match between spec and source:
+## hhvm version
+tempex=$(mktemp)
+echo -e '#include "hphp/runtime/version.h"\n#include<iostream>\nint main(int c,char*v[]){ std::cout<<HHVM_VERSION; return 0;}' |g++ -o ${tempex} -xc++ -
+hver=$($tempex)
+rm -f $tempex
+if test "x${hver}" != "x%{version}"; then
+   : Error: Upstream HHVM version is now ${hver}, expecting %{version}.
+   : Update the version macro and rebuild.
+   exit 1
+fi
+## php_api_version
+aver=$(grep '^#define PHP_API_VERSION' hphp/runtime/ext_zend_compat/php-src/main/php.h | cut -f3 -d' ')
+if test "x${aver}" != "x%{php_api_version}"; then
+   : Error: Upstream HHVM PHP API version is now ${aver}, expecting %{php_api_version}.
+   : Update the php_api_version macro and rebuild.
+   exit 1
+fi
+## hhvm_api_version
+haver=$(grep '^#define HHVM_API_VERSION' hphp/runtime/ext/extension.h | cut -f3 -d' ')
+if test "x${haver}" != "x%{hhvm_api_version}"; then
+   : Error: Upstream HHVM API version is now ${haver}, expecting %{hhvm_api_version}.
+   : Update the hhvm_api_version macro and rebuild.
+   exit 1
+fi
+## php_version
+ver=$(f=hphp/system/idl/constants.idl.json; grep -n PHP_VERSION $f |head -n1 |cut -f1 -d: |xargs -I{} bash -c "tail -n +{} $f |head -n2 |tail -n1|cut -f4 -d\\\"")
+if test "x${ver}" != "x%{php_version}"; then
+   : Error: Upstream HHVM PHP version is now ${ver}, expecting %{php_version}.
+   : Update the php_version macro and rebuild.
+   exit 1
+fi
+
 %pre fastcgi
 getent group hhvm >/dev/null || groupadd -r hhvm
 getent passwd hhvm >/dev/null || \
@@ -280,7 +314,7 @@ execstack -c %{buildroot}%{_bindir}/hhvm
 mkdir -p %{buildroot}%{hhvm_extensiondir}
 
 mkdir -p %{buildroot}%{_tmpfilesdir}
-install -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
+install -p -m 0644 %{SOURCE3} %{buildroot}%{_tmpfilesdir}/hhvm.conf
 
 mkdir -p %{buildroot}/run
 install -d -m 0755 %{buildroot}/run/hhvm/
@@ -289,14 +323,9 @@ mkdir -p %{buildroot}%{_localstatedir}/log/hhvm
 
 mkdir -p %{buildroot}%{_sharedstatedir}/hhvm
 
-mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
-
 # Install hhvm and systemctl configuration
 install -p -D -m 0644 %{SOURCE1} %{buildroot}%{_sysconfdir}/hhvm/php.ini
 install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_unitdir}/hhvm.service
-
-
-install -m 644 %{SOURCE6} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
 
 # nginx
 install -p -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/nginx/conf.d/hhvm.conf
@@ -306,6 +335,22 @@ install -p -D -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/nginx/default.d/hhvm.
 %if %{with_httpd2410}
 install -p -D -m 644 %{SOURCE6} %{buildroot}%{_httpd_confdir}/hhvm.conf
 %endif
+
+# Logrotate configuration
+mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d
+install -p -m 644 %{SOURCE7} %{buildroot}%{_sysconfdir}/logrotate.d/hhvm
+
+# RPM Macros
+mkdir -p %{_rpmconfigdir}/macros.d
+# perform substitutions appropriately
+sed -e "s#HHVM_API_VERSION#%{hhvm_api_version}#" \
+    -e "s#HHVM_PHP_VERSION#%{php_version}#" \
+    -e "s#HHVM_PHP_API_VERSION#%{php_api_version}#" \
+    -e "s#HHVM_EXTENSION_DIR#%{hhvm_extensiondir}#" \
+    -e "s#HPHPIZE#%{_bindir}/hphpize#" \
+    < %{SOURCE8} > macros.hhvm
+# install the the macros
+install -p -m 644 -D %{SOURCE8} %{buildroot}%{_rpmconfigdir}/macros.d/macros.hhvm
 
 # man pages
 mkdir -p %{buildroot}%{_mandir}/man1
@@ -389,6 +434,8 @@ rm -rf %{buildroot}
 %{_bindir}/hhvm-gdb
 %{_bindir}/hphpize
 %{_mandir}/man1/hphpize.1.*
+# RPM macros
+%{_rpmconfigdir}/macros.d/macros.hhvm
 
 %files fastcgi
 %defattr(-,root,root,-)
