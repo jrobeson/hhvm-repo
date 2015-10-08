@@ -80,4 +80,4 @@ if [ -f "../$dfsg_tar" ]; then
 fi
 
 echo 'Rebuilding the orig.tar.gz!'
-tar zcf ../$dfsg_tar -C $working_dir hhvm-${hhvm_version}
+tar zcf $dfsg_tar -C $working_dir hhvm-${hhvm_version}
