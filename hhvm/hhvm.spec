@@ -25,12 +25,12 @@
 
 #TODO: check to make sure hhvm/php API and php_version are bumped if changed upstream
 %global php_api_version 20121113
-%global hhvm_api_version 20150112
-%global php_version 5.6.0
+%global hhvm_api_version 20150212
+%global php_version 5.6.99
 %global hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
-Version:          3.7.0
+Version:          3.9.0
 Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
@@ -46,15 +46,12 @@ Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
 Source8:          macros.hhvm.in
-# upstream is still in discussion in regards to accepting this:
-# https://github.com/hhvm/hhvm-third-party/pull/40
-Patch1:           use-system-tzinfo.patch
 # not submitted upstream until confirmation of false positive test:
 # https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
-Patch2:           remove-false-positive-array-dtor-test.patch
+Patch1:           remove-false-positive-array-dtor-test.patch
 
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
-BuildRequires:    prelink
+BuildRequires:    prelink, gperf
 BuildRequires:    flex, bison
 BuildRequires:    cmake, libevent-devel, openssl-devel
 BuildRequires:    glog-devel, jemalloc-devel, tbb-devel
@@ -229,7 +226,6 @@ Nginx configuration for HHVM
 %setup -q -n %{name}-%{version}
 
 %patch1 -p1
-%patch2 -p1
 
 # Check versions match between spec and source:
 ## hhvm version
@@ -250,14 +246,14 @@ if test "x${aver}" != "x%{php_api_version}"; then
    exit 1
 fi
 ## hhvm_api_version
-haver=$(grep '^#define HHVM_API_VERSION' hphp/runtime/ext/extension.h | cut -f3 -d' ')
+haver=$(grep '^#define HHVM_API_VERSION' hphp/runtime/ext/extension.h | cut -f3 -d' ' | tr -d 'L')
 if test "x${haver}" != "x%{hhvm_api_version}"; then
    : Error: Upstream HHVM API version is now ${haver}, expecting %{hhvm_api_version}.
    : Update the hhvm_api_version macro and rebuild.
    exit 1
 fi
 ## php_version
-ver=$(f=hphp/system/idl/constants.idl.json; grep -n PHP_VERSION $f |head -n1 |cut -f1 -d: |xargs -I{} bash -c "tail -n +{} $f |head -n2 |tail -n1|cut -f4 -d\\\"")
+ver=$(grep 'PHP_VERSION\ '  hphp/hack/hhi/constants.hhi | sed -nr "s/[^']*'(.*)-hhvm'\;/\1/p")
 if test "x${ver}" != "x%{php_version}"; then
    : Error: Upstream HHVM PHP version is now ${ver}, expecting %{php_version}.
    : Update the php_version macro and rebuild.
@@ -405,9 +401,13 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/hhvm/php.ini
 #%{_bindir}/hack_remove_soft_types
 #%{_bindir}/hackificator
+%{_bindir}/h2tp
 %{_bindir}/hh_client
+%{_bindir}/hh_format
 %{_bindir}/hh_server
 %{_bindir}/hhvm
+%{_bindir}/hhvm-repo-mode
+%{_datadir}/hhvm/*
 %{_mandir}/man1/hackificator.1.*
 %{_mandir}/man1/hack_remove_soft_types.1.*
 %{_mandir}/man1/hh_client.1.*
