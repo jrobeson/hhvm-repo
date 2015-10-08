@@ -298,7 +298,7 @@ case "$*" in
         STRIP_ARGS="-g"
         ;;
 esac
-exec /usr/bin/eu-strip "$STRIP_ARGS" "$@"
+exec /usr/bin/eu-strip $STRIP_ARGS $@
 EOF
 chmod +x strip-wrapper/eu-strip
 
