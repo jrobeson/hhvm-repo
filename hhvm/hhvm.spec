@@ -359,28 +359,27 @@ install -p -D -m 0644 hphp/doc/man/* %{buildroot}%{_mandir}/man1
 install -p -D -m 0644 hphp/hack/man/* %{buildroot}%{_mandir}/man1
 
 # licenses
-mkdir -p %{buildroot}%{_licensedir}/hhvm/licenses
-
+mkdir -p %{buildroot}%{_licensedir}/licenses
 # bundled code licenses
-install -p -D -m 0644 hphp/runtime/ext/fileinfo/libmagic/LICENSE %{buildroot}%{_licensedir}/hhvm/libmagic_LICENSE
-install -p -D -m 0644 hphp/runtime/ext/gd/libgd/COPYING %{buildroot}%{_licensedir}/hhvm/libgd_COPYING
-install -p -D -m 0644 hphp/runtime/ext_zend_compat/oauth/LICENSE %{buildroot}%{_licensedir}/hhvm/oauth_LICENSE
-install -p -D -m 0644 hphp/neo/license.hdf %{buildroot}%{_licensedir}/hhvm/neo_LICENSE
-install -p -D -m 0644 hphp/test/frameworks/spyc/COPYING %{buildroot}%{_licensedir}/hhvm/spyc_COPYING
-install -p -D -m 0644 hphp/test/server/fastcgi/Adoy/LICENSE %{buildroot}%{_licensedir}/hhvm/adoy_LICENSE
-install -p -D -m 0644 hphp/test/slow/ext_imagick/php_imagick_tests/LICENSE %{buildroot}%{_licensedir}/hhvm/ext_imagick_LICENSE
-install -p -D -m 0644 hphp/hack/LICENSE %{buildroot}%{_licensedir}/hhvm/hack_LICENSE
-install -p -D -m 0644 hphp/hack/src/third-party/avl/LICENSE %{buildroot}%{_licensedir}/hhvm/avl_LICENSE
-install -p -D -m 0644 hphp/hack/src/third-party/inotify/LICENSE %{buildroot}%{_licensedir}/hhvm/inotify_LICENSE
+install -p -D -m 0644 hphp/runtime/ext/fileinfo/libmagic/LICENSE %{buildroot}%{_licensedir}/libmagic_LICENSE
+install -p -D -m 0644 hphp/runtime/ext/gd/libgd/COPYING %{buildroot}%{_licensedir}/libgd_COPYING
+install -p -D -m 0644 hphp/runtime/ext_zend_compat/oauth/LICENSE %{buildroot}%{_licensedir}/oauth_LICENSE
+install -p -D -m 0644 hphp/neo/license.hdf %{buildroot}%{_licensedir}/neo_LICENSE
+install -p -D -m 0644 hphp/test/frameworks/spyc/COPYING %{buildroot}%{_licensedir}/spyc_COPYING
+install -p -D -m 0644 hphp/test/server/fastcgi/Adoy/LICENSE %{buildroot}%{_licensedir}/adoy_LICENSE
+install -p -D -m 0644 hphp/test/slow/ext_imagick/php_imagick_tests/LICENSE %{buildroot}%{_licensedir}/ext_imagick_LICENSE
+install -p -D -m 0644 hphp/hack/LICENSE %{buildroot}%{_licensedir}/hack_LICENSE
+install -p -D -m 0644 hphp/hack/src/third-party/avl/LICENSE %{buildroot}%{_licensedir}/avl_LICENSE
+install -p -D -m 0644 hphp/hack/src/third-party/inotify/LICENSE %{buildroot}%{_licensedir}/inotify_LICENSE
 # third party separable licenses
-install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/hhvm/folly_LICENSE
-install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/hhvm/libafdt_COPYING
-install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/hhvm/libmbfl_LICENSE
-install -p -D -m 0644 third-party/proxygen/src/LICENSE %{buildroot}%{_licensedir}/hhvm/proxygen_LICENSE
-install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/hhvm/thrift_LICENSE
-install -p -D -m 0644 third-party/timelib/LICENSE %{buildroot}%{_licensedir}/hhvm/timelib_LICENSE
+install -p -D -m 0644 third-party/folly/LICENSE %{buildroot}%{_licensedir}/folly_LICENSE
+install -p -D -m 0644 third-party/libafdt/COPYING %{buildroot}%{_licensedir}/libafdt_COPYING
+install -p -D -m 0644 third-party/libmbfl/LICENSE %{buildroot}%{_licensedir}/libmbfl_LICENSE
+install -p -D -m 0644 third-party/proxygen/src/LICENSE %{buildroot}%{_licensedir}/proxygen_LICENSE
+install -p -D -m 0644 third-party/thrift/src/LICENSE %{buildroot}%{_licensedir}/thrift_LICENSE
+install -p -D -m 0644 third-party/timelib/LICENSE %{buildroot}%{_licensedir}/timelib_LICENSE
 %if 0%{?rhel}
-install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/hhvm/libzip_LICENSE
+install -p -D -m 0644 third-party/libzip/LICENSE %{buildroot}%{_licensedir}/libzip_LICENSE
 %endif
 
 %check
@@ -416,7 +415,7 @@ rm -rf %{buildroot}
 %{_mandir}/man1/hhvm.1.*
 %doc CONTRIBUTING.md README.md
 %license LICENSE.PHP LICENSE.ZEND
-%license %{_licensedir}/hhvm/*
+%license %{_licensedir}/*
 
 %files apache
 %if %{with_httpd2410}
