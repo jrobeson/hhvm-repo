@@ -30,7 +30,7 @@
 %global hhvm_extensiondir %{_libdir}/hhvm/extensions/%{hhvm_api_version}
 
 Name:             hhvm
-Version:          3.9.0
+Version:          3.10.1
 Release:          1%{?dist}
 Summary:          HipHop VM (HHVM) is a virtual machine for executing programs written in PHP
 ExclusiveArch:    x86_64
@@ -46,9 +46,8 @@ Source5:          nginx-hhvm-location.conf
 Source6:          apache-hhvm.conf
 Source7:          hhvm.logrotate
 Source8:          macros.hhvm.in
-# not submitted upstream until confirmation of false positive test:
-# https://github.com/facebook/hhvm/issues/4136#issuecomment-68156016
-Patch1:           remove-false-positive-array-dtor-test.patch
+
+Patch1:           3.10-fix-compiling-with-gcc5.patch
 
 # needed to fix rpmlint W: executable-stack https://github.com/facebook/hhvm/issues/4704
 BuildRequires:    prelink, gperf
@@ -278,8 +277,9 @@ export LDFLAGS
     -DMYSQL_UNIX_SOCK_ADDR=/var/lib/mysql/mysql.sock \
     .
 
-./hphp/parser/make-lexer.sh
-./hphp/parser/make-parser.sh
+# disabled until https://github.com/facebook/hhvm/issues/6376 is fixed
+#./hphp/parser/make-lexer.sh
+#./hphp/parser/make-parser.sh
 
 make %{?_smp_mflags}
 

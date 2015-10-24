@@ -1,0 +1,85 @@
+From 00d19a4c02b5d090e52c04ccfe4eb87f3d2295ee Mon Sep 17 00:00:00 2001
+From: James Miller <james@aatch.net>
+Date: Thu, 8 Oct 2015 10:18:22 -0700
+Subject: [PATCH] Fix for compiling with GCC 5.2
+
+Summary: For some reason, the MovePlan was being initialized with the wrong
+values, specifically register #0 instead of InvalidReg like it is
+supposed to. This meant that the entire move plan started out
+representing a move from register #0 to every other physical register.
+
+The extra copies generated bloated the code blowing, through the
+translation caches almost immediately (each copy instruction would turn
+into 32 copy instructions). This resulted in HHVM being unable to start
+at all.
+
+This patch explicitly sets the map's contents to InvalidReg as a
+workaround.
+Closes https://github.com/facebook/hhvm/pull/6298
+
+Reviewed By: @swtaarrs
+
+Differential Revision: D2481717
+
+Pulled By: @fredemmott
+
+fb-gh-sync-id: 2b150bbc85d3bfcfd049cd5a2f27b40626e1096c
+---
+ hphp/runtime/vm/jit/phys-reg.h           | 9 +++++++--
+ hphp/runtime/vm/jit/service-requests.cpp | 2 +-
+ hphp/runtime/vm/jit/vasm-arm.cpp         | 2 +-
+ 3 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/hphp/runtime/vm/jit/phys-reg.h b/hphp/runtime/vm/jit/phys-reg.h
+index b5905dd..f1eedce 100644
+--- a/hphp/runtime/vm/jit/phys-reg.h
++++ b/hphp/runtime/vm/jit/phys-reg.h
+@@ -150,7 +150,12 @@ struct PhysReg {
+    */
+   template<typename T>
+   struct Map {
+-    Map() : m_elms() {
++    Map() {
++      // Workaround for a potential GCC 5 bug, value initializing m_elms seems
++      // to use zero-initialization instead of default initialization.
++      for (auto& elm : m_elms) {
++        elm = T();
++      }
+     }
+ 
+     T& operator[](const PhysReg& r) {
+@@ -204,7 +209,7 @@ struct PhysReg {
+       return { m_elms, sizeof(m_elms) / sizeof(m_elms[0]) };
+     }
+ 
+-   private:
++  private:
+     T m_elms[kMaxRegs];
+   };
+ 
+diff --git a/hphp/runtime/vm/jit/service-requests.cpp b/hphp/runtime/vm/jit/service-requests.cpp
+index 1072510..ca37a8f 100644
+--- a/hphp/runtime/vm/jit/service-requests.cpp
++++ b/hphp/runtime/vm/jit/service-requests.cpp
+@@ -109,7 +109,7 @@ void emit_svcreq(CodeBlock& cb,
+       }
+       live_out |= r;
+     }
+-    FTRACE(2, ") : stub@{}");
++    FTRACE(2, ") : stub@");
+ 
+     if (persist) {
+       FTRACE(2, "<none>");
+diff --git a/hphp/runtime/vm/jit/vasm-arm.cpp b/hphp/runtime/vm/jit/vasm-arm.cpp
+index 17985cb..93e8eab 100644
+--- a/hphp/runtime/vm/jit/vasm-arm.cpp
++++ b/hphp/runtime/vm/jit/vasm-arm.cpp
+@@ -221,7 +221,7 @@ void Vgen::emit(const copy& i) {
+ }
+ 
+ void Vgen::emit(const copy2& i) {
+-  PhysReg::Map<PhysReg> moves;
++  MovePlan moves;
+   Reg64 d0 = i.d0, d1 = i.d1, s0 = i.s0, s1 = i.s1;
+   moves[d0] = s0;
+   moves[d1] = s1;
